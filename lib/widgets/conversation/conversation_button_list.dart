@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'conversation.dart';
+import 'conversation_button.dart';
 
 class ConversationButtonList extends StatelessWidget {
 

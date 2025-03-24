@@ -1,3 +1,7 @@
 class AppRoutes {
-  static const demo = '/demo';
+  static const home = '/home';
+  static const friends = '/friends';
+  static const money = '/money';
+  static const me = '/me';
+
 }

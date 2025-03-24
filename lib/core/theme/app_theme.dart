@@ -18,6 +18,7 @@ final MaterialColor customColor = MaterialColor(
 );
 
 final ThemeData appTheme = ThemeData(
+  useMaterial3: true,
   primarySwatch: customColor,
   visualDensity: VisualDensity.adaptivePlatformDensity,
   textTheme: GoogleFonts.poppinsTextTheme(),

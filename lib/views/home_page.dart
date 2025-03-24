@@ -1,57 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
+import '../widgets/conversation/conversation_button.dart';
+import '../widgets/conversation/conversation_button_list.dart';
 
-import '../../widgets/conversation/conversation.dart';
-import '../../widgets/conversation/conversation_list.dart';
-
-class Demo extends StatelessWidget {
-
-    Demo({super.key});
-
-    final List<ConversationButton> convButtons = List.from([
+class HomePage extends StatelessWidget {
+  HomePage({super.key});
+  final List<ConversationButton> convButtons = List.from([
     ConversationButton(Icons.person, 'Julien Becheras'),
     ConversationButton(Icons.person, 'Maël Garnier'),
   ]);
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Picsou"),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                print("RECHERCHER");
-              },
-            ),
-          ],
-          backgroundColor: customColor[200], // optionnel : adapter la couleur
-          elevation: 0, // optionnel : enlever l’ombre
-        ),
-      body: SingleChildScrollView(
+    return SingleChildScrollView(
         child: Container(
-          color: customColor[200],
+            color: customColor[200],
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
-                      child: Text(
-                          'Bonjour, Maël',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 25
-                          )
-
+                Padding(
+                    padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Bonjour, Maël',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 25
+                        )
                       ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
+
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -66,10 +47,10 @@ class Demo extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
                         child: Text(
-                          style: TextStyle(
-                              fontWeight: FontWeight.w900,
-                              fontSize: 30
-                          ),
+                            style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                fontSize: 30
+                            ),
                             '+ 89,09 €'
                         ),
                       ),
@@ -91,8 +72,6 @@ class Demo extends StatelessWidget {
               ],
             )
         )
-      )
     );
-
   }
 }
