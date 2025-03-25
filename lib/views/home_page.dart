@@ -61,7 +61,6 @@ class HomePage extends StatelessWidget {
                                   ),
                                   color: customColor[50],
                                 ),
-                                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                                 child: ConversationButtonList(),
                               )
                           )

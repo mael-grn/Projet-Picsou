@@ -46,7 +46,12 @@ class _GlobalLayoutState extends State<GlobalLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      body: _pages[currentPageIndex],
+      // IndexedStack pour afficher la page courante. Il permet aussi d'éviter de créer
+      // une nouvelle instance de chaque widget, ainsi l'état de chaque widget est conservé.
+      body: IndexedStack(
+        index: currentPageIndex,
+        children: _pages,
+      ),
 
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {

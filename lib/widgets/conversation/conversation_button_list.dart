@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../controllers/friends_controller.dart';
+import '../../controllers/user_controller.dart';
 import '../../models/Friend.dart';
 import 'conversation_button.dart';
 
@@ -27,12 +27,10 @@ class ConversationButtonList extends StatelessWidget {
         } else if (snapshot.hasData) {
           List<Friend> friends = snapshot.data!;
           return ListView(
+            padding: EdgeInsets.zero,
             children: friends.map((friend) {
               return ConversationButton(
-                Icons.person,
-                friend.name,
-                friend.surname,
-                friend.balance,
+                friend,
               );
             }).toList(),
           );

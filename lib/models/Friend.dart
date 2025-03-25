@@ -1,12 +1,8 @@
-class Friend {
+import 'User.dart';
 
-  final int id;
-  final String name;
-  final String surname;
-  final String email;
-  final String tel;
-  final String rib;
+class Friend extends User {
+
   final double balance;
 
-  const Friend(this.id, this.name, this.surname, this.email, this.tel, this.rib, this.balance);
+  const Friend(super.id, super.name, super.surname, super.emailPaypal, super.telWero, super.rib, super.profilPicture, this.balance);
 }
