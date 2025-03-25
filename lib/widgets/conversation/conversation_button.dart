@@ -17,14 +17,16 @@ class ConversationButton extends StatelessWidget {
         SizedBox(height: 5),
         ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: customColor[50],
-              foregroundColor: Colors.black,
+              backgroundColor: Colors.transparent,
+              foregroundColor: foregroundColor,
               elevation: 0,
               minimumSize: Size(double.infinity, 80)
             ),
             onPressed: () { print('Button ${friend.name} pressed'); },
             child: Container(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       decoration: BoxDecoration(
@@ -48,19 +50,19 @@ class ConversationButton extends StatelessWidget {
                         },
                       ),
                     ),
-                    SizedBox(width: 10),
+                    SizedBox(width: 20),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           textAlign: TextAlign.left,
                           style: TextStyle(
-
                             fontWeight: FontWeight.w900,
-                            fontSize: 16
+                            fontSize: 18
                           ),
                             '${friend.name} ${friend.surname}'
                         ),
+                        SizedBox(height: 5),
                         Text(
                             textAlign: TextAlign.left,
                           style: TextStyle(

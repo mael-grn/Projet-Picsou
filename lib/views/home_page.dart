@@ -8,24 +8,23 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
-            color: customColor[200],
+            color: primaryColor,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
 
 
                 Padding(
-                    padding: EdgeInsets.fromLTRB(15, 100, 15, 20),
+                    padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
                   child: Row(
                     children: [
                       Text(
                         'Bonjour, Maël',
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 25
+                            fontWeight: FontWeight.w900,
+                            fontSize: 25,
                         )
                       ),
                     ],
@@ -40,7 +39,7 @@ class HomePage extends StatelessWidget {
                           topLeft: Radius.circular(20),
                           topRight: Radius.circular(20),
                         ),
-                        color: customColor[100],
+                        color: primaryDarkColor,
                       ),
                       child: Column(
                         children: [
@@ -52,18 +51,7 @@ class HomePage extends StatelessWidget {
                           ),
 
 
-                          Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20),
-                                  ),
-                                  color: customColor[50],
-                                ),
-                                child: ConversationButtonList(),
-                              )
-                          )
+                          ConversationButtonList()
 
 
                         ],

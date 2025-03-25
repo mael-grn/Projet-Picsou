@@ -48,9 +48,11 @@ class _GlobalLayoutState extends State<GlobalLayout> {
 
       // IndexedStack pour afficher la page courante. Il permet aussi d'éviter de créer
       // une nouvelle instance de chaque widget, ainsi l'état de chaque widget est conservé.
-      body: IndexedStack(
-        index: currentPageIndex,
-        children: _pages,
+      body: SafeArea(
+          child: IndexedStack(
+            index: currentPageIndex,
+            children: _pages,
+          ),
       ),
 
       bottomNavigationBar: NavigationBar(
@@ -59,8 +61,8 @@ class _GlobalLayoutState extends State<GlobalLayout> {
             currentPageIndex = index;
           });
         },
-        indicatorColor: customColor[100],
-        backgroundColor: customColor[200],
+        indicatorColor: darkColor,
+        backgroundColor: backgroundColor,
         selectedIndex: currentPageIndex,
         destinations: const <Widget>[
           NavigationDestination(

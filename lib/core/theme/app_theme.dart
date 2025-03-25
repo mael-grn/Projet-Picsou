@@ -1,30 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+final Color primaryColor = Color(0xFF63B995);
+final Color primaryLightColor = Color(0xFF86DEB7);
+final Color primaryDarkColor = Color(0xFF12402C);
+final Color darkColor = Color(0xFF0B251A);
+final Color backgroundColor = Color(0xFF000000);
+final Color foregroundColor = Color(0xFFFFFFFF);
+
 final MaterialColor customColor = MaterialColor(
   0xFFAABBFF,
   <int, Color>{
-    50: Color(0xFFD3DCFF),
-    100: Color(0xFFAABBFF),
-    200: Color(0xFF80A7FF),
-    300: Color(0xFF4D87FF),
-    400: Color(0xFF266EFF),
-    500: Color(0xFF3353CD),
-    600: Color(0xFF1A4FBB),
-    700: Color(0xFF153D99),
-    800: Color(0xFF0F2B77),
-    900: Color(0xFF0A1855),
+    50: foregroundColor,
+    100: primaryLightColor,
+    200: primaryLightColor,
+    300: primaryColor,
+    400: primaryColor,
+    500: primaryDarkColor,
+    600: primaryDarkColor,
+    700: darkColor,
+    800: darkColor,
+    900: backgroundColor,
   },
 );
 
 final ThemeData appTheme = ThemeData(
   useMaterial3: true,
+  brightness: Brightness.dark,
   primarySwatch: customColor,
   visualDensity: VisualDensity.adaptivePlatformDensity,
   textTheme: GoogleFonts.poppinsTextTheme(),
   buttonTheme: ButtonThemeData(
-    buttonColor: Color(0xFFAABBFF),
+    buttonColor: customColor[300],
     textTheme: ButtonTextTheme.primary,
   ),
-  scaffoldBackgroundColor: Color(0xFFD3DCFF),
+  scaffoldBackgroundColor: primaryColor,
 );
