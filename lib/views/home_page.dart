@@ -36,8 +36,8 @@ class HomePage extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
+                          topLeft: Radius.circular(40),
+                          topRight: Radius.circular(40),
                         ),
                         color: primaryDarkColor,
                       ),

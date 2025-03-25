@@ -46,13 +46,17 @@ class _GlobalLayoutState extends State<GlobalLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
 
+      appBar: AppBar(
+        title: const Text('Picsou'),
+        backgroundColor: primaryColor,
+        foregroundColor: backgroundColor,
+      ),
+
       // IndexedStack pour afficher la page courante. Il permet aussi d'éviter de créer
       // une nouvelle instance de chaque widget, ainsi l'état de chaque widget est conservé.
-      body: SafeArea(
-          child: IndexedStack(
-            index: currentPageIndex,
-            children: _pages,
-          ),
+      body: IndexedStack(
+        index: currentPageIndex,
+        children: _pages,
       ),
 
       bottomNavigationBar: NavigationBar(

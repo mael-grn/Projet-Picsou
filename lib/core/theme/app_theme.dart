@@ -30,9 +30,10 @@ final ThemeData appTheme = ThemeData(
   primarySwatch: customColor,
   visualDensity: VisualDensity.adaptivePlatformDensity,
   textTheme: GoogleFonts.poppinsTextTheme(),
-  buttonTheme: ButtonThemeData(
-    buttonColor: customColor[300],
-    textTheme: ButtonTextTheme.primary,
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(
+      foregroundColor: foregroundColor, // Définit la couleur du texte pour tous les TextButton
+    ),
   ),
-  scaffoldBackgroundColor: primaryColor,
+  scaffoldBackgroundColor: darkColor,
 );

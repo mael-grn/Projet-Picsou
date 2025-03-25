@@ -25,8 +25,8 @@ class ConversationButtonLoading extends StatelessWidget {
                       color: primaryDarkColor,
                     ),
                     clipBehavior: Clip.antiAlias,
-                    width: 60,
-                    height: 60,
+                    width: 75,
+                    height: 75,
                   )
                 ),
                 SizedBox(width: 10),
@@ -43,9 +43,10 @@ class ConversationButtonLoading extends StatelessWidget {
                           ),
                           clipBehavior: Clip.antiAlias,
                           width: 100,
-                          height: 30,
+                          height: 25,
                         )
                     ),
+                    SizedBox(height: 3),
                     Shimmer.fromColors(
                         baseColor: primaryDarkColor,
                         highlightColor: primaryLightColor,
@@ -57,7 +58,7 @@ class ConversationButtonLoading extends StatelessWidget {
                           ),
                           clipBehavior: Clip.antiAlias,
                           width: 200,
-                          height: 25,
+                          height: 15,
                         )
                     ),
                   ],

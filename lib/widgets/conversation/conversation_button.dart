@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:projet_picsou/core/theme/app_theme.dart';
 
 import '../../models/Friend.dart';
 
@@ -15,13 +14,8 @@ class ConversationButton extends StatelessWidget {
     return Column(
       children: [
         SizedBox(height: 5),
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.transparent,
-              foregroundColor: foregroundColor,
-              elevation: 0,
-              minimumSize: Size(double.infinity, 80)
-            ),
+        TextButton(
+
             onPressed: () { print('Button ${friend.name} pressed'); },
             child: Container(
                 child: Row(
@@ -62,13 +56,15 @@ class ConversationButton extends StatelessWidget {
                           ),
                             '${friend.name} ${friend.surname}'
                         ),
-                        SizedBox(height: 5),
+                        SizedBox(height: 3),
                         Text(
                             textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontSize: 12
+                            fontStyle: FontStyle.italic,
+                            fontSize: 12,
+
                           ),
-                            (friend.balance > 0 ? 'Vous devez : ${friend.balance} €' : 'Vous doit : ${friend.balance} €')
+                            (friend.balance > 0 ? 'Vous devez : ${friend.balance} €' : 'Vous doit : ${friend.balance.toString().replaceAll("-", "")} €')
                         )
                       ],
                     ),
