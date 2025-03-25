@@ -6,8 +6,10 @@ class ConversationButton extends StatelessWidget {
 
   final String name;
   final IconData icon;
+  final String surname;
+  final double balance;
 
-  const ConversationButton(this.icon, this.name, {super.key});
+  const ConversationButton(this.icon, this.name, this.surname, this.balance, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +46,14 @@ class ConversationButton extends StatelessWidget {
                             fontWeight: FontWeight.w900,
                             fontSize: 16
                           ),
-                            name
+                            '$name $surname'
                         ),
                         Text(
                             textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: 12
                           ),
-                            'Vous dois 13 €'
+                            (balance > 0 ? 'Vous devez : $balance €' : 'Vous doit : $balance €')
                         )
                       ],
                     ),
