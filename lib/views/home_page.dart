@@ -137,11 +137,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               child: Balance(),
                             ),
 
-
                             ConversationButtonList(
                               onConversationButtonPressed: _toggleConversationGlance,
                             ),
-
 
                           ],
                         ),
