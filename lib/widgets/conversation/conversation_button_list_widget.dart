@@ -7,6 +7,7 @@ import 'conversation_button_widget.dart';
 
 import 'conversation_button_loading_widget.dart';
 
+/// Widget to display a list of conversations, using the ConversationButtonWidget.
 class ConversationButtonListWidget extends StatelessWidget {
 
   final Function(Friend) onConversationButtonPressed;

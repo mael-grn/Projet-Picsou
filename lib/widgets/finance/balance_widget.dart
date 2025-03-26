@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import '../../controllers/expense_controller.dart';
+import 'package:projet_picsou/controllers/payment_controller.dart';
 import '../../core/theme/app_theme.dart';
 import 'package:shimmer/shimmer.dart';
 
+/// Widget to display the global balance of the user.
 class BalanceWidget extends StatelessWidget {
   BalanceWidget({super.key});
 
-  final expenseController = ExpenseController();
+  final paymentController = PaymentController();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<double>(
-      future: expenseController.getUserBalance(),
+      future: paymentController.getUserBalance(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Shimmer.fromColors(

@@ -6,6 +6,8 @@ import 'package:projet_picsou/models/friend.dart';
 import '../../controllers/user_controller.dart';
 import '../payment/last_five_payments_widget.dart';
 
+/// This widget show a glance of a "conversation" with a friend.
+/// A conversation being an exchange of payment between two users.
 class ConversationGlanceWidget extends StatelessWidget {
 
   final Friend friend;

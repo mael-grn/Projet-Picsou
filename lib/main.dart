@@ -8,6 +8,7 @@ void main() {
   runApp(MyApp());
 }
 
+///Creating the app
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -22,6 +23,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// The GlobalLayout is the main widget containing the main pages and the navigation bar.
+/// It handles the state of the navigation bar and the current page.
 class GlobalLayout extends StatefulWidget {
   const GlobalLayout({super.key});
 
@@ -31,10 +34,10 @@ class GlobalLayout extends StatefulWidget {
 
 class _GlobalLayoutState extends State<GlobalLayout> {
 
-  // Index de la page courante
+  // The current page's index
   int currentPageIndex = 0;
 
-  // Liste des pages
+  // All the pages accessible with the navigation bar
   final List<Widget> _pages = [
     HomeView(),
     MoneyView(),
@@ -44,6 +47,8 @@ class _GlobalLayoutState extends State<GlobalLayout> {
 
   @override
   Widget build(BuildContext context) {
+
+    ///Main widget of the application.
     return Scaffold(
 
       appBar: AppBar(
@@ -52,8 +57,8 @@ class _GlobalLayoutState extends State<GlobalLayout> {
         foregroundColor: backgroundColor,
       ),
 
-      // IndexedStack pour afficher la page courante. Il permet aussi d'éviter de créer
-      // une nouvelle instance de chaque widget, ainsi l'état de chaque widget est conservé.
+      ///IndexedStack shows the current page. It also avoids creating a new instance of each widget,
+      ///therefore the state of each widget is preserved.
       body: IndexedStack(
         index: currentPageIndex,
         children: _pages,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/friend.dart';
 
+/// Widget intended to be used in a list, to open a conversation
 class ConversationButtonWidget extends StatelessWidget {
 
   final Friend friend;

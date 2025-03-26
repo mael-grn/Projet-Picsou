@@ -6,6 +6,8 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../core/theme/app_theme.dart';
 import '../../models/payment.dart';
 
+/// Widget to display the last five payments with a friend.
+/// It recognize the type of payment and display it accordingly.
 class LastFivePaymentWidget extends StatelessWidget {
   final PaymentController paymentController = PaymentController();
   final int friendId;
@@ -53,7 +55,9 @@ class LastFivePaymentWidget extends StatelessWidget {
                     width: 220,
                     child: TextButton(
                       style: ButtonStyle(
-                        foregroundColor: WidgetStateProperty.all(backgroundColor),
+                        foregroundColor: WidgetStateProperty.all(
+                          backgroundColor,
+                        ),
                         backgroundColor: WidgetStateProperty.all(primaryColor),
                         shape: WidgetStateProperty.all(
                           RoundedRectangleBorder(
@@ -75,7 +79,7 @@ class LastFivePaymentWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

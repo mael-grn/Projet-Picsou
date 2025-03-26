@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
 import 'package:shimmer/shimmer.dart';
 
+/// The purpose of this widget is only to show the "ghost" of a conversation while it is being loaded
 class ConversationButtonLoadingWidget extends StatelessWidget {
 
   const ConversationButtonLoadingWidget({super.key});

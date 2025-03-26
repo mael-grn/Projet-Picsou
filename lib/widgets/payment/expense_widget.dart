@@ -4,7 +4,8 @@ import 'package:projet_picsou/models/expense.dart';
 
 import '../../utils/date_utils.dart';
 
-
+/// Widget that acts as a button, to show a glance of an expense.
+/// It is intended to use this widget in a list.
 class ExpenseWidget extends StatelessWidget {
 
   final Expense expense;
