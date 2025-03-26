@@ -13,7 +13,7 @@ class ConversationButtonLoading extends StatelessWidget {
       children: [
         SizedBox(height: 5),
         Container(
-          padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
+          padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
             child: Row(
               children: [
                 Shimmer.fromColors(
@@ -25,8 +25,8 @@ class ConversationButtonLoading extends StatelessWidget {
                       color: primaryDarkColor,
                     ),
                     clipBehavior: Clip.antiAlias,
-                    width: 75,
-                    height: 75,
+                    width: 60,
+                    height: 60,
                   )
                 ),
                 SizedBox(width: 10),

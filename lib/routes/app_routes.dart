@@ -3,5 +3,5 @@ class AppRoutes {
   static const friends = '/friends';
   static const money = '/money';
   static const me = '/me';
-
+  static const conversation = '/conversation';
 }

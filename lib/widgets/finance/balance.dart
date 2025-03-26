@@ -29,7 +29,7 @@ class Balance extends StatelessWidget {
         } else if (snapshot.hasData) {
           return Text(
               style: TextStyle(
-                  fontWeight: FontWeight.w900,
+                  fontWeight: FontWeight.w800,
                   fontSize: 40,
                   color: foregroundColor
               ),

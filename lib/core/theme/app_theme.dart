@@ -29,10 +29,36 @@ final ThemeData appTheme = ThemeData(
   brightness: Brightness.dark,
   primarySwatch: customColor,
   visualDensity: VisualDensity.adaptivePlatformDensity,
-  textTheme: GoogleFonts.poppinsTextTheme(),
+  fontFamily: 'Poppins',
+  textTheme: TextTheme(
+    bodySmall: TextStyle(
+      fontFamily: 'Poppins',
+    ),
+    bodyMedium: TextStyle(
+      fontFamily: 'Poppins',
+    ),
+    bodyLarge: TextStyle(
+      fontFamily: 'Poppins',
+    ),
+    headlineSmall: TextStyle(
+      fontFamily: 'Poppins',
+    ),
+    headlineMedium: TextStyle(
+      fontFamily: 'Poppins',
+    ),
+    headlineLarge: TextStyle(
+      fontFamily: 'Poppins',
+    )
+  ),
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
-      foregroundColor: foregroundColor, // Définit la couleur du texte pour tous les TextButton
+      foregroundColor: foregroundColor,
+      textStyle: TextStyle(
+        fontWeight: FontWeight.w800,
+        fontFamily: 'Poppins',
+        color: foregroundColor,
+      ),
+      backgroundColor: Colors.transparent,
     ),
   ),
   scaffoldBackgroundColor: darkColor,

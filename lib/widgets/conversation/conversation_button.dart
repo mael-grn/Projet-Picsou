@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../../models/Friend.dart';
 
 class ConversationButton extends StatelessWidget {
 
   final Friend friend;
+  final VoidCallback onPressed;
 
-  const ConversationButton(this.friend, {super.key});
+  const ConversationButton(this.friend, {super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class ConversationButton extends StatelessWidget {
         SizedBox(height: 5),
         TextButton(
 
-            onPressed: () { print('Button ${friend.name} pressed'); },
+            onPressed: onPressed,
             child: Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -39,7 +39,6 @@ class ConversationButton extends StatelessWidget {
                         return const Center(child: CircularProgressIndicator());
                         },
                         errorBuilder: (context, error, stackTrace) {
-                          print(friend.profilPicture);
                           return const Icon(Icons.error, size: 30, color: Colors.red);
                         },
                       ),
@@ -60,9 +59,7 @@ class ConversationButton extends StatelessWidget {
                         Text(
                             textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontStyle: FontStyle.italic,
                             fontSize: 12,
-
                           ),
                             (friend.balance > 0 ? 'Vous devez : ${friend.balance} €' : 'Vous doit : ${friend.balance.toString().replaceAll("-", "")} €')
                         )

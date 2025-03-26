@@ -9,9 +9,10 @@ import 'conversation_button_loading.dart';
 
 class ConversationButtonList extends StatelessWidget {
 
-  final FriendsController friendsController = FriendsController();
+  final Function(int) onConversationButtonPressed;
+  final UserController friendsController = UserController();
 
-  ConversationButtonList({super.key});
+  ConversationButtonList({super.key,required this.onConversationButtonPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +63,10 @@ class ConversationButtonList extends StatelessWidget {
                   children: friends.map((friend) {
                     return ConversationButton(
                       friend,
+                      onPressed: () {
+                        // Lorsque le bouton est pressé, appel de la fonction pour afficher ConversationGlance
+                        onConversationButtonPressed(friend.id);
+                      },
                     );
                   }).toList(),
                 ),

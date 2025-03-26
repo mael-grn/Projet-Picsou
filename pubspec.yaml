@@ -30,8 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-  google_fonts: ^6.2.1
+  vibration:
+  google_fonts:
   shimmer:
   loading_animation_widget:
 
@@ -77,17 +77,14 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/to/font-from-package
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: fonts/Poppins-Regular.ttf
+        - asset: fonts/Poppins-Italic.ttf
+          style: italic
+        - asset: fonts/Poppins-Bold.ttf
+          weight: 500
+        - asset: fonts/Poppins-ExtraBold.ttf
+          weight: 800
+
