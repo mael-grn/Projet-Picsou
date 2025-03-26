@@ -1,6 +1,6 @@
 import 'package:projet_picsou/models/expense.dart';
 import 'package:projet_picsou/models/payment.dart';
-import 'package:projet_picsou/models/User.dart';
+import 'package:projet_picsou/models/user.dart';
 class PaymentController {
 
   Future<List<Payment>> getFiveLastPaymentFromFriend(friendId) {

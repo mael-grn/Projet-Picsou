@@ -20,7 +20,7 @@ class ExpenseWidget extends StatelessWidget {
 
             onPressed: (){print("test");},
             style: ButtonStyle(
-              backgroundColor: expense.myShare > 0 ? WidgetStateProperty.all(darkColor) : WidgetStateProperty.all(Colors.transparent),
+              backgroundColor: expense.myShare > 0 ? WidgetStateProperty.all(primaryDarkColor) : WidgetStateProperty.all(darkColor),
               shape: WidgetStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15), // Modifier ici le border radius

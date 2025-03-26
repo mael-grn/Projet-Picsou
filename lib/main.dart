@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:projet_picsou/views/friends_page.dart';
-import 'package:projet_picsou/views/home_page.dart';
-import 'package:projet_picsou/views/me_page.dart';
-import 'package:projet_picsou/views/money_page.dart';
+import 'package:projet_picsou/views/friends_view.dart';
+import 'package:projet_picsou/views/home_view.dart';
+import 'package:projet_picsou/views/me_view.dart';
+import 'package:projet_picsou/views/money_view.dart';
 import 'core/theme/app_theme.dart';
 void main() {
   runApp(MyApp());
@@ -36,10 +36,10 @@ class _GlobalLayoutState extends State<GlobalLayout> {
 
   // Liste des pages
   final List<Widget> _pages = [
-    HomePage(),
-    MoneyPage(),
-    FriendsPage(),
-    MePage(),
+    HomeView(),
+    MoneyView(),
+    FriendsView(),
+    MeView(),
   ];
 
   @override

@@ -2,17 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../controllers/user_controller.dart';
 import '../../core/theme/app_theme.dart';
-import '../../models/Friend.dart';
-import 'conversation_button.dart';
+import '../../models/friend.dart';
+import 'conversation_button_widget.dart';
 
-import 'conversation_button_loading.dart';
+import 'conversation_button_loading_widget.dart';
 
-class ConversationButtonList extends StatelessWidget {
+class ConversationButtonListWidget extends StatelessWidget {
 
   final Function(Friend) onConversationButtonPressed;
   final UserController friendsController = UserController();
 
-  ConversationButtonList({super.key,required this.onConversationButtonPressed});
+  ConversationButtonListWidget({super.key,required this.onConversationButtonPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +35,11 @@ class ConversationButtonList extends StatelessWidget {
                 child: ListView(
                   padding: EdgeInsets.zero,
                   children: [
-                    ConversationButtonLoading(),
-                    ConversationButtonLoading(),
-                    ConversationButtonLoading(),
-                    ConversationButtonLoading(),
-                    ConversationButtonLoading(),
+                    ConversationButtonLoadingWidget(),
+                    ConversationButtonLoadingWidget(),
+                    ConversationButtonLoadingWidget(),
+                    ConversationButtonLoadingWidget(),
+                    ConversationButtonLoadingWidget(),
                   ],
                 ),
               )
@@ -61,7 +61,7 @@ class ConversationButtonList extends StatelessWidget {
                 child: ListView(
                   padding: EdgeInsets.zero,
                   children: friends.map((friend) {
-                    return ConversationButton(
+                    return ConversationButtonWidget(
                       friend,
                       onPressed: () {
                         // Lorsque le bouton est pressé, appel de la fonction pour afficher ConversationGlance

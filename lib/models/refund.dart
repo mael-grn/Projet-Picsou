@@ -1,7 +1,7 @@
-import 'package:projet_picsou/models/User.dart';
+import 'package:projet_picsou/models/user.dart';
 import 'package:projet_picsou/models/payment.dart';
 
-import '../enums/refundStatusEnum.dart';
+import '../enums/refund_status_enum.dart';
 
 class Refund extends Payment {
 

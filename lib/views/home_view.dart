@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
-import 'package:projet_picsou/models/Friend.dart';
-import 'package:projet_picsou/widgets/conversation/conversation_button_list.dart';
-import '../widgets/conversation/conversation_glance.dart';
-import '../widgets/finance/balance.dart';
+import 'package:projet_picsou/models/friend.dart';
+import 'package:projet_picsou/widgets/conversation/conversation_button_list_widget.dart';
+import '../widgets/conversation/conversation_glance_widget.dart';
+import '../widgets/finance/balance_widget.dart';
 import 'package:vibration/vibration.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({super.key});
+class HomeView extends StatefulWidget {
+  const HomeView({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeViewState createState() => _HomeViewState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
 
   bool _isConversationGlanceVisible = false;
   Friend? _conversationGlanceFriend;
@@ -134,10 +134,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
                             Container(
                               padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
-                              child: Balance(),
+                              child: BalanceWidget(),
                             ),
 
-                            ConversationButtonList(
+                            ConversationButtonListWidget(
                               onConversationButtonPressed: _toggleConversationGlance,
                             ),
 
@@ -158,7 +158,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             bottom: 0,
             child: SlideTransition(
               position: _glanceOffsetAnimation,
-              child: ConversationGlance(friend: _conversationGlanceFriend!, closeFunction: _closeConversationGlance)
+              child: ConversationGlanceWidget(friend: _conversationGlanceFriend!, closeFunction: _closeConversationGlance)
             )
           ),
       ],

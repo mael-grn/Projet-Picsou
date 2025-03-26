@@ -1,19 +1,18 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
-import 'package:projet_picsou/models/Friend.dart';
+import 'package:projet_picsou/models/friend.dart';
 
 import '../../controllers/user_controller.dart';
-import '../payment/last_payments.dart';
+import '../payment/last_five_payments_widget.dart';
 
-class ConversationGlance extends StatelessWidget {
+class ConversationGlanceWidget extends StatelessWidget {
 
   final Friend friend;
   final UserController userController = UserController();
   final Function closeFunction;
 
-  ConversationGlance({required this.friend, required this.closeFunction, super.key});
+  ConversationGlanceWidget({required this.friend, required this.closeFunction, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +163,7 @@ class ConversationGlance extends StatelessWidget {
 
                       SizedBox(height: 20),
 
-                      LastPaymentWidget(friendId: friend.id)
+                      LastFivePaymentWidget(friendId: friend.id)
                     ]
                 ),
               )

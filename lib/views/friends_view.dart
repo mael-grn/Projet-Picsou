@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class MePage extends StatelessWidget {
-  const MePage({super.key});
+class FriendsView extends StatelessWidget {
+  const FriendsView({super.key});
   @override
   Widget build(BuildContext context) {
     return Text("Hello, World!");

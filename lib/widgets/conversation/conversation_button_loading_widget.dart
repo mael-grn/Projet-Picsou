@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ConversationButtonLoading extends StatelessWidget {
+class ConversationButtonLoadingWidget extends StatelessWidget {
 
-  const ConversationButtonLoading({super.key});
+  const ConversationButtonLoadingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

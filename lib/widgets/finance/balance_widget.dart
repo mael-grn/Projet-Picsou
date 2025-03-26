@@ -3,8 +3,8 @@ import '../../controllers/expense_controller.dart';
 import '../../core/theme/app_theme.dart';
 import 'package:shimmer/shimmer.dart';
 
-class Balance extends StatelessWidget {
-  Balance({super.key});
+class BalanceWidget extends StatelessWidget {
+  BalanceWidget({super.key});
 
   final expenseController = ExpenseController();
 

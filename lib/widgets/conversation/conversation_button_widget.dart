@@ -1,13 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../models/Friend.dart';
+import '../../models/friend.dart';
 
-class ConversationButton extends StatelessWidget {
+class ConversationButtonWidget extends StatelessWidget {
 
   final Friend friend;
   final VoidCallback onPressed;
 
-  const ConversationButton(this.friend, {super.key, required this.onPressed});
+  const ConversationButtonWidget(this.friend, {super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {

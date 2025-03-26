@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 final Color primaryColor = Color(0xFF63B995);
 final Color primaryLightColor = Color(0xFF86DEB7);

@@ -1,5 +1,5 @@
 
-import '../models/Friend.dart';
+import '../models/friend.dart';
 
 class UserController {
 

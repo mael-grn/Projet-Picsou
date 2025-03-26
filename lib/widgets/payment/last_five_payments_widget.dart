@@ -1,17 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/controllers/payment_controller.dart';
 import 'package:projet_picsou/models/expense.dart';
-import 'package:projet_picsou/widgets/payment/expenseWidget.dart';
+import 'package:projet_picsou/widgets/payment/expense_widget.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../core/theme/app_theme.dart';
 import '../../models/payment.dart';
 
-class LastPaymentWidget extends StatelessWidget {
+class LastFivePaymentWidget extends StatelessWidget {
   final PaymentController paymentController = PaymentController();
   final int friendId;
 
-  LastPaymentWidget({required this.friendId, super.key});
+  LastFivePaymentWidget({required this.friendId, super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,5 @@
 import 'package:projet_picsou/models/payment.dart';
-import 'User.dart';
+import 'user.dart';
 
 class Expense extends Payment {
 
