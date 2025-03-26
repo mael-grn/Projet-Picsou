@@ -1,5 +1,6 @@
 import 'package:projet_picsou/models/expense.dart';
 import 'package:projet_picsou/models/payment.dart';
+import 'package:projet_picsou/models/refund.dart';
 import 'package:projet_picsou/models/user.dart';
 
 /// Controller to handle the payments.
@@ -15,7 +16,7 @@ class PaymentController {
         [
           Expense(1, "Plein Jeep", "", [user1], [user2], 48.74, DateTime.now().subtract(Duration(minutes: 5)), 48.74),
           Expense(2, "Courses maxi", "", [user1], [user2], 17.99, DateTime.now().subtract(Duration(hours: 3)), 17.99),
-          Expense(3, "Machine à laver", "", [user1], [user2], 17.99, DateTime.now().subtract(Duration(days: 2)), 17.99),
+          Refund(3, DateTime.now().subtract(Duration(days: 2)), 17.99, user2, user1),
           Expense(4, "Ski", "", [user2], [user1], -70.68, DateTime.now().subtract(Duration(days: 6)), 70.68),
           Expense(5, "Alcool", "", [user1], [user2], 5.91, DateTime.now().subtract(Duration(days: 10)), 5.91),
         ]
