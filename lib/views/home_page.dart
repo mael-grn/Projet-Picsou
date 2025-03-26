@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
+import 'package:projet_picsou/models/Friend.dart';
 import 'package:projet_picsou/widgets/conversation/conversation_button_list.dart';
 import '../widgets/conversation/conversation_glance.dart';
 import '../widgets/finance/balance.dart';
 import 'package:vibration/vibration.dart';
-
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -16,14 +16,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   bool _isConversationGlanceVisible = false;
-  int _conversationGlanceFriendId = 0;
+  Friend? _conversationGlanceFriend;
   late AnimationController _globalController;
   late AnimationController _glanceController;
   late Animation<Offset> _globalOffsetAnimation;
   late Animation<Offset> _glanceOffsetAnimation;
 
 
-  void _toggleConversationGlance(int friendId) {
+  void _toggleConversationGlance(Friend friend) {
 
     Vibration.hasVibrator().then((hasVibrator) {
       if (hasVibrator) {
@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     });
 
     setState(() {
-      _conversationGlanceFriendId = friendId;
+      _conversationGlanceFriend = friend;
       _isConversationGlanceVisible = true;
     });
     _globalController.reverse();
@@ -44,6 +44,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       _globalController.forward();
       setState(() {
         _isConversationGlanceVisible = false;
+        _conversationGlanceFriend = null;
       });
     });
   }
@@ -151,23 +152,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ],
             )
         ),
-        if (_isConversationGlanceVisible)
+        if (_isConversationGlanceVisible && _conversationGlanceFriend != null)
           Positioned(
             top: 0,
             left: 0,
             right: 0,
             bottom: 0,
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  _isConversationGlanceVisible = false;
-                });
-              },
-              child: SlideTransition(
-                  position: _glanceOffsetAnimation,
-                  child: ConversationGlance(frienId: _conversationGlanceFriendId, closeFunction: _closeConversationGlance,)
-              )
-            ),
+            child: SlideTransition(
+              position: _glanceOffsetAnimation,
+              child: ConversationGlance(friend: _conversationGlanceFriend!, closeFunction: _closeConversationGlance)
+            )
           ),
       ],
     );

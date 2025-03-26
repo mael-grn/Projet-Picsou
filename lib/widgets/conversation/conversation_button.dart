@@ -61,7 +61,7 @@ class ConversationButton extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                           ),
-                            (friend.balance > 0 ? 'Vous devez : ${friend.balance} €' : 'Vous doit : ${friend.balance.toString().replaceAll("-", "")} €')
+                            (friend.balance < 0 ? 'Vous devez : ${friend.balance} €' : 'Vous doit : ${friend.balance.toString().replaceAll("-", "")} €')
                         )
                       ],
                     ),
