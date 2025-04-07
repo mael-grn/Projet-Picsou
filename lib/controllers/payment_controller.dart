@@ -1,5 +1,7 @@
 import 'package:projet_picsou/models/expense.dart';
 import 'package:projet_picsou/models/payment.dart';
+import 'package:projet_picsou/models/test/negative_group_expense.dart';
+import 'package:projet_picsou/models/test/positive_group_expense.dart';
 import 'package:projet_picsou/models/user.dart';
 
 /// Controller to handle the payments.
@@ -26,5 +28,47 @@ class PaymentController {
   Future<double> getUserBalance() async {
     await Future.delayed(Duration(seconds: 1));
     return Future.value(100);
+  }
+
+  Future<List<PositiveGroupExpense>> getUserBalancePositiveDetails() async {
+    await Future.delayed(Duration(seconds: 1));
+    return Future.value(
+      [
+        PositiveGroupExpense(1, 48.02),
+        PositiveGroupExpense(2, 19.50),
+        PositiveGroupExpense(3, 2.30),
+        PositiveGroupExpense(4, 70.00),
+      ]
+    );
+  }
+
+  Future<List<NegativeGroupExpense>> getUserBalanceNegativeDetails() async {
+    await Future.delayed(Duration(seconds: 1));
+    return Future.value(
+      [
+        NegativeGroupExpense(1, 48.02),
+        NegativeGroupExpense(2, 19.50),
+        NegativeGroupExpense(3, 2.30),
+        NegativeGroupExpense(4, 70.00),
+      ]
+    );
+  }
+
+  Future<double> getNegativeTot() async{
+    List<NegativeGroupExpense> depenses = await getUserBalanceNegativeDetails();
+    double total = 0;
+    for (NegativeGroupExpense depense in depenses){
+      total = total - depense.balance;
+    }
+    return total;
+  }
+
+  Future<double> getPositiveTot() async{
+    List<PositiveGroupExpense> depenses = await getUserBalancePositiveDetails();
+    double total = 0;
+    for (PositiveGroupExpense depense in depenses){
+      total = total + depense.balance;
+    }
+    return total;
   }
 }
