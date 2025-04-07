@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_svg:
   vibration:
   google_fonts:
   shimmer:
@@ -62,6 +63,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  assets:
+    - icons/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

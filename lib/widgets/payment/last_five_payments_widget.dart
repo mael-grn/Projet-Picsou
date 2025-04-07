@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/controllers/payment_controller.dart';
 import 'package:projet_picsou/models/expense.dart';
+import 'package:projet_picsou/views/friend_conversation_view.dart';
 import 'package:projet_picsou/widgets/payment/expense_widget.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:projet_picsou/widgets/payment/refund_widget.dart';
 import '../../core/theme/app_theme.dart';
+import '../../models/friend.dart';
 import '../../models/payment.dart';
 import '../../models/refund.dart';
 
@@ -12,14 +14,14 @@ import '../../models/refund.dart';
 /// It recognize the type of payment and display it accordingly.
 class LastFivePaymentWidget extends StatelessWidget {
   final PaymentController paymentController = PaymentController();
-  final int friendId;
+  final Friend friend;
 
-  LastFivePaymentWidget({required this.friendId, super.key});
+  LastFivePaymentWidget({required this.friend, super.key});
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: paymentController.getFiveLastPaymentFromFriend(friendId),
+      future: paymentController.getFiveLastPaymentFromFriend(friend.id),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(
@@ -31,7 +33,7 @@ class LastFivePaymentWidget extends StatelessWidget {
             child: Center(
               child: LoadingAnimationWidget.inkDrop(
                 color: Colors.white,
-                size: 200,
+                size: 30,
               ),
             ),
           );
@@ -78,7 +80,12 @@ class LastFivePaymentWidget extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        print('test');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FriendConversationView(friend: friend),
+                          ),
+                        );
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,

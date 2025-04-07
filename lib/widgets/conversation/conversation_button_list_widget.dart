@@ -51,7 +51,8 @@ class ConversationButtonListWidget extends StatelessWidget {
           List<Friend> friends = snapshot.data!;
           return Expanded(
               child: Container(
-                padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
+                clipBehavior: Clip.hardEdge,
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(40),
@@ -60,7 +61,7 @@ class ConversationButtonListWidget extends StatelessWidget {
                   color: darkColor,
                 ),
                 child: ListView(
-                  padding: EdgeInsets.zero,
+                  padding: EdgeInsets.fromLTRB(0, 20, 0, 115),
                   children: friends.map((friend) {
                     return ConversationButtonWidget(
                       friend,

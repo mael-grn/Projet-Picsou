@@ -25,23 +25,17 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
 
   void _toggleConversationGlance(Friend friend) {
 
-    Vibration.hasVibrator().then((hasVibrator) {
-      if (hasVibrator) {
-        Vibration.vibrate(duration: 1);
-      }
-    });
-
+    Vibration.vibrate(duration: 1);
     setState(() {
       _conversationGlanceFriend = friend;
       _isConversationGlanceVisible = true;
     });
-    _globalController.reverse();
+
     _glanceController.forward();
   }
 
   void _closeConversationGlance() {
     _glanceController.reverse().then((value) {
-      _globalController.forward();
       setState(() {
         _isConversationGlanceVisible = false;
         _conversationGlanceFriend = null;
@@ -63,7 +57,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     );
 
     _globalOffsetAnimation = Tween<Offset>(
-      begin: Offset(0.0, 1.0), // Commence en bas de l'écran
+      begin: Offset(0.0, 2.0), // Commence en bas de l'écran
       end: Offset.zero, // Termine à sa position normale
     ).animate(CurvedAnimation(
       parent: _globalController,
@@ -151,6 +145,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
             )
         ),
         if (_isConversationGlanceVisible && _conversationGlanceFriend != null)
+
           Positioned(
             top: 0,
             left: 0,
