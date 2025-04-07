@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:projet_picsou/views/friends_view.dart';
 import 'package:projet_picsou/views/home_view.dart';
 import 'package:projet_picsou/views/me_view.dart';
@@ -34,38 +34,59 @@ class GlobalLayout extends StatefulWidget {
 }
 
 class _GlobalLayoutState extends State<GlobalLayout>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   int currentPageIndex = 0;
-  late AnimationController _controller;
+  late PageController _pageController;
+  late AnimationController _animationController;
   late Animation<double> _animation;
-
-  final List<Widget> _pages = [
-    const HomeView(),
-    const MoneyView(),
-    const FriendsView(),
-    const MeView(),
-  ];
+  late final List<Widget> _pages;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
+
+    _pageController = PageController(initialPage: currentPageIndex);
+
+    _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    _animation = Tween<double>(begin: 0, end: 0).animate(_controller);
+
+    _animation = Tween<double>(begin: 0, end: 0).animate(_animationController);
+
+    _pages = const [
+      HomeView(key: PageStorageKey('HomeView')),
+      MoneyView(key: PageStorageKey('MoneyView')),
+      FriendsView(key: PageStorageKey('FriendsView')),
+      MeView(key: PageStorageKey('MeView')),
+    ];
   }
 
   void _onItemTapped(int index) {
     HapticFeedback.selectionClick();
-    setState(() {
-      _animation = Tween<double>(
-        begin: currentPageIndex.toDouble(),
-        end: index.toDouble(),
-      ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-      currentPageIndex = index;
-      _controller.forward(from: 0);
-    });
+
+    _animation = Tween<double>(
+      begin: currentPageIndex.toDouble(),
+      end: index.toDouble(),
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
+
+    _animationController.forward(from: 0);
+
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -73,7 +94,16 @@ class _GlobalLayoutState extends State<GlobalLayout>
     return Scaffold(
       body: Stack(
         children: [
-          IndexedStack(index: currentPageIndex, children: _pages),
+          PageView(
+            controller: _pageController,
+            physics: const NeverScrollableScrollPhysics(),
+            onPageChanged: (index) {
+              setState(() {
+                currentPageIndex = index;
+              });
+            },
+            children: _pages,
+          ),
           Positioned(
             bottom: 0,
             left: 0,
@@ -96,7 +126,7 @@ class _GlobalLayoutState extends State<GlobalLayout>
                         animation: _animation,
                         builder: (context, child) {
                           return Positioned(
-                            left: (_animation.value * 70.0 +10),
+                            left: (_animation.value * 70.0 + 10),
                             child: Container(
                               width: 50,
                               height: 50,
@@ -123,8 +153,8 @@ class _GlobalLayoutState extends State<GlobalLayout>
               ),
             ),
           )
-        ]
-      )
+        ],
+      ),
     );
   }
 

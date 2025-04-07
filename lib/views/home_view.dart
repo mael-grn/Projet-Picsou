@@ -13,29 +13,30 @@ class HomeView extends StatefulWidget {
   _HomeViewState createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
-
+class _HomeViewState extends State<HomeView>
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   bool _isConversationGlanceVisible = false;
   Friend? _conversationGlanceFriend;
+
   late AnimationController _globalController;
   late AnimationController _glanceController;
-  late Animation<Offset> _globalOffsetAnimation;
+
+  late Animation<Offset> _balanceOffsetAnimation;
+  late Animation<Offset> _conversationListOffsetAnimation;
   late Animation<Offset> _glanceOffsetAnimation;
 
-
   void _toggleConversationGlance(Friend friend) {
-
     HapticFeedback.selectionClick();
+    _glanceController.forward();
+
     setState(() {
       _conversationGlanceFriend = friend;
       _isConversationGlanceVisible = true;
     });
-
-    _glanceController.forward();
   }
 
   void _closeConversationGlance() {
-    _glanceController.reverse().then((value) {
+    _glanceController.reverse().then((_) {
       setState(() {
         _isConversationGlanceVisible = false;
         _conversationGlanceFriend = null;
@@ -46,30 +47,39 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
     _globalController = AnimationController(
-      duration: const Duration(milliseconds: 300), // Durée de l'animation
+      duration: const Duration(milliseconds: 600),
       vsync: this,
     );
 
     _glanceController = AnimationController(
-      duration: const Duration(milliseconds: 300), // Durée de l'animation
+      duration: const Duration(milliseconds: 600),
       vsync: this,
     );
 
-    _globalOffsetAnimation = Tween<Offset>(
-      begin: Offset(0.0, 2.0), // Commence en bas de l'écran
-      end: Offset.zero, // Termine à sa position normale
+    _balanceOffsetAnimation = Tween<Offset>(
+      begin: const Offset(0.0, 0.8),
+      end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: _globalController,
-      curve: Curves.easeOut, // Type d'animation
+      curve: Curves.easeOutCubic,
+    ));
+
+    _conversationListOffsetAnimation = Tween<Offset>(
+      begin: const Offset(0.0, 1.0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _globalController,
+      curve: Curves.easeOutCubic,
     ));
 
     _glanceOffsetAnimation = Tween<Offset>(
-      begin: Offset(0.0, 1.0), // Commence en bas de l'écran
-      end: Offset.zero, // Termine à sa position normale
+      begin: const Offset(0.0, 1.0),
+      end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: _glanceController,
-      curve: Curves.easeOut, // Type d'animation
+      curve: Curves.decelerate,
     ));
 
     _globalController.forward();
@@ -84,79 +94,79 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // Nécessaire pour AutomaticKeepAliveClientMixin
+
     return Stack(
       children: [
         Container(
-            color: primaryColor,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-
-
-                Padding(
-                  padding: EdgeInsets.fromLTRB(15, 75, 15, 20),
-                  child: Row(
-                    children: [
-                      Text(
-                          'Bonjour, Maël',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            color: backgroundColor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 35,
-                          )
+          color: primaryColor,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(15, 75, 15, 20),
+                    child: Text(
+                      'Bonjour, Maël',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 35,
                       ),
-                    ],
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: SlideTransition(
+                  position: _balanceOffsetAnimation,
+                  child:  Container(
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(40),
+                          topRight: Radius.circular(40),
+                        ),
+                        color: backgroundVariantColor,
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                              padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
+                              child:  BalanceWidget()
+                          ),
+                          Expanded(
+                            child: SlideTransition(
+                              position: _conversationListOffsetAnimation,
+                              child: ConversationButtonListWidget(
+                                onConversationButtonPressed:
+                                _toggleConversationGlance,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
 
-
-                Expanded(
-                    child: SlideTransition(
-                      position: _globalOffsetAnimation,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(40),
-                            topRight: Radius.circular(40),
-                          ),
-                          color: backgroundVariantColor,
-                        ),
-                        child: Column(
-                          children: [
-
-
-                            Container(
-                              padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
-                              child: BalanceWidget(),
-                            ),
-
-                            ConversationButtonListWidget(
-                              onConversationButtonPressed: _toggleConversationGlance,
-                            ),
-
-                          ],
-                        ),
-                      ),
-                    )
-                )
-
-              ],
-            )
+            ],
+          ),
         ),
         if (_isConversationGlanceVisible && _conversationGlanceFriend != null)
-
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
+          Positioned.fill(
             child: SlideTransition(
               position: _glanceOffsetAnimation,
-              child: ConversationGlanceWidget(friend: _conversationGlanceFriend!, closeFunction: _closeConversationGlance)
-            )
+              child: ConversationGlanceWidget(
+                friend: _conversationGlanceFriend!,
+                closeFunction: _closeConversationGlance,
+              ),
+            ),
           ),
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

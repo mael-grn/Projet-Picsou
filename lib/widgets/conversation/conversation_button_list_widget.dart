@@ -23,56 +23,52 @@ class ConversationButtonListWidget extends StatelessWidget {
 
         if (snapshot.connectionState == ConnectionState.waiting) {
 
-          return Expanded(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(40),
-                    topRight: Radius.circular(40),
-                  ),
-                  color: backgroundColor,
-                ),
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: [
-                    ConversationButtonLoadingWidget(),
-                    ConversationButtonLoadingWidget(),
-                    ConversationButtonLoadingWidget(),
-                    ConversationButtonLoadingWidget(),
-                    ConversationButtonLoadingWidget(),
-                  ],
-                ),
-              )
+          return Container(
+            padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(40),
+                topRight: Radius.circular(40),
+              ),
+              color: backgroundColor,
+            ),
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                ConversationButtonLoadingWidget(),
+                ConversationButtonLoadingWidget(),
+                ConversationButtonLoadingWidget(),
+                ConversationButtonLoadingWidget(),
+                ConversationButtonLoadingWidget(),
+              ],
+            ),
           );
 
         } else if (snapshot.hasData) {
 
           List<Friend> friends = snapshot.data!;
-          return Expanded(
-              child: Container(
-                clipBehavior: Clip.hardEdge,
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(40),
-                    topRight: Radius.circular(40),
-                  ),
-                  color: backgroundColor,
-                ),
-                child: ListView(
-                  padding: EdgeInsets.fromLTRB(0, 20, 0, 115),
-                  children: friends.map((friend) {
-                    return ConversationButtonWidget(
-                      friend,
-                      onPressed: () {
-                        // Lorsque le bouton est pressé, appel de la fonction pour afficher ConversationGlance
-                        onConversationButtonPressed(friend);
-                      },
-                    );
-                  }).toList(),
-                ),
-              )
+          return Container(
+            clipBehavior: Clip.hardEdge,
+            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(40),
+                topRight: Radius.circular(40),
+              ),
+              color: backgroundColor,
+            ),
+            child: ListView(
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 115),
+              children: friends.map((friend) {
+                return ConversationButtonWidget(
+                  friend,
+                  onPressed: () {
+                    // Lorsque le bouton est pressé, appel de la fonction pour afficher ConversationGlance
+                    onConversationButtonPressed(friend);
+                  },
+                );
+              }).toList(),
+            ),
           );
 
 
