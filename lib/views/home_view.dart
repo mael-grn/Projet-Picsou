@@ -94,7 +94,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
 
 
                 Padding(
-                  padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
+                  padding: EdgeInsets.fromLTRB(15, 75, 15, 20),
                   child: Row(
                     children: [
                       Text(
