@@ -120,7 +120,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                             topLeft: Radius.circular(40),
                             topRight: Radius.circular(40),
                           ),
-                          color: secondaryColor,
+                          color: backgroundVariantColor,
                         ),
                         child: Column(
                           children: [

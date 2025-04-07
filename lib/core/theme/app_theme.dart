@@ -13,7 +13,7 @@ final Color foregroundColor = Color(0xFFFFFFFF);
 final Color secondaryColor = Color(0xFF87DFBA);
 final Color primaryColor = Color(0xFF58AC88);
 final Color backgroundColor = Color(0xFFFFFFFF);
-final Color backgroundVariantColor = Color(0xFFAFB8B7);
+final Color backgroundVariantColor = Color(0xFFC6D1D0);
 final Color foregroundColor = Color(0xFF000000);
 final Color foregroundVariantColor = Color(0xFF282E28);
 
