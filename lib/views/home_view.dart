@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
 import 'package:projet_picsou/models/friend.dart';
 import 'package:projet_picsou/widgets/conversation/conversation_button_list_widget.dart';
 import '../widgets/conversation/conversation_glance_widget.dart';
 import '../widgets/finance/balance_widget.dart';
-import 'package:vibration/vibration.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -25,7 +25,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
 
   void _toggleConversationGlance(Friend friend) {
 
-    Vibration.vibrate(duration: 1);
+    HapticFeedback.selectionClick();
     setState(() {
       _conversationGlanceFriend = friend;
       _isConversationGlanceVisible = true;
@@ -120,7 +120,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                             topLeft: Radius.circular(40),
                             topRight: Radius.circular(40),
                           ),
-                          color: primaryDarkColor,
+                          color: secondaryColor,
                         ),
                         child: Column(
                           children: [

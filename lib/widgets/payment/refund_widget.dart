@@ -20,7 +20,7 @@ class RefundWidget extends StatelessWidget {
 
             onPressed: (){print("test");},
             style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all(primaryDarkColor),
+              backgroundColor: WidgetStateProperty.all(primaryColor),
               shape: WidgetStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15), // Modifier ici le border radius

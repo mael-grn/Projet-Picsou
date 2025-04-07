@@ -29,7 +29,7 @@ class ConversationGlanceWidget extends StatelessWidget {
             right: 0,
             bottom: 0,
             child: Container(
-              color: Color(0xD5000000),
+              color: Color(0xC0000000),
             )
         ),
 
@@ -43,7 +43,7 @@ class ConversationGlanceWidget extends StatelessWidget {
               topLeft: Radius.circular(40),
               topRight: Radius.circular(40),
             ),
-            color: darkColor,
+            color: backgroundColor,
           ),
 
           child: Stack(
@@ -101,7 +101,7 @@ class ConversationGlanceWidget extends StatelessWidget {
                                   backgroundColor,
                                 ),
                                 backgroundColor: WidgetStateProperty.all(
-                                    primaryColor),
+                                    foregroundColor),
                                 shape: WidgetStateProperty.all(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(100),
@@ -131,7 +131,8 @@ class ConversationGlanceWidget extends StatelessWidget {
                             child: Text(
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 30,
+                                color: foregroundVariantColor,
+                                fontSize: 35,
                                 fontWeight: FontWeight.w900,
                               ),
                               friend.balance > 0
@@ -152,7 +153,7 @@ class ConversationGlanceWidget extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   gradient: LinearGradient(
-                                    colors: [primaryColor, primaryDarkColor],
+                                    colors: [primaryColor, secondaryColor],
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
                                   ),
@@ -161,6 +162,7 @@ class ConversationGlanceWidget extends StatelessWidget {
                                 child: Text(
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
+                                    color: foregroundVariantColor,
                                     fontSize: 50,
                                     fontWeight: FontWeight.w900,
                                   ),
@@ -191,10 +193,10 @@ class ConversationGlanceWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       CloseButton(
-                        color: darkColor,
+                        color: backgroundColor,
                         style: ButtonStyle(
                           backgroundColor: WidgetStateProperty.all(
-                              primaryColor),
+                              foregroundVariantColor),
                           padding: WidgetStateProperty.all(EdgeInsets.all(10)),
                           shape: WidgetStateProperty.all(
                             RoundedRectangleBorder(

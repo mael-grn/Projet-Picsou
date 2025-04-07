@@ -27,12 +27,12 @@ class LastFivePaymentWidget extends StatelessWidget {
           return Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20)),
-              color: darkColor,
+              color: Colors.transparent,
             ),
             padding: EdgeInsets.all(10),
             child: Center(
               child: LoadingAnimationWidget.inkDrop(
-                color: Colors.white,
+                color: foregroundColor,
                 size: 30,
               ),
             ),
@@ -44,7 +44,11 @@ class LastFivePaymentWidget extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
-                color: primaryDarkColor,
+                color: Colors.transparent,
+                border: Border.all(
+                  color: foregroundVariantColor,
+                  width: 2,
+                ),
               ),
               padding: EdgeInsets.all(10),
               child: Column(
@@ -69,7 +73,7 @@ class LastFivePaymentWidget extends StatelessWidget {
                         foregroundColor: WidgetStateProperty.all(
                           backgroundColor,
                         ),
-                        backgroundColor: WidgetStateProperty.all(primaryColor),
+                        backgroundColor: WidgetStateProperty.all(foregroundColor),
                         shape: WidgetStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),

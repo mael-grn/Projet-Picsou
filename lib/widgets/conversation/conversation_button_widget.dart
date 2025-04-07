@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
+import '../../core/theme/app_theme.dart';
 import '../../models/friend.dart';
 
 /// Widget intended to be used in a list, to open a conversation
@@ -36,7 +38,19 @@ class ConversationButtonWidget extends StatelessWidget {
                         if (loadingProgress == null) {
                         return child;
                         }
-                        return const Center(child: CircularProgressIndicator());
+                        return Shimmer.fromColors(
+                            baseColor: backgroundVariantColor,
+                            highlightColor: secondaryColor,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: backgroundVariantColor,
+                              ),
+                              clipBehavior: Clip.antiAlias,
+                              width: 60,
+                              height: 60,
+                            )
+                        );
                         },
                         errorBuilder: (context, error, stackTrace) {
                           return const Icon(Icons.error, size: 30, color: Colors.red);

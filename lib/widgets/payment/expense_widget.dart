@@ -22,8 +22,8 @@ class ExpenseWidget extends StatelessWidget {
           style: ButtonStyle(
             backgroundColor:
                 expense.myShare > 0
-                    ? WidgetStateProperty.all(primaryDarkColor)
-                    : WidgetStateProperty.all(darkColor),
+                    ? WidgetStateProperty.all(Colors.transparent)
+                    : WidgetStateProperty.all(secondaryColor),
             shape: WidgetStateProperty.all(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(

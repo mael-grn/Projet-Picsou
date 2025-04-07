@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:projet_picsou/views/friends_view.dart';
 import 'package:projet_picsou/views/home_view.dart';
 import 'package:projet_picsou/views/me_view.dart';
 import 'package:projet_picsou/views/money_view.dart';
+import 'package:vibration/vibration.dart';
 import 'core/theme/app_theme.dart';
 
 void main() {
@@ -55,6 +57,7 @@ class _GlobalLayoutState extends State<GlobalLayout>
   }
 
   void _onItemTapped(int index) {
+    HapticFeedback.selectionClick();
     setState(() {
       _animation = Tween<double>(
         begin: currentPageIndex.toDouble(),
@@ -83,7 +86,7 @@ class _GlobalLayoutState extends State<GlobalLayout>
                   width: 280,
                   height: 70,
                   decoration: BoxDecoration(
-                    color: backgroundColor,
+                    color: foregroundColor,
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: Stack(
@@ -99,7 +102,7 @@ class _GlobalLayoutState extends State<GlobalLayout>
                               height: 50,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: primaryDarkColor,
+                                color: foregroundVariantColor,
                               ),
                             ),
                           );
@@ -135,7 +138,7 @@ class _GlobalLayoutState extends State<GlobalLayout>
           width: 30,
           height: 30,
           colorFilter: ColorFilter.mode(
-            currentPageIndex == index ? primaryLightColor : primaryColor,
+            index == currentPageIndex ? backgroundColor : secondaryColor,
             BlendMode.srcIn,
           ),
         ),

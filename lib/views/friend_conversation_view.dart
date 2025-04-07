@@ -57,7 +57,7 @@ class _friendConversationViewState extends State<FriendConversationView>
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
-        backgroundColor: primaryDarkColor,
+        backgroundColor: backgroundColor,
         title: Row(
           children: [
             CircleAvatar(
@@ -73,7 +73,7 @@ class _friendConversationViewState extends State<FriendConversationView>
         children: [
 
           Container(
-            color: primaryDarkColor,
+            color: backgroundColor,
             padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
             child: SlideTransition(
               position: _globalOffsetAnimation,
@@ -84,7 +84,7 @@ class _friendConversationViewState extends State<FriendConversationView>
                     topLeft: Radius.circular(40),
                     topRight: Radius.circular(40),
                   ),
-                  color: darkColor,
+                  color: backgroundColor,
                 ),
                 child: Column(
                   children: [
@@ -169,7 +169,7 @@ class _friendConversationViewState extends State<FriendConversationView>
                 onPressed: () {},
                 style: ButtonStyle(
                   foregroundColor: WidgetStateProperty.all(backgroundColor),
-                  backgroundColor: WidgetStateProperty.all(primaryColor),
+                  backgroundColor: WidgetStateProperty.all(foregroundVariantColor),
                   shape: WidgetStateProperty.all(
                     RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                   ),

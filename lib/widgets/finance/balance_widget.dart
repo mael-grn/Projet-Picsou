@@ -16,14 +16,14 @@ class BalanceWidget extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Shimmer.fromColors(
-            baseColor: primaryDarkColor, // Couleur de base
-            highlightColor: primaryLightColor, // Couleur en surbrillance
+            baseColor: backgroundVariantColor, // Couleur de base
+            highlightColor: backgroundColor, // Couleur en surbrillance
             child: Container(
               width: 200,
               height: 57, // Taille du bloc
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: primaryDarkColor, // Même couleur que baseColor
+                color: backgroundVariantColor,
               ),
             ),
           );

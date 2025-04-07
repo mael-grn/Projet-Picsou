@@ -31,7 +31,7 @@ class ConversationButtonListWidget extends StatelessWidget {
                     topLeft: Radius.circular(40),
                     topRight: Radius.circular(40),
                   ),
-                  color: darkColor,
+                  color: backgroundColor,
                 ),
                 child: ListView(
                   padding: EdgeInsets.zero,
@@ -58,7 +58,7 @@ class ConversationButtonListWidget extends StatelessWidget {
                     topLeft: Radius.circular(40),
                     topRight: Radius.circular(40),
                   ),
-                  color: darkColor,
+                  color: backgroundColor,
                 ),
                 child: ListView(
                   padding: EdgeInsets.fromLTRB(0, 20, 0, 115),

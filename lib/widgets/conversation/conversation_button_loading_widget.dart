@@ -18,12 +18,12 @@ class ConversationButtonLoadingWidget extends StatelessWidget {
             child: Row(
               children: [
                 Shimmer.fromColors(
-                  baseColor: primaryDarkColor,
-                  highlightColor: primaryLightColor,
+                  baseColor: backgroundVariantColor,
+                  highlightColor: backgroundColor,
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
-                      color: primaryDarkColor,
+                      color: backgroundVariantColor,
                     ),
                     clipBehavior: Clip.antiAlias,
                     width: 60,
@@ -35,12 +35,12 @@ class ConversationButtonLoadingWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Shimmer.fromColors(
-                        baseColor: primaryDarkColor,
-                        highlightColor: primaryLightColor,
+                        baseColor: backgroundVariantColor,
+                        highlightColor: backgroundColor,
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: primaryDarkColor,
+                            color: backgroundVariantColor,
                           ),
                           clipBehavior: Clip.antiAlias,
                           width: 100,
@@ -49,12 +49,12 @@ class ConversationButtonLoadingWidget extends StatelessWidget {
                     ),
                     SizedBox(height: 3),
                     Shimmer.fromColors(
-                        baseColor: primaryDarkColor,
-                        highlightColor: primaryLightColor,
+                        baseColor: backgroundVariantColor,
+                        highlightColor: backgroundColor,
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: primaryDarkColor,
+                            color: backgroundVariantColor,
 
                           ),
                           clipBehavior: Clip.antiAlias,
