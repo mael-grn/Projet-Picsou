@@ -63,7 +63,7 @@ class ConversationGlanceWidget extends StatelessWidget {
                             width: 130,
                             height: 130,
                             child: Image.network(
-                              friend.profilPicture,
+                              friend.profilPictureRef,
                               fit: BoxFit.cover,
                               loadingBuilder: (context, child,
                                   loadingProgress) {
@@ -88,7 +88,7 @@ class ConversationGlanceWidget extends StatelessWidget {
                           Text(
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 20),
-                            '${friend.name} ${friend.surname}',
+                            '${friend.firstName} ${friend.lastName}',
                           ),
 
                           SizedBox(height: 10),
@@ -136,9 +136,9 @@ class ConversationGlanceWidget extends StatelessWidget {
                                 fontWeight: FontWeight.w900,
                               ),
                               friend.balance > 0
-                                  ? '${friend.name} vous doit de l\'argent ! 🎉'
+                                  ? '${friend.firstName} vous doit de l\'argent ! 🎉'
                                   : 'Zut, vous devez de l\'argent à ${friend
-                                  .name}... 😭',
+                                  .firstName}... 😭',
                             ),
                           ),
 

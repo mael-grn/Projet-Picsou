@@ -32,7 +32,7 @@ class ConversationButtonWidget extends StatelessWidget {
                       width: 60,
                       height: 60,
                       child: Image.network(
-                        friend.profilPicture,
+                        friend.profilPictureRef,
                         fit: BoxFit.cover,
                         loadingBuilder: (context, child, loadingProgress) {
                         if (loadingProgress == null) {
@@ -67,7 +67,7 @@ class ConversationButtonWidget extends StatelessWidget {
                             fontWeight: FontWeight.w900,
                             fontSize: 18
                           ),
-                            '${friend.name} ${friend.surname}'
+                            '${friend.firstName} ${friend.lastName}'
                         ),
                         SizedBox(height: 3),
                         Text(

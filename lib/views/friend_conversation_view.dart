@@ -25,10 +25,10 @@ class FriendConversationView extends StatelessWidget {
         title: Row(
           children: [
             CircleAvatar(
-              backgroundImage: NetworkImage(friend.profilPicture),
+              backgroundImage: NetworkImage(friend.profilPictureRef),
             ),
             SizedBox(width: 10),
-            Text("${friend.name} ${friend.surname}"),
+            Text("${friend.firstName} ${friend.lastName}"),
           ],
         ),
       ),

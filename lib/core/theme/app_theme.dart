@@ -70,5 +70,5 @@ final ThemeData appTheme = ThemeData(
       backgroundColor: Colors.transparent,
     ),
   ),
-  scaffoldBackgroundColor: backgroundVariantColor,
+  scaffoldBackgroundColor: backgroundColor,
 );
