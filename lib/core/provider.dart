@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../exceptions/token_exception.dart';
 import '../utils/token_utils.dart';
 
 class ProviderResponse {
@@ -40,10 +39,6 @@ class Provider {
   /// If the token is not found, throws a TokenException.
   Future<ProviderResponse> getSecure(String route) async {
     final token = await TokenUtils.loadToken();
-
-    if (token == null) {
-      throw TokenException();
-    }
 
     final response = await  http.get(
       Uri.parse('$baseUrl$route'),

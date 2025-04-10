@@ -6,49 +6,32 @@ import '../views/splash_screen_view.dart';
 import '../widgets/global_layout.dart';
 
 class EntryPointController with ChangeNotifier {
-  bool showPopup = false;
-  String? popupTitle;
-  String? popupContent;
-  String? popupImage;
+  String? error;
   Widget? page;
+  bool isLoading = false;
   AuthService authService;
 
   EntryPointController(this.authService);
 
-  void closePopup() {
-    showPopup = false;
-    popupTitle = null;
-    popupContent = null;
-    popupImage = null;
-    notifyListeners();
-  }
-
   Future<void> checkToken() async {
+    isLoading = true;
+    notifyListeners();
     try {
       User user = await authService.verifyToken();
       User.setCurrentUserInstance(user);
       page = GlobalLayout();
     } on RequestException catch (e) {
       User.removeCurrentUserInstance();
-      if (e.networkErrorCode == 500) {
-        popupTitle = "Erreur serveur";
-        popupContent = "Une erreur serveur est survenue. Merci de vérifier si l'application est à jour. Nous faisons tout notre possible pour résoudre le problème.";
-        popupImage = "images/wondering.png";
-        showPopup = true;
-      } else {
+      if (e.networkErrorCode == 404 || e.networkErrorCode == 401) {
         page = SplashScreenView();
+      } else {
+        error = "Une erreur serveur est survenue. Merci de vérifier si l'application est à jour. Nous faisons tout notre possible pour résoudre le problème.";
       }
-      // Pas besoin de notifyListeners() ici car FutureBuilder gère la reconstruction
-      rethrow; // Rejeter l'erreur pour que FutureBuilder la capture
+    } catch (e) {
+      error = "Une erreur est survenue dans l'application. Verifiez les mises a jour et réessayez. ($e)";
+    } finally {
+      isLoading = false;
+      notifyListeners();
     }
-    // Pas besoin de notifyListeners() dans le finally pour isLoading
-  }
-
-  void resetState() {
-    showPopup = false;
-    popupTitle = null;
-    popupContent = null;
-    popupImage = null;
-    page = null;
   }
 }

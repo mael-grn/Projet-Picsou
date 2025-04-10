@@ -7,9 +7,9 @@ class TokenUtils {
     prefs.setString('token', token);
   }
 
-  static Future<String?> loadToken() async {
+  static Future<String> loadToken() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token');
+    return prefs.getString('token') ?? "";
   }
 
   static Future<void> removeToken() async {
