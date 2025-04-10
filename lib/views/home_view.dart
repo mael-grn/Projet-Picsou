@@ -63,7 +63,7 @@ class _HomeViewState extends State<HomeView>
       end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: _globalController,
-      curve: Curves.easeOutCubic,
+      curve: Curves.decelerate,
     ));
 
     _conversationListOffsetAnimation = Tween<Offset>(
@@ -71,7 +71,7 @@ class _HomeViewState extends State<HomeView>
       end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: _globalController,
-      curve: Curves.easeOutCubic,
+      curve: Curves.decelerate,
     ));
 
     _glanceOffsetAnimation = Tween<Offset>(

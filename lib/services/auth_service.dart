@@ -1,3 +1,8 @@
+import 'dart:async';
+
+import 'package:http/http.dart';
+import 'package:projet_picsou/exceptions/token_exception.dart';
+
 import '../core/provider.dart';
 import '../exceptions/request_exception.dart';
 import '../models/user.dart';
@@ -77,20 +82,29 @@ class AuthService {
   /// Returns true if the token is valid, false otherwise.
   /// May throw a RequestException.
   Future<User> verifyToken() async {
-    final response = await Provider().getSecure('/auth/validate');
+    ProviderResponse response;
+    try {
+      response = await Provider().getSecure('/auth/validate').timeout(const Duration(seconds: 5));
+    } on TimeoutException catch (_) {
+      throw RequestException(500, 'Le serveur a mis trop de temps à répondre.');
+    } on TokenException catch (_) {
+      throw RequestException(401, 'Token invalide.');
+    } on ClientException catch (_) {
+      return throw RequestException(500, 'Une erreur est survenue lors de la connexion au serveur. Merci de réessayer plus tard.');
+    }
 
     switch (response.statusCode) {
       case 200:
         return User.fromJson(response.data['user']);
       case 401:
-        return throw RequestException(response.statusCode, 'Token invalide.');
+        return throw RequestException(response.statusCode, 'Token invalide');
       case 404:
         return throw RequestException(
           response.statusCode,
           'Utilisateur introuvable.',
         );
       default:
-        return throw RequestException(response.statusCode, 'Erreur serveur.');
+        return throw RequestException(response.statusCode, 'Erreur serveur');
     }
   }
 }

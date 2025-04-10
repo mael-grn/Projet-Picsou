@@ -60,6 +60,7 @@ class AuthController with ChangeNotifier {
 
     try {
       user = await authService.login(email, password);
+      User.setCurrentUserInstance(user!);
       popupTitle = "Bravo !";
       popupContent = "Vous vous êtes souvenu de votre mot de passe, c'est pas donné à tout le monde.";
       popupImage = "images/thumbs_up.png";
@@ -110,6 +111,7 @@ class AuthController with ChangeNotifier {
         rib,
         profilPictureRef,
       );
+      User.setCurrentUserInstance(user!);
       popupTitle = "Bienvenu !";
       popupContent = "Vous venez de vous inscrire sur Picsou. Cliquez sur continuer pour plonger dans un univers fascinant.";
       popupImage = "images/thumbs_up.png";
@@ -140,6 +142,7 @@ class AuthController with ChangeNotifier {
 
     try {
       user = await authService.verifyToken();
+      User.setCurrentUserInstance(user!);
     }catch (_) {
     } finally {
       isLoading = false;

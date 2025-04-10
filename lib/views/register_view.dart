@@ -74,6 +74,10 @@ class _RegisterViewState extends State<RegisterView> {
                 Text("Déjà membre de la communauté Picsou ?"),
                 SizedBox(height: 10),
                 ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll<Color>(primaryColor),
+                      foregroundColor: WidgetStatePropertyAll<Color>(foregroundColor),
+                    ),
                     onPressed: () {
                       Navigator.push(
                         context,

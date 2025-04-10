@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../core/theme/app_theme.dart';
+
 class TextFieldWidget extends StatelessWidget {
   final TextEditingController? controller;
   final String? labelText;
@@ -83,12 +85,6 @@ class TextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color secondaryColor = const Color(0xFF87DFBA);
-    final Color primaryColor = const Color(0xFF58AC88);
-    final Color backgroundColor = const Color(0xFFFFFFFF);
-    final Color backgroundVariantColor = const Color(0xFFC6D1D0);
-    final Color foregroundColor = const Color(0xFF000000);
-    final Color foregroundVariantColor = const Color(0xFF282E28);
 
     return TextFormField(
       controller: controller,

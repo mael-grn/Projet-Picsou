@@ -68,6 +68,10 @@ class _LoginViewState extends State<LoginView> {
                 Text("Pas encore membre de la communauté Picsou ?"),
                 SizedBox(height: 10),
                 ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll<Color>(primaryColor),
+                      foregroundColor: WidgetStatePropertyAll<Color>(foregroundColor),
+                    ),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -103,7 +107,6 @@ class _LoginViewState extends State<LoginView> {
                           ),
                           onPressed: _togglePasswordVisibility,
                         ),
-                        validator: authController.passwordValidator,
                       ),
                     ],
                   ),

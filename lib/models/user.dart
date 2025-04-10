@@ -11,6 +11,8 @@ class User {
   final String profilPictureRef;
   final String password;
 
+  static User? _currentUser;
+
   const User(
       this.id,
       this.firstName,
@@ -69,5 +71,18 @@ class User {
     final passwordRegex = RegExp(
         r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
     return passwordRegex.hasMatch(password);
+  }
+
+  static setCurrentUserInstance(User user) {
+    _currentUser = user;
+  }
+  static User getCurrentUserInstance() {
+    if (_currentUser == null) {
+      throw Exception('No user have been set. This meen you are using this app without being logged in');
+    }
+    return _currentUser!;
+  }
+  static void removeCurrentUserInstance() {
+    _currentUser = null;
   }
 }

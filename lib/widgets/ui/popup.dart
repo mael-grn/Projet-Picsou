@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
 
+import 'button_widget.dart';
+
 class PopupWidget extends StatefulWidget {
   final bool show;
-  final Function onClosePressed;
+  final Function? onClosePressed;
   final String title;
   final String content;
   final String? imageSrc;
+  final List<ButtonWidget>? buttons;
+  final bool showCloseButton;
 
   const PopupWidget({
     required this.title,
     required this.content,
     required this.show,
-    required this.onClosePressed,
+    this.onClosePressed,
     this.imageSrc,
+    this.buttons,
+    this.showCloseButton = true,
     super.key,
   });
 
@@ -40,7 +46,7 @@ class _PopupWidgetState extends State<PopupWidget>
       begin: const Offset(0.0, 1),
       end: Offset.zero,
     ).animate(
-      CurvedAnimation(parent: _popupController, curve: Curves.easeOutCubic),
+      CurvedAnimation(parent: _popupController, curve: Curves.decelerate),
     );
 
     // Démarrer l'animation et marquer comme visible si show est true
@@ -77,20 +83,19 @@ class _PopupWidgetState extends State<PopupWidget>
   @override
   Widget build(BuildContext context) {
     return Visibility(
-        visible: _isVisibleInTree,
+      visible: _isVisibleInTree,
       child: Positioned.fill(
         child: Stack(
           children: [
-
             Positioned(
               top: 0,
               left: 0,
               right: 0,
               bottom: 0,
               child: AnimatedOpacity(
-                  opacity: widget.show ? 1.0 : 0.0,
-                  duration: const Duration(milliseconds: 600),
-                  child:Container(color: Color(0xC0000000))
+                opacity: widget.show ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 600),
+                child: Container(color: Color(0xC0000000)),
               ),
             ),
 
@@ -98,6 +103,9 @@ class _PopupWidgetState extends State<PopupWidget>
               position: _popupAnimation,
               child: Container(
                 margin: EdgeInsets.only(top: 100),
+                height: double.infinity,
+                width: double.infinity,
+                padding: EdgeInsets.all(20),
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -109,68 +117,76 @@ class _PopupWidgetState extends State<PopupWidget>
 
                 child: Stack(
                   children: [
-                    Center(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            if (widget.imageSrc != null)
-                              Image.asset(
-                                widget.imageSrc!,
-                                width: double.infinity,
-                                fit: BoxFit.contain,
-                                height: 100,
-                              ),
-                            SizedBox(height: 20),
-                            Text(
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              widget.title,
+                    SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          if (widget.imageSrc != null)
+                            Image.asset(
+                              widget.imageSrc!,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                              height: 300,
                             ),
-                            SizedBox(height: 10),
-                            Text(
-                              textAlign: TextAlign.center,
-                                widget.content
+                          SizedBox(height: 20),
+                          Text(
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
-                        ),
+                            widget.title,
+                          ),
+                          SizedBox(height: 10),
+                          Text(textAlign: TextAlign.center, widget.content),
+                        ],
                       ),
                     ),
 
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        padding: EdgeInsets.all(20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            CloseButton(
-                              color: backgroundColor,
-                              style: ButtonStyle(
-                                backgroundColor: WidgetStateProperty.all(
-                                  foregroundVariantColor,
-                                ),
-                                padding: WidgetStateProperty.all(
-                                  EdgeInsets.all(10),
-                                ),
-                                shape: WidgetStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(100),
+                    if (widget.buttons != null)
+                      Positioned(
+                        bottom: 30,
+                        left: 0,
+                        right: 0,
+                        child: Column(children: widget.buttons!),
+                      ),
+
+                    if (widget.showCloseButton)
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          padding: EdgeInsets.all(20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              CloseButton(
+                                color: backgroundColor,
+                                style: ButtonStyle(
+                                  backgroundColor: WidgetStateProperty.all(
+                                    foregroundVariantColor,
+                                  ),
+                                  padding: WidgetStateProperty.all(
+                                    EdgeInsets.all(10),
+                                  ),
+                                  shape: WidgetStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(100),
+                                    ),
                                   ),
                                 ),
+                                onPressed: () {
+                                  if (widget.onClosePressed != null) {
+                                    widget.onClosePressed!();
+                                  }
+                                },
                               ),
-                              onPressed: () {
-                                widget.onClosePressed();
-                              },
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
                   ],
                 ),
               ),

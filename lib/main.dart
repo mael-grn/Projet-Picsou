@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:projet_picsou/controllers/entry_point_controller.dart';
+import 'package:projet_picsou/controllers/me_controller.dart';
 import 'package:projet_picsou/services/auth_service.dart';
-import 'package:projet_picsou/views/splash_screen_view.dart';
-import 'package:projet_picsou/widgets/global_layout.dart';
+import 'package:projet_picsou/views/entry_point_view.dart';
 import 'package:provider/provider.dart';
 import 'controllers/auth_controller.dart';
-import 'core/theme/app_theme.dart';
+
 
 void main() async {
 
@@ -16,31 +17,14 @@ void main() async {
     statusBarIconBrightness: Brightness.dark, // Pour des icônes noires sur fond clair
   ));
 
-  //Création de l'instance du controller d'authentification
-  final authController = AuthController(authService: AuthService());
-
-  //Verification du token
-  await authController.loadUser();
-
-  //Determiner le premier widget de l'app
-  Widget entryPoint;
-  if (authController.user != null) {
-    entryPoint = GlobalLayout();
-  } else {
-    entryPoint = SplashScreenView();
-  }
-
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => authController),
+        ChangeNotifierProvider(create: (_) => EntryPointController(AuthService())),
+        ChangeNotifierProvider(create: (_) => AuthController(authService: AuthService())),
+        ChangeNotifierProvider(create: (_) => MeController()),
       ],
-      child: MaterialApp(
-        title: 'PICSOU',
-        debugShowCheckedModeBanner: false,
-        home: entryPoint,
-        theme: appTheme,
-      ),
+      child: EntryPointView()
     ),
   );
 }
