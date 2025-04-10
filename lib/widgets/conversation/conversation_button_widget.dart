@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:projet_picsou/core/theme/app_theme.dart';
+import 'package:projet_picsou/models/group.dart';
 import '../../models/friend.dart';
 
 /// Widget intended to be used in a list, to open a conversation
 class ConversationButtonWidget extends StatelessWidget {
 
-  final Friend friend;
+  final Group group;
   final VoidCallback onPressed;
+  final String nom; // Main name of the widget
+  final String? sousTitre; // subtitle of the main name
+  final String? subject; // Value or information at the right of the widget
+  final Color subjetcColor;
 
-  const ConversationButtonWidget(this.friend, {super.key, required this.onPressed});
+  const ConversationButtonWidget({required this.nom, this.sousTitre, this.subject, super.key, required this.onPressed, required this.group, this.subjetcColor = Colors.black});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +36,7 @@ class ConversationButtonWidget extends StatelessWidget {
                       width: 60,
                       height: 60,
                       child: Image.network(
-                        friend.profilPicture,
+                        group.profilPicture,
                         fit: BoxFit.cover,
                         loadingBuilder: (context, child, loadingProgress) {
                         if (loadingProgress == null) {
@@ -53,7 +59,7 @@ class ConversationButtonWidget extends StatelessWidget {
                             fontWeight: FontWeight.w900,
                             fontSize: 18
                           ),
-                            '${friend.name} ${friend.surname}'
+                            nom
                         ),
                         SizedBox(height: 3),
                         Text(
@@ -61,10 +67,20 @@ class ConversationButtonWidget extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                           ),
-                            (friend.balance < 0 ? 'Vous devez : ${friend.balance} €' : 'Vous doit : ${friend.balance.toString().replaceAll("-", "")} €')
+                            sousTitre ?? ""  
                         )
                       ],
                     ),
+                    SizedBox(width:200),
+                    Text(
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
+                        color: subjetcColor
+                      ),
+                      subject ?? ""
+                    )
                   ],
                 )
             )

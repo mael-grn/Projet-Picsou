@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
 import 'package:projet_picsou/models/friend.dart';
+import 'package:projet_picsou/models/group.dart';
 import 'package:projet_picsou/widgets/conversation/conversation_button_list_widget.dart';
 import 'package:projet_picsou/widgets/finance/balance_detail_widget.dart';
 import '../widgets/conversation/conversation_glance_widget.dart';
@@ -18,7 +19,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
 
   bool _isConversationGlanceVisible = false;
   bool _isBalanceDetailsVisible = false;
-  Friend? _conversationGlanceFriend;
+  Group? _conversationGlanceGroup;
   late AnimationController _globalController;
   late AnimationController _glanceController;
   late Animation<Offset> _globalOffsetAnimation;
@@ -27,7 +28,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
 late Animation<Offset> _balanceOffsetAnimation;
 
 
-  void _toggleConversationGlance(Friend friend) {
+  void _toggleConversationGlance(Group group) {
 
     Vibration.hasVibrator().then((hasVibrator) {
       if (hasVibrator) {
@@ -36,7 +37,7 @@ late Animation<Offset> _balanceOffsetAnimation;
     });
 
     setState(() {
-      _conversationGlanceFriend = friend;
+      _conversationGlanceGroup = group;
       _isConversationGlanceVisible = true;
     });
     _globalController.reverse();
@@ -48,7 +49,7 @@ late Animation<Offset> _balanceOffsetAnimation;
       _globalController.forward();
       setState(() {
         _isConversationGlanceVisible = false;
-        _conversationGlanceFriend = null;
+        _conversationGlanceGroup = null;
       });
     });
   }
@@ -186,7 +187,7 @@ void _closeBalanceDetail() {
               ],
             )
         ),
-        if (_isConversationGlanceVisible && _conversationGlanceFriend != null)
+        if (_isConversationGlanceVisible && _conversationGlanceGroup != null)
           Positioned(
             top: 0,
             left: 0,
@@ -194,7 +195,7 @@ void _closeBalanceDetail() {
             bottom: 0,
             child: SlideTransition(
               position: _glanceOffsetAnimation,
-              child: ConversationGlanceWidget(friend: _conversationGlanceFriend!, closeFunction: _closeConversationGlance)
+              child: ConversationGlanceWidget(group: _conversationGlanceGroup!, closeFunction: _closeConversationGlance)
             )
           ),
 

@@ -34,7 +34,7 @@ class BalanceWidget extends StatelessWidget {
                   fontSize: 40,
                   color: foregroundColor
               ),
-              snapshot.data! > 0 ? '+ ${snapshot.data} €' : '${snapshot.data} €'
+              snapshot.data! > 0 ? '+ ${snapshot.data} €' : '- ${snapshot.data} €'
           );
         } else {
           return Text('Erreur de chargement');

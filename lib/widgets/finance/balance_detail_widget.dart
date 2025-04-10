@@ -1,9 +1,6 @@
-import 'package:flutter/widgets.dart';
 import 'package:projet_picsou/controllers/payment_controller.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
-import 'package:projet_picsou/models/test/negative_group_expense.dart';
 import 'package:projet_picsou/widgets/finance/balance_widget.dart';
-import '../../models/test/positive_group_expense.dart';
 import 'package:flutter/material.dart';
 
 
@@ -99,7 +96,7 @@ class BalancePositive extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: Color.fromRGBO(0, 255, 0, 0.8),
+                    color: positiveColor,
                   ),
                   padding: EdgeInsets.all(20),
                   child: Text("Données en cours de chargement"),
@@ -115,7 +112,7 @@ class BalancePositive extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: Color.fromRGBO(0, 255, 0, 0.8),
+                    color: positiveColor,
                   ),
                   padding: EdgeInsets.all(20),
                   child: Text("+${snapshot.data}"),
@@ -154,7 +151,7 @@ class BalanceNegative extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: Color.fromRGBO(255, 0, 0, 0.8),
+                    color: negativeColor,
                   ),
                   padding: EdgeInsets.all(20),
                   child: Text("Données en cours de chargement"),
@@ -170,7 +167,7 @@ class BalanceNegative extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: Color.fromRGBO(255, 0, 0, 0.8),
+                    color: negativeColor,
                   ),
                   padding: EdgeInsets.all(20),
                   child: Text(snapshot.data.toString()),

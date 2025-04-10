@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
-import 'package:projet_picsou/models/friend.dart';
+import 'package:projet_picsou/models/group.dart';
 
 import '../../controllers/user_controller.dart';
 import '../payment/last_five_payments_widget.dart';
@@ -10,11 +10,11 @@ import '../payment/last_five_payments_widget.dart';
 /// A conversation being an exchange of payment between two users.
 class ConversationGlanceWidget extends StatelessWidget {
 
-  final Friend friend;
+  final Group group;
   final UserController userController = UserController();
   final Function closeFunction;
 
-  ConversationGlanceWidget({required this.friend, required this.closeFunction, super.key});
+  ConversationGlanceWidget({required this.group, required this.closeFunction, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class ConversationGlanceWidget extends StatelessWidget {
                         width: 130,
                         height: 130,
                         child: Image.network(
-                          friend.profilPicture,
+                          group.profilPicture,
                           fit: BoxFit.cover,
                           loadingBuilder: (context, child, loadingProgress) {
                             if (loadingProgress == null) {
@@ -90,7 +90,7 @@ class ConversationGlanceWidget extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 20
                           ),
-                          '${friend.name} ${friend.surname}'
+                          group.name
                       ),
 
                       SizedBox(height: 10),
@@ -128,9 +128,9 @@ class ConversationGlanceWidget extends StatelessWidget {
                                 fontSize: 30,
                                 fontWeight: FontWeight.w900
                             ),
-                            friend.balance > 0 ?
-                            '${friend.name} vous doit de l\'argent ! 🎉' :
-                            'Zut, vous devez de l\'argent à ${friend.name}... 😭'
+                            23.73 > 0 ?/////////////////////////////// A remplacer par une valeur calculer avec un controller : regarder tous les paiement du groupe et la balance de l'utilisateur avec ces paiements
+                            '${group.name} vous doit de l\'argent ! 🎉' :
+                            'Zut, vous devez de l\'argent à ${group.name}... 😭'
                         ),
                       ),
 
@@ -157,7 +157,7 @@ class ConversationGlanceWidget extends StatelessWidget {
                                       fontSize: 50,
                                       fontWeight: FontWeight.w900
                                   ),
-                                  '${friend.balance.toString()} €'
+                                  '23.73'/////////////////////////////// A remplacer par une valeur calculer avec un controller : regarder tous les paiement du groupe et la balance de l'utilisateur avec ces paiements
                               ),
                             )
                           ]
@@ -165,7 +165,7 @@ class ConversationGlanceWidget extends StatelessWidget {
 
                       SizedBox(height: 20),
 
-                      LastFivePaymentWidget(friendId: friend.id)
+                      LastFivePaymentWidget(friendId: 1) // Même chose à revoir pour adapter à un groupe
                     ]
                 ),
               )

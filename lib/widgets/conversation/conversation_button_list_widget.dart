@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:projet_picsou/controllers/group_controller.dart';
+import 'package:projet_picsou/models/group.dart';
 import '../../controllers/user_controller.dart';
 import '../../core/theme/app_theme.dart';
 import '../../models/friend.dart';
@@ -10,15 +12,15 @@ import 'conversation_button_loading_widget.dart';
 /// Widget to display a list of conversations, using the ConversationButtonWidget.
 class ConversationButtonListWidget extends StatelessWidget {
 
-  final Function(Friend) onConversationButtonPressed;
-  final UserController friendsController = UserController();
+  final Function(Group) onConversationButtonPressed;
+  final GroupController groupController = GroupController();
 
   ConversationButtonListWidget({super.key,required this.onConversationButtonPressed});
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Friend>>(
-      future: friendsController.getAllFriends(),
+    return FutureBuilder<List<Group>>(
+      future: groupController.getAllGroups(),
       builder: (context, snapshot) {
 
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -48,7 +50,7 @@ class ConversationButtonListWidget extends StatelessWidget {
 
         } else if (snapshot.hasData) {
 
-          List<Friend> friends = snapshot.data!;
+          List<Group> groups = snapshot.data!;
           return Expanded(
               child: Container(
                 padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
@@ -61,12 +63,14 @@ class ConversationButtonListWidget extends StatelessWidget {
                 ),
                 child: ListView(
                   padding: EdgeInsets.zero,
-                  children: friends.map((friend) {
+                  children: groups.map((group) {
                     return ConversationButtonWidget(
-                      friend,
+                      nom: "Test",
+                      sousTitre: "WOW",
+                      group: group,
                       onPressed: () {
                         // Lorsque le bouton est pressé, appel de la fonction pour afficher ConversationGlance
-                        onConversationButtonPressed(friend);
+                        onConversationButtonPressed(group);
                       },
                     );
                   }).toList(),
