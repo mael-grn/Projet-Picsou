@@ -54,12 +54,18 @@ class User {
     };
   }
 
-  bool checkEmailFormat(String email) {
+  static bool checkEmailFormat(String? email) {
+    if (email == null || email.isEmpty) {
+      return false;
+    }
     final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
     return emailRegex.hasMatch(email);
   }
 
-  bool checkPasswordFormat(String password) {
+  static bool checkPasswordFormat(String? password) {
+    if (password == null || password.isEmpty) {
+      return false;
+    }
     final passwordRegex = RegExp(
         r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
     return passwordRegex.hasMatch(password);

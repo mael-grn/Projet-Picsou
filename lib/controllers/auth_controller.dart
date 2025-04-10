@@ -23,6 +23,36 @@ class AuthController with ChangeNotifier {
     notifyListeners();
   }
 
+  String? lastNameValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Veuillez entrer votre nom';
+    }
+    return null;
+  }
+
+  String? firstNameValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Veuillez entrer votre prénom';
+    }
+    return null;
+  }
+
+  String? emailValidator(String? value) {
+    if (User.checkEmailFormat(value)) {
+      return null;
+    } else {
+      return 'Veuillez entrer un email valide';
+    }
+  }
+
+  String? passwordValidator(String? value) {
+    if (User.checkPasswordFormat(value)) {
+      return null;
+    } else {
+      return 'Le mot de passe doit contenir au moins 1 lettre majuscule, 1 lettre minuscule, 1 chiffre, 1 caractère spécial (@, \$, !, %, *, ?, &) et doit contenir au moins 8 caractères';
+    }
+  }
+
   Future<void> login(String email, String password) async {
     isLoading = true;
     error = null;

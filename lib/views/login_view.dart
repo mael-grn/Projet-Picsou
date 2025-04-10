@@ -2,24 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:projet_picsou/controllers/auth_controller.dart';
-import 'package:projet_picsou/views/login_view.dart';
+import 'package:projet_picsou/views/register_view.dart';
 import 'package:projet_picsou/widgets/global_layout.dart';
 import 'package:projet_picsou/widgets/ui/TextFieldWidget.dart';
 import 'package:provider/provider.dart';
 import '../core/theme/app_theme.dart';
 import '../widgets/ui/popup.dart';
 
-class RegisterView extends StatefulWidget {
-  const RegisterView({super.key});
+class LoginView extends StatefulWidget {
+  const LoginView({super.key});
 
   @override
-  State<RegisterView> createState() => _RegisterViewState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _RegisterViewState extends State<RegisterView> {
+class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
-  final _lastNameController = TextEditingController();
-  final _firstNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -27,8 +25,6 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   void dispose() {
-    _lastNameController.dispose();
-    _firstNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _formKey.currentState?.dispose();
@@ -44,12 +40,10 @@ class _RegisterViewState extends State<RegisterView> {
   void _submitForm(AuthController authController) {
     HapticFeedback.heavyImpact();
     if (_formKey.currentState!.validate()) {
-      String lastName = _lastNameController.text;
-      String firstName = _firstNameController.text;
       String email = _emailController.text;
       String password = _passwordController.text;
 
-      authController.register(firstName, lastName, email, password);
+      authController.login(email, password);
     }
   }
 
@@ -68,40 +62,27 @@ class _RegisterViewState extends State<RegisterView> {
                 Text(
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                  "Créer un compte",
+                  "Se connecter",
                 ),
                 SizedBox(height: 10),
-                Text("Déjà membre de la communauté Picsou ?"),
+                Text("Pas encore membre de la communauté Picsou ?"),
                 SizedBox(height: 10),
                 ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => LoginView(),
+                          builder: (context) => RegisterView(),
                         ),
                       );
                     },
-                    child: Text("Se connecter")
+                    child: Text("Créer un compte")
                 ),
                 SizedBox(height: 20),
                 Form(
                   key: _formKey,
                   child: Column(
                     children: [
-                      TextFieldWidget(
-                        labelText: 'Nom',
-                        controller: _lastNameController,
-
-                        validator: authController.lastNameValidator,
-                      ),
-                      const SizedBox(height: 16.0),
-                      TextFieldWidget(
-                        controller: _firstNameController,
-                        labelText: 'Prénom',
-                        validator: authController.firstNameValidator,
-                      ),
-                      const SizedBox(height: 16.0),
                       TextFieldWidget(
                         controller: _emailController,
                         labelText: 'Email',
@@ -148,30 +129,30 @@ class _RegisterViewState extends State<RegisterView> {
         backgroundColor: foregroundColor,
         onPressed:
             () => {
-              if (!authController.isLoading && authController.user == null)
-                {_submitForm(authController)}
-              else if (!authController.isLoading &&
-                  authController.user != null &&
-                  authController.error == null)
-                {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => GlobalLayout()),
-                  ),
-                },
+          if (!authController.isLoading && authController.user == null)
+            {_submitForm(authController)}
+          else if (!authController.isLoading &&
+              authController.user != null &&
+              authController.error == null)
+            {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => GlobalLayout()),
+              ),
             },
+        },
         label:
-            authController.isLoading
-                ? LoadingAnimationWidget.inkDrop(
-                  color: backgroundColor,
-                  size: 20,
-                )
-                : authController.error == null && authController.user != null
-                ? Text(style: TextStyle(color: backgroundColor), 'Continuer')
-                : Text(
-                  style: TextStyle(color: backgroundColor),
-                  'Créer un compte',
-                ),
+        authController.isLoading
+            ? LoadingAnimationWidget.inkDrop(
+          color: backgroundColor,
+          size: 20,
+        )
+            : authController.error == null && authController.user != null
+            ? Text(style: TextStyle(color: backgroundColor), 'Continuer')
+            : Text(
+          style: TextStyle(color: backgroundColor),
+          'Connexion',
+        ),
       ),
     );
   }
