@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
 import 'package:projet_picsou/models/group.dart';
@@ -18,108 +17,112 @@ class ConversationGlanceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Stack(
+      children: [
 
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(40),
-          topRight: Radius.circular(40),
+        Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Container(
+              color: Color(0xC0000000),
+            )
         ),
-        color: darkColor,
-      ),
 
 
-      child: SingleChildScrollView(
-        child: Column(
+        Container(
+
+          margin: EdgeInsets.only(top: 100),
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(40),
+              topRight: Radius.circular(40),
+            ),
+            color: backgroundColor,
+          ),
+
+          child: Stack(
             children: [
 
-
-              Container(
-                padding: EdgeInsets.all(20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    CloseButton(
-                      color: darkColor,
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(primaryColor),
-                        padding: WidgetStateProperty.all(EdgeInsets.all(10)),
-                        shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100),
-                        )),
-                      ),
-                      onPressed: () {
-                        closeFunction();
-                      },
-                    )
-                  ],
-                ),
-              ),
-
-
               Center(
-                child: Column(
-                    children: [
-
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        clipBehavior: Clip.antiAlias,
-                        width: 130,
-                        height: 130,
-                        child: Image.network(
-                          group.profilPicture,
-                          fit: BoxFit.cover,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) {
-                              return child;
-                            }
-                            return const Center(child: CircularProgressIndicator());
-                          },
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Icon(Icons.error, size: 30, color: Colors.red);
-                          },
-                        ),
-                      ),
-
-                      SizedBox(height: 10),
-
-                      Text(
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 20
-                          ),
-                          group.name
-                      ),
-
-                      SizedBox(height: 10),
-
-                      SizedBox(
-                        width: 150,
-                        child: TextButton(
-                            style: ButtonStyle(
-                                foregroundColor: WidgetStateProperty.all(backgroundColor),
-                                backgroundColor: WidgetStateProperty.all(primaryColor),
-                                shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(100),
-                                )),
-                                textStyle: WidgetStateProperty.all(TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                ))
+                child: SingleChildScrollView(
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(0, 100, 0, 100),
+                      child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
                             ),
-                            onPressed: (){print('test');},
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            clipBehavior: Clip.antiAlias,
+                            width: 130,
+                            height: 130,
+                            child: Image.network(
+                              group.profilPictureRef,
+                              fit: BoxFit.cover,
+                              loadingBuilder: (context, child,
+                                  loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                }
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              },
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Icon(
+                                  Icons.error,
+                                  size: 30,
+                                  color: Colors.red,
+                                );
+                              },
+                            ),
+                          ),
+
+                          SizedBox(height: 10),
+
+                          Text(
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20),
+                            group.name,
+                          ),
+
+                          SizedBox(height: 10),
+
+                          SizedBox(
+                            width: 150,
+                            child: TextButton(
+                              style: ButtonStyle(
+                                foregroundColor: WidgetStateProperty.all(
+                                  backgroundColor,
+                                ),
+                                backgroundColor: WidgetStateProperty.all(
+                                    foregroundColor),
+                                shape: WidgetStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                ),
+                                textStyle: WidgetStateProperty.all(
+                                  TextStyle(fontWeight: FontWeight.normal),
+                                ),
+                              ),
+                              onPressed: () {
+                                print('test');
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceAround,
                                 children: [
                                   Text("Voir le profil"),
-                                  Icon(Icons.arrow_forward)
-                                ]
-                            )
-                        ),
-                      ),
+                                  Icon(Icons.arrow_forward),
+                                ],
+                              ),
+                            ),
+                          ),
 
-                      SizedBox(height: 20),
+                          SizedBox(height: 20),
 
                       Center(
                         child: Text(
@@ -134,7 +137,7 @@ class ConversationGlanceWidget extends StatelessWidget {
                         ),
                       ),
 
-                      SizedBox(height: 20),
+                          SizedBox(height: 20),
 
                       Column(
                           children: [
@@ -163,15 +166,46 @@ class ConversationGlanceWidget extends StatelessWidget {
                           ]
                       ),
 
-                      SizedBox(height: 20),
-
-                      LastFivePaymentWidget(friendId: 1) // Même chose à revoir pour adapter à un groupe
-                    ]
+                          SizedBox(height: 20),
+                        ],
+                      ),
+                    )
                 ),
-              )
-            ]
-        ),
-      )
+              ),
+
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CloseButton(
+                        color: backgroundColor,
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(
+                              foregroundVariantColor),
+                          padding: WidgetStateProperty.all(EdgeInsets.all(10)),
+                          shape: WidgetStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                          ),
+                        ),
+                        onPressed: () {
+                          closeFunction();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 }
