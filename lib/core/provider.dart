@@ -18,7 +18,7 @@ class Provider {
   /// Sends a POST request to the server, without token.
   Future<ProviderResponse> postUnsecure(String route, Object data) async {
     final response = await  http.post(
-      Uri.parse('$baseUrl/$route'),
+      Uri.parse('$baseUrl$route'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(data),
     );
@@ -29,7 +29,7 @@ class Provider {
   /// Sends a GET request to the server, without token.
   Future<ProviderResponse> getUnsecure(String route) async {
     final response = await  http.get(
-      Uri.parse('$baseUrl/$route'),
+      Uri.parse('$baseUrl$route'),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -46,7 +46,7 @@ class Provider {
     }
 
     final response = await  http.get(
-      Uri.parse('$baseUrl/$route'),
+      Uri.parse('$baseUrl$route'),
       headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
     );
 

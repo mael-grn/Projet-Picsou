@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/exceptions/request_exception.dart';
-import '../exceptions/token_exception.dart';
 import '../models/user.dart';
 import '../services/auth_service.dart';
 
 class AuthController with ChangeNotifier {
   final AuthService authService;
   User? user;
+  bool showPopup = false;
+  String? popupTitle;
+  String? popupContent;
+  String? popupImage;
   bool isLoading = false;
   String? error;
 
   AuthController({required this.authService});
+
+  void closePopup() {
+    showPopup = false;
+    popupTitle = null;
+    popupContent = null;
+    popupImage = null;
+    notifyListeners();
+  }
 
   Future<void> login(String email, String password) async {
     isLoading = true;
@@ -19,8 +30,22 @@ class AuthController with ChangeNotifier {
 
     try {
       user = await authService.login(email, password);
-    } catch (e) {
-      error = e.toString();
+      popupTitle = "Bravo !";
+      popupContent = "Vous vous êtes souvenu de votre mot de passe, c'est pas donné à tout le monde.";
+      popupImage = "images/thumbs_up.png";
+      showPopup = true;
+    }  on RequestException catch (e) {
+      error = e.message;
+      popupTitle = "Erreur";
+      popupContent = e.message;
+      popupImage = "images/error.png";
+      showPopup = true;
+    } catch (_) {
+      error = "Erreur serveur";
+      popupTitle = "Erreur";
+      popupContent = "Erreur de l'application";
+      popupImage = "images/error.png";
+      showPopup = true;
     } finally {
       isLoading = false;
       notifyListeners();
@@ -28,23 +53,67 @@ class AuthController with ChangeNotifier {
     }
   }
 
-  Future<void> loadUser() async {
+  Future<void> register(
+      String firstName,
+      String lastName,
+      String email,
+      String password, {
+        String tel = "",
+        String emailPaypal = "",
+        String telWero = "",
+        String rib = "",
+        String profilPictureRef = "",
+      }) async {
+    isLoading = true;
+    error = null;
+    notifyListeners();
 
+    try {
+      user = await authService.register(
+        firstName,
+        lastName,
+        email,
+        password,
+        tel,
+        emailPaypal,
+        telWero,
+        rib,
+        profilPictureRef,
+      );
+      popupTitle = "Bienvenu !";
+      popupContent = "Vous venez de vous inscrire sur Picsou. Cliquez sur continuer pour plonger dans un univers fascinant.";
+      popupImage = "images/thumbs_up.png";
+      showPopup = true;
+    }  on RequestException catch (e) {
+      error = e.message;
+      popupTitle = "Erreur";
+      popupContent = e.message;
+      popupImage = "images/error.png";
+      showPopup = true;
+    } catch (_) {
+      // cas ou il n'y a pas de token
+      error = "Erreur dans l'application";
+      popupTitle = "Erreur";
+      popupContent = "Erreur de l'application";
+      popupImage = "images/error.png";
+      showPopup = true;
+    }  finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> loadUser() async {
+    error = null;
     isLoading = true;
     notifyListeners();
 
     try {
       user = await authService.verifyToken();
-    } on TokenException catch (_) {
-      // cas ou il n'y a pas de token
-      error = null;
-      user = null;
-    } on RequestException catch (e) {
-      error = e.message;
+    }catch (_) {
     } finally {
       isLoading = false;
       notifyListeners();
-
     }
   }
 }

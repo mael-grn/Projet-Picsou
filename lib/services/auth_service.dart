@@ -15,19 +15,19 @@ class AuthService {
     switch (response.statusCode) {
       case 200:
         await TokenUtils.saveToken(response.data['token']);
-        return User.fromJson(response.data);
+        return User.fromJson(response.data['user']);
       case 401:
         return throw RequestException(
           response.statusCode,
-          'Mauvais mot de passe.',
+          'Mauvais mot de passe',
         );
       case 404:
         return throw RequestException(
           response.statusCode,
-          'Utilisateur introuvable.',
+          'Utilisateur introuvable',
         );
       default:
-        return throw RequestException(response.statusCode, 'Erreur serveur.');
+        return throw RequestException(response.statusCode, 'Erreur serveur');
     }
   }
 
@@ -36,14 +36,14 @@ class AuthService {
     String firstName,
     String lastName,
     String email,
-    String password, {
-    String tel = "",
-    String emailPaypal = "",
-    String telWero = "",
-    String rib = "",
-    String profilPictureRef = "",
-  }) async {
-    final response = await Provider().postUnsecure('/auth/login', {
+    String password,
+    String tel,
+    String emailPaypal,
+    String telWero,
+    String rib,
+    String profilPictureRef,
+  ) async {
+    final response = await Provider().postUnsecure('/auth/register', {
       'first_name': firstName,
       'last_name': lastName,
       'email': email,
@@ -52,36 +52,36 @@ class AuthService {
       'email_paypal': emailPaypal,
       'tel_wero': telWero,
       'rib': rib,
-      'profil_picture_ref': profilPictureRef,
+      'profil_pict_ref': profilPictureRef,
     });
 
     switch (response.statusCode) {
       case 200:
         await TokenUtils.saveToken(response.data['token']);
-        return User.fromJson(response.data);
+        return User.fromJson(response.data['new_user']);
       case 401:
         return throw RequestException(
           response.statusCode,
-          'Mauvais mot de passe.',
+          'Mauvais mot de passe',
         );
-      case 404:
+      case 409:
         return throw RequestException(
           response.statusCode,
-          'Utilisateur introuvable.',
+          'Cet utilisateur existe déjà',
         );
       default:
-        return throw RequestException(response.statusCode, 'Erreur serveur.');
+        return throw RequestException(response.statusCode, 'Erreur serveur');
     }
   }
 
   /// Returns true if the token is valid, false otherwise.
   /// May throw a RequestException.
   Future<User> verifyToken() async {
-    final response = await Provider().getSecure('/auth/verify');
+    final response = await Provider().getSecure('/auth/validate');
 
     switch (response.statusCode) {
       case 200:
-        return User.fromJson(response.data);
+        return User.fromJson(response.data['user']);
       case 401:
         return throw RequestException(response.statusCode, 'Token invalide.');
       case 404:
