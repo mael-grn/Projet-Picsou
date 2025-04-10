@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
-import 'package:projet_picsou/models/friend.dart';
 import 'package:projet_picsou/models/group.dart';
 import 'package:projet_picsou/widgets/conversation/conversation_button_list_widget.dart';
 import 'package:projet_picsou/widgets/finance/balance_detail_widget.dart';
