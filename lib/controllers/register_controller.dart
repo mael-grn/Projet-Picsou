@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:projet_picsou/enums/network_error_enum.dart';
 import 'package:projet_picsou/exceptions/request_exception.dart';
 import '../models/user.dart';
 import '../services/auth_service.dart';
 
-class AuthController with ChangeNotifier {
+class RegisterController with ChangeNotifier {
   final AuthService authService;
   User? user;
   bool showPopup = false;
   String? popupTitle;
   String? popupContent;
   String? popupImage;
+  bool hidePassword = true;
   bool isLoading = false;
   String? error;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final firstNameController = TextEditingController();
 
-  AuthController({required this.authService});
+  RegisterController(this.authService);
 
   void closePopup() {
     showPopup = false;
@@ -23,18 +30,30 @@ class AuthController with ChangeNotifier {
     notifyListeners();
   }
 
+  void submitForm(GlobalKey<FormState> formKey) {
+    HapticFeedback.mediumImpact();
+    String lastName = lastNameController.text;
+    String firstName = firstNameController.text;
+    String email = emailController.text;
+    String password = passwordController.text;
+
+    register(formKey, firstName, lastName, email, password);
+  }
+
   String? lastNameValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Veuillez entrer votre nom';
+    if (User.checkNameFormat(value)) {
+      return null;
+    } else {
+      return 'Format du nom invalide';
     }
-    return null;
   }
 
   String? firstNameValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Veuillez entrer votre prénom';
+    if (User.checkNameFormat(value)) {
+      return null;
+    } else {
+      return 'Format du prénom invalide';
     }
-    return null;
   }
 
   String? emailValidator(String? value) {
@@ -53,38 +72,13 @@ class AuthController with ChangeNotifier {
     }
   }
 
-  Future<void> login(String email, String password) async {
-    isLoading = true;
-    error = null;
+  void togglePasswordVisibility() {
+    hidePassword = !hidePassword;
     notifyListeners();
-
-    try {
-      user = await authService.login(email, password);
-      User.setCurrentUserInstance(user!);
-      popupTitle = "Bravo !";
-      popupContent = "Vous vous êtes souvenu de votre mot de passe, c'est pas donné à tout le monde.";
-      popupImage = "images/thumbs_up.png";
-      showPopup = true;
-    }  on RequestException catch (e) {
-      error = e.message;
-      popupTitle = "Erreur";
-      popupContent = e.message;
-      popupImage = "images/error.png";
-      showPopup = true;
-    } catch (_) {
-      error = "Erreur serveur";
-      popupTitle = "Erreur";
-      popupContent = "Erreur de l'application";
-      popupImage = "images/error.png";
-      showPopup = true;
-    } finally {
-      isLoading = false;
-      notifyListeners();
-
-    }
   }
 
   Future<void> register(
+      GlobalKey<FormState> formKey,
       String firstName,
       String lastName,
       String email,
@@ -100,6 +94,15 @@ class AuthController with ChangeNotifier {
     notifyListeners();
 
     try {
+
+      if (!formKey.currentState!.validate()) {
+        return;
+      }
+
+      isLoading = true;
+      error = null;
+      notifyListeners();
+
       user = await authService.register(
         firstName,
         lastName,
@@ -116,10 +119,15 @@ class AuthController with ChangeNotifier {
       popupContent = "Vous venez de vous inscrire sur Picsou. Cliquez sur continuer pour plonger dans un univers fascinant.";
       popupImage = "images/thumbs_up.png";
       showPopup = true;
-    }  on RequestException catch (e) {
-      error = e.message;
+    }  on NetworkException catch (e) {
+      if (e.networkError.code == NetworkErrorEnum.conflict.code) {
+        error = "Cet email est déjà utilisé";
+        popupContent = "Cet email est déjà utilisé";
+      } else {
+        error = "${e.networkError.message} (${e.networkError.code})";
+        popupContent = "${e.networkError.message} (${e.networkError.code})";
+      }
       popupTitle = "Erreur";
-      popupContent = e.message;
       popupImage = "images/error.png";
       showPopup = true;
     } catch (_) {
@@ -130,21 +138,6 @@ class AuthController with ChangeNotifier {
       popupImage = "images/error.png";
       showPopup = true;
     }  finally {
-      isLoading = false;
-      notifyListeners();
-    }
-  }
-
-  Future<void> loadUser() async {
-    error = null;
-    isLoading = true;
-    notifyListeners();
-
-    try {
-      user = await authService.verifyToken();
-      User.setCurrentUserInstance(user!);
-    }catch (_) {
-    } finally {
       isLoading = false;
       notifyListeners();
     }

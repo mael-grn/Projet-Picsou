@@ -1,6 +1,7 @@
-class RequestException implements Exception {
-  final int networkErrorCode;
-  final String message;
+import '../enums/network_error_enum.dart';
 
-  RequestException(this.networkErrorCode, this.message);
+class NetworkException implements Exception {
+  final NetworkErrorEnum networkError;
+  final String? message;
+  NetworkException(this.networkError, [this.message]);
 }

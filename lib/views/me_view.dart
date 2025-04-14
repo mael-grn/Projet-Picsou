@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
 import 'package:projet_picsou/views/splash_screen_view.dart';
+import 'package:projet_picsou/widgets/ui/button_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../controllers/me_controller.dart';
@@ -16,26 +17,15 @@ class MeView extends StatefulWidget {
 
 class _MeViewState extends State<MeView>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  late AnimationController _animationController;
-  late Animation<Offset> _introAnimation;
 
   @override
   void initState() {
     super.initState();
-
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 600),
-      vsync: this,
-    );
-
-    _introAnimation = Tween<Offset>(
-      begin: const Offset(0.0, 1.0),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.decelerate),
-    );
-
-    _animationController.forward();
+    final controller = Provider.of<MeController>(context, listen: false);
+    controller.initAnimations(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.animationsController.forward();
+    });
   }
 
   @override
@@ -60,7 +50,7 @@ class _MeViewState extends State<MeView>
               SizedBox(height: 30),
               Expanded(
                 child: SlideTransition(
-                  position: _introAnimation,
+                  position: meController.offsetAnimation,
                   child: Container(
                     width: double.infinity,
                     padding: EdgeInsets.all(20),
@@ -73,14 +63,13 @@ class _MeViewState extends State<MeView>
                     ),
                     child: Column(
                       children: [
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStatePropertyAll<Color>(foregroundVariantColor),
-                            foregroundColor: WidgetStatePropertyAll<Color>(backgroundColor),
-                          ),
-                          onPressed: meController.logout,
-                          child: Text("Déconnexion"),
-                        ),
+                        ButtonWidget(
+                          buttonBackgroundColor: Colors.redAccent,
+                          textColor: foregroundColor,
+                          message: "Déconnexion",
+                            icon: Icons.logout,
+                            onPressed: meController.logout
+                        )
                       ],
                     ),
                   ),

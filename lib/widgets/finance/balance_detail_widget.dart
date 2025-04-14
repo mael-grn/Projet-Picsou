@@ -1,11 +1,9 @@
 import 'package:projet_picsou/controllers/payment_controller.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
-import 'package:projet_picsou/widgets/finance/balance_widget.dart';
 import 'package:flutter/material.dart';
 
 
 class BalanceDetailWidget extends StatelessWidget{
-  final PaymentController paymentController = PaymentController();
   final Function closeFunction;
 
   BalanceDetailWidget({required this.closeFunction, super.key});
@@ -40,7 +38,7 @@ class BalanceDetailWidget extends StatelessWidget{
                     color: Color.fromRGBO(0, 255, 0, 0.8),
                   ),
                   padding: EdgeInsets.all(20),
-                  child: BalanceWidget(),
+                  child: Text("texte temporaire"), // BalanceWidget(), j'ai supprimé le widget car c'etait que quelques lignes ************
                 ),
               ),
             ),
@@ -50,8 +48,8 @@ class BalanceDetailWidget extends StatelessWidget{
                 (context, index) => Column(
                   verticalDirection: VerticalDirection.down,
                   children: [
-                    BalancePositive(paymentController: paymentController),
-                    BalanceNegative(paymentController: paymentController)
+                    //BalancePositive(paymentController: paymentController),*******************************
+                    //BalanceNegative(paymentController: paymentController)*******************************
                   ]
                 )
               ),
@@ -62,7 +60,7 @@ class BalanceDetailWidget extends StatelessWidget{
           top: 16.0,
           right: 16.0, 
           child: FloatingActionButton(
-            focusColor: darkColor,
+            focusColor: secondaryColor,
             backgroundColor: primaryColor,
             mini: true,
             onPressed: (){ closeFunction();},
@@ -86,7 +84,7 @@ class BalancePositive extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<double>(
-      future: paymentController.getPositiveTot(),
+      future: Future.delayed(Duration(seconds: 1)),//  paymentController.getPositiveTot(), *****************
       builder: (context, snapshot){
          if (snapshot.connectionState == ConnectionState.waiting){
           return(
@@ -96,7 +94,7 @@ class BalancePositive extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: positiveColor,
+                    color: primaryColor,
                   ),
                   padding: EdgeInsets.all(20),
                   child: Text("Données en cours de chargement"),
@@ -112,7 +110,7 @@ class BalancePositive extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: positiveColor,
+                    color: primaryColor,
                   ),
                   padding: EdgeInsets.all(20),
                   child: Text("+${snapshot.data}"),
@@ -141,7 +139,7 @@ class BalanceNegative extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<double>(
-      future: paymentController.getNegativeTot(),
+      future:Future.delayed(Duration(seconds: 1)), // paymentController.getNegativeTot(), *********************
       builder: (context, snapshot){
          if (snapshot.connectionState == ConnectionState.waiting){
           return(
@@ -151,7 +149,7 @@ class BalanceNegative extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: negativeColor,
+                    color: secondaryColor,
                   ),
                   padding: EdgeInsets.all(20),
                   child: Text("Données en cours de chargement"),
@@ -167,7 +165,7 @@ class BalanceNegative extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: negativeColor,
+                    color: secondaryColor,
                   ),
                   padding: EdgeInsets.all(20),
                   child: Text(snapshot.data.toString()),

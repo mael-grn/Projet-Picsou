@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:projet_picsou/controllers/friend_conversation_controller.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
-import 'package:projet_picsou/models/friend.dart';
-
-import '../controllers/payment_controller.dart';
+import 'package:provider/provider.dart';
 import '../models/expense.dart';
 import '../models/payment.dart';
 import '../models/refund.dart';
+import '../models/user.dart';
 import '../widgets/payment/expense_widget.dart';
 import '../widgets/payment/refund_widget.dart';
 
-class FriendConversationView extends StatelessWidget {
-  final Friend friend;
-  final PaymentController paymentController = PaymentController();
+class FriendConversationView extends StatefulWidget {
+  final User friend;
+  const FriendConversationView({required this.friend, super.key});
 
-  FriendConversationView({required this.friend, super.key});
+  @override
+  State<FriendConversationView> createState() => _FriendConversationViewState();
+}
+
+class _FriendConversationViewState extends State<FriendConversationView> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.watch<FriendConversationController>();
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
@@ -25,19 +30,17 @@ class FriendConversationView extends StatelessWidget {
         title: Row(
           children: [
             CircleAvatar(
-              backgroundImage: NetworkImage(friend.profilPictureRef),
+              backgroundImage: NetworkImage(widget.friend.profilPictureRef),
             ),
             SizedBox(width: 10),
-            Text("${friend.firstName} ${friend.lastName}"),
+            Text("${widget.friend.firstName} ${widget.friend.lastName}"),
           ],
         ),
       ),
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
-              color: backgroundColor,
-            ),
+            decoration: BoxDecoration(color: backgroundColor),
             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: Column(
               children: [
@@ -51,53 +54,55 @@ class FriendConversationView extends StatelessWidget {
                         fontWeight: FontWeight.w900,
                         fontSize: 25,
                       ),
-                      "${friend.balance} €",
+                      "${controller.friendBalance} €",
                     ),
                   ],
                 ),
-                FutureBuilder(
-                  future: paymentController.getLastPaymentFromFriend(friend.id),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Expanded(
-                        child: Center(
-                          child: LoadingAnimationWidget.inkDrop(
-                            color: foregroundColor,
-                            size: 30,
-                          ),
-                        ),
-                      );
-                    } else if (snapshot.hasData) {
-                      List<Payment> payments = snapshot.data!;
 
-                      return Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-                          child: ListView.builder(
-                            padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
-                            shrinkWrap: true,
-                            itemCount: payments.length,
-                            itemBuilder: (context, index) {
-                              Payment payment = payments[index];
+                if (controller.isLoading)
+                  Expanded(
+                    child: Center(
+                      child: LoadingAnimationWidget.inkDrop(
+                        color: foregroundColor,
+                        size: 30,
+                      ),
+                    ),
+                  )
+                else if (controller.error != null)
+                  Expanded(
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(size: 40, Icons.error_outline),
+                          SizedBox(height: 10),
+                          Text(controller.error!),
+                        ],
+                      ),
+                    ),
+                  )
+                else
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+                      child: ListView.builder(
+                        padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
+                        shrinkWrap: true,
+                        itemCount: controller.payments.length,
+                        itemBuilder: (context, index) {
+                          Payment payment = controller.payments[index];
 
-                              if (payment is Expense) {
-                                return ExpenseWidget(payment);
-                              } else if (payment is Refund) {
-                                return RefundWidget(payment);
-                              } else {
-                                return Container();
-                              }
-                            },
-                          ),
-                        ),
-                      );
-                    } else {
-                      return Expanded(
-                        child: Center(child: Text("Erreur")),
-                      );
-                    }
-                  },
-                ),
+                          if (payment is Expense) {
+                            return ExpenseWidget(payment);
+                          } else if (payment is Refund) {
+                            return RefundWidget(payment);
+                          } else {
+                            return Container();
+                          }
+                        },
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),
@@ -118,9 +123,13 @@ class FriendConversationView extends StatelessWidget {
                 onPressed: () {},
                 style: ButtonStyle(
                   foregroundColor: WidgetStateProperty.all(backgroundColor),
-                  backgroundColor: WidgetStateProperty.all(foregroundVariantColor),
+                  backgroundColor: WidgetStateProperty.all(
+                    foregroundVariantColor,
+                  ),
                   shape: WidgetStateProperty.all(
-                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100),
+                    ),
                   ),
                 ),
                 child: Row(
@@ -128,7 +137,10 @@ class FriendConversationView extends StatelessWidget {
                   children: [
                     Text(
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 20,
+                      ),
                       "Ajouter une dépense",
                     ),
                     SizedBox(width: 10),

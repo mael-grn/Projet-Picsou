@@ -1,8 +1,5 @@
 import 'dart:async';
-
-import 'package:http/http.dart';
-import 'package:projet_picsou/exceptions/token_exception.dart';
-
+import 'package:projet_picsou/enums/network_error_enum.dart';
 import '../core/provider.dart';
 import '../exceptions/request_exception.dart';
 import '../models/user.dart';
@@ -12,28 +9,15 @@ class AuthService {
   /// Returns the user with the given email and password.
   /// Store the token in the shared preferences.
   Future<User> login(String email, String password) async {
-    final response = await Provider().postUnsecure('/auth/login', {
+    final response = await Provider.postUnsecure('/auth/login', {
       'email': email,
       'password': password,
     });
 
-    switch (response.statusCode) {
-      case 200:
-        await TokenUtils.saveToken(response.data['token']);
-        return User.fromJson(response.data['user']);
-      case 401:
-        return throw RequestException(
-          response.statusCode,
-          'Mauvais mot de passe',
-        );
-      case 404:
-        return throw RequestException(
-          response.statusCode,
-          'Utilisateur introuvable',
-        );
-      default:
-        return throw RequestException(response.statusCode, 'Erreur serveur');
-    }
+    await TokenUtils.saveToken(response['token']);
+    User user = User.fromJson(response['user']);
+    User.setCurrentUserInstance(user);
+    return user;
   }
 
   /// Create the user in the database for the given user.
@@ -48,7 +32,7 @@ class AuthService {
     String rib,
     String profilPictureRef,
   ) async {
-    final response = await Provider().postUnsecure('/auth/register', {
+    final response = await Provider.postUnsecure('/auth/register', {
       'first_name': firstName,
       'last_name': lastName,
       'email': email,
@@ -60,51 +44,26 @@ class AuthService {
       'profil_pict_ref': profilPictureRef,
     });
 
-    switch (response.statusCode) {
-      case 200:
-        await TokenUtils.saveToken(response.data['token']);
-        return User.fromJson(response.data['new_user']);
-      case 401:
-        return throw RequestException(
-          response.statusCode,
-          'Mauvais mot de passe',
-        );
-      case 409:
-        return throw RequestException(
-          response.statusCode,
-          'Cet utilisateur existe déjà',
-        );
-      default:
-        return throw RequestException(response.statusCode, 'Erreur serveur');
-    }
+    await TokenUtils.saveToken(response['token']);
+    User user = User.fromJson(response['user']);
+    User.setCurrentUserInstance(user);
+    return user;
   }
 
   /// Returns true if the token is valid, false otherwise.
   /// May throw a RequestException.
-  Future<User> verifyToken() async {
-    ProviderResponse response;
+  Future<User> validateToken() async {
     try {
-      response = await Provider().getSecure('/auth/validate').timeout(const Duration(seconds: 5));
-    } on TimeoutException catch (_) {
-      throw RequestException(500, 'Le serveur a mis trop de temps à répondre.');
-    } on TokenException catch (_) {
-      throw RequestException(401, 'Token invalide.');
-    } on ClientException catch (_) {
-      return throw RequestException(500, 'Une erreur est survenue lors de la connexion au serveur. Merci de réessayer plus tard.');
-    }
-
-    switch (response.statusCode) {
-      case 200:
-        return User.fromJson(response.data['user']);
-      case 401:
-        return throw RequestException(response.statusCode, 'Token invalide');
-      case 404:
-        return throw RequestException(
-          response.statusCode,
-          'Utilisateur introuvable.',
-        );
-      default:
-        return throw RequestException(response.statusCode, 'Erreur serveur');
+      final response = await Provider.getSecure('/auth/validate');
+      User user = User.fromJson(response['user']);
+      User.setCurrentUserInstance(user);
+      return user;
+    } on NetworkException catch (e) {
+      if (e.networkError == NetworkErrorEnum.unauthorized) {
+        TokenUtils.removeToken();
+        User.removeCurrentUserInstance();
+      }
+      rethrow;
     }
   }
 }

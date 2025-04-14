@@ -1,100 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:projet_picsou/controllers/home_controller.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
-import 'package:projet_picsou/models/friend.dart';
 import 'package:projet_picsou/widgets/conversation/conversation_button_list_widget.dart';
-import '../widgets/conversation/conversation_glance_widget.dart';
-import '../widgets/finance/balance_widget.dart';
+import 'package:provider/provider.dart';
+import '../widgets/ui/popup.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
   @override
-  _HomeViewState createState() => _HomeViewState();
+  State<HomeView> createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  bool _isConversationGlanceVisible = false;
-  Friend? _conversationGlanceFriend;
-
-  late AnimationController _globalController;
-  late AnimationController _glanceController;
-
-  late Animation<Offset> _balanceOffsetAnimation;
-  late Animation<Offset> _conversationListOffsetAnimation;
-  late Animation<Offset> _glanceOffsetAnimation;
-
-  void _toggleConversationGlance(Friend friend) {
-    HapticFeedback.selectionClick();
-    _glanceController.forward();
-
-    setState(() {
-      _conversationGlanceFriend = friend;
-      _isConversationGlanceVisible = true;
-    });
-  }
-
-  void _closeConversationGlance() {
-    _glanceController.reverse().then((_) {
-      setState(() {
-        _isConversationGlanceVisible = false;
-        _conversationGlanceFriend = null;
-      });
-    });
-  }
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
     super.initState();
-
-    _globalController = AnimationController(
-      duration: const Duration(milliseconds: 600),
-      vsync: this,
-    );
-
-    _glanceController = AnimationController(
-      duration: const Duration(milliseconds: 600),
-      vsync: this,
-    );
-
-    _balanceOffsetAnimation = Tween<Offset>(
-      begin: const Offset(0.0, 0.8),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _globalController,
-      curve: Curves.decelerate,
-    ));
-
-    _conversationListOffsetAnimation = Tween<Offset>(
-      begin: const Offset(0.0, 1.0),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _globalController,
-      curve: Curves.decelerate,
-    ));
-
-    _glanceOffsetAnimation = Tween<Offset>(
-      begin: const Offset(0.0, 1.0),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _glanceController,
-      curve: Curves.decelerate,
-    ));
-
-    _globalController.forward();
-  }
-
-  @override
-  void dispose() {
-    _globalController.dispose();
-    _glanceController.dispose();
-    super.dispose();
+    final controller = Provider.of<HomeController>(context, listen: false);
+    controller.initAnimations(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.getUserBalance();
+      controller.getCurrentUser();
+      controller.animationsController.forward();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context); // Nécessaire pour AutomaticKeepAliveClientMixin
+    final homeController = context.watch<HomeController>();
 
     return Stack(
       children: [
@@ -105,10 +44,10 @@ class _HomeViewState extends State<HomeView>
             children: [
               Row(
                 children: [
-                  const Padding(
+                   Padding(
                     padding: EdgeInsets.fromLTRB(15, 75, 15, 20),
                     child: Text(
-                      'Bonjour, Maël',
+                      'Bonjour, ${homeController.currentUser?.firstName ?? 'Utilisateur'}',
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
@@ -120,53 +59,58 @@ class _HomeViewState extends State<HomeView>
               ),
               Expanded(
                 child: SlideTransition(
-                  position: _balanceOffsetAnimation,
-                  child:  Container(
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(40),
-                          topRight: Radius.circular(40),
-                        ),
-                        color: backgroundVariantColor,
+                  position: homeController.firstOffsetAnimation,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(40),
+                        topRight: Radius.circular(40),
                       ),
-                      child: Column(
-                        children: [
-                          Padding(
-                              padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
-                              child:  BalanceWidget()
-                          ),
-                          Expanded(
-                            child: SlideTransition(
-                              position: _conversationListOffsetAnimation,
-                              child: ConversationButtonListWidget(
-                                onConversationButtonPressed:
-                                _toggleConversationGlance,
+                      color: backgroundVariantColor,
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
+                          child: homeController.isLoading ?
+                            LoadingAnimationWidget.inkDrop(
+                              color: foregroundColor,
+                              size: 30,
+                            ) :
+                          Text(
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 40,
+                                  color: foregroundColor
                               ),
-                            ),
+                              homeController.userBalance > 0 ? '+ ${homeController.userBalance} €' : '- ${homeController.userBalance} €'
+                          )
+                        ),
+                        Expanded(
+                          child: SlideTransition(
+                            position: homeController.secondOffsetAnimation,
+                            child: ConversationButtonListWidget(),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-
+              ),
             ],
           ),
         ),
-        if (_isConversationGlanceVisible && _conversationGlanceFriend != null)
-          Positioned.fill(
-            child: SlideTransition(
-              position: _glanceOffsetAnimation,
-              child: ConversationGlanceWidget(
-                friend: _conversationGlanceFriend!,
-                closeFunction: _closeConversationGlance,
-              ),
-            ),
-          ),
+
+        PopupWidget(
+          show: homeController.showPopup,
+          title: homeController.popupTitle ?? "",
+          content: homeController.popupContent ?? "",
+          imageSrc: homeController.popupImage,
+          onClosePressed: () {
+            homeController.closePopup();
+          }
+        ),
       ],
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

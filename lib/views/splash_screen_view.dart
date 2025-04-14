@@ -22,7 +22,10 @@ class SplashScreenView extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset("images/exchange_money.png"),
+                    Image.asset(
+                        height: 300,
+                        "images/rich.png"
+                    ),
                     SizedBox(height: 20),
                     Text(
                       textAlign: TextAlign.center,

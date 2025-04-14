@@ -1,3 +1,5 @@
+import 'package:projet_picsou/exceptions/not_logged_in_exception.dart';
+
 class User {
 
   final int id;
@@ -56,6 +58,13 @@ class User {
     };
   }
 
+  static bool checkNameFormat(String? name) {
+    if (name == null || name.isEmpty || name.length < 2 || name.length > 50 || name.contains(" ")) {
+      return false;
+    }
+    return true;
+  }
+
   static bool checkEmailFormat(String? email) {
     if (email == null || email.isEmpty) {
       return false;
@@ -78,7 +87,7 @@ class User {
   }
   static User getCurrentUserInstance() {
     if (_currentUser == null) {
-      throw Exception('No user have been set. This meen you are using this app without being logged in');
+      throw NotLoggedInException('No user have been set. This meen you are using this app without being logged in');
     }
     return _currentUser!;
   }

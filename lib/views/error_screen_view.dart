@@ -5,7 +5,8 @@ import 'package:restart_app/restart_app.dart';
 
 class ErrorScreenView extends StatelessWidget {
   final String errorMessage;
-  const ErrorScreenView(this.errorMessage, {super.key});
+  final String image;
+  const ErrorScreenView({required this.errorMessage,this.image = "images/wondering.png", super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class ErrorScreenView extends StatelessWidget {
                       ButtonWidget(
                         message: "Redemarrer l'application",
                         icon: Icons.refresh,
-                        backgroundColor: foregroundVariantColor,
+                        buttonBackgroundColor: foregroundVariantColor,
                         textColor: backgroundColor,
                         onPressed: () {
                           Restart.restartApp();

@@ -12,8 +12,25 @@ class MeController with ChangeNotifier {
   String? popupImage;
   bool isLoading = false;
   String? error;
+  late AnimationController animationsController;
+  late Animation<Offset> offsetAnimation;
 
   MeController();
+
+  void initAnimations(TickerProvider vsync) {
+    animationsController = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: vsync,
+    );
+
+    offsetAnimation = Tween<Offset>(
+      begin: const Offset(0.0, 1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: animationsController,
+      curve: Curves.decelerate,
+    ));
+  }
 
   Future<void> logout() async {
     HapticFeedback.mediumImpact();

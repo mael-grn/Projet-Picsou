@@ -118,30 +118,34 @@ class _PopupWidgetState extends State<PopupWidget>
                 child: Stack(
                   children: [
                     SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          if (widget.imageSrc != null)
-                            Image.asset(
-                              widget.imageSrc!,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                              height: 300,
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(height: 100),
+                            if (widget.imageSrc != null)
+                              Image.asset(
+                                widget.imageSrc!,
+                                width: 200,
+                                fit: BoxFit.contain,
+                                height: 200,
+                              ),
+                            SizedBox(height: 20),
+                            Text(
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              widget.title,
                             ),
-                          SizedBox(height: 20),
-                          Text(
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            widget.title,
-                          ),
-                          SizedBox(height: 10),
-                          Text(textAlign: TextAlign.center, widget.content),
-                        ],
-                      ),
+                            SizedBox(height: 10),
+                            Text(textAlign: TextAlign.center, widget.content),
+                          ],
+                        ),
+                      )
                     ),
 
                     if (widget.buttons != null)
@@ -158,7 +162,7 @@ class _PopupWidgetState extends State<PopupWidget>
                         left: 0,
                         right: 0,
                         child: Container(
-                          padding: EdgeInsets.all(20),
+                          padding: EdgeInsets.all(10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [

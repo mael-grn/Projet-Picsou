@@ -37,7 +37,7 @@ class _EntryPointViewState extends State<EntryPointView> {
           entryPointController.isLoading ?
           LoadingSceenView() :
           entryPointController.page ??
-              ErrorScreenView(entryPointController.error ?? "Une erreur est survenue. Essayez de relancer l'application.")
+              ErrorScreenView( image: entryPointController.errorImage ?? "images/wondering.png", errorMessage: entryPointController.error ?? "Une erreur est survenue. Essayez de relancer l'application.")
       ),
     );
   }
