@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
 import 'package:projet_picsou/views/splash_screen_view.dart';
 import 'package:projet_picsou/widgets/ui/button_widget.dart';
+import 'package:projet_picsou/widgets/ui/fast_popup_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../controllers/me_controller.dart';
 import '../models/user.dart';
-import '../widgets/ui/popup.dart';
 
 class MeView extends StatefulWidget {
   const MeView({super.key});
@@ -79,7 +79,7 @@ class _MeViewState extends State<MeView>
           ),
         ),
 
-        PopupWidget(
+        FastPopupWidget(
           show: meController.showPopup,
           title: meController.popupTitle ?? "",
           content: meController.popupContent ?? "",

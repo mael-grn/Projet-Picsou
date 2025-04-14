@@ -3,11 +3,11 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:projet_picsou/controllers/login_controller.dart';
 import 'package:projet_picsou/views/register_view.dart';
 import 'package:projet_picsou/widgets/global_layout.dart';
-import 'package:projet_picsou/widgets/ui/TextFieldWidget.dart';
+import 'package:projet_picsou/widgets/ui/Text_field_widget.dart';
 import 'package:projet_picsou/widgets/ui/button_widget.dart';
+import 'package:projet_picsou/widgets/ui/fast_popup_widget.dart';
 import 'package:provider/provider.dart';
 import '../core/theme/app_theme.dart';
-import '../widgets/ui/popup.dart';
 
 class LoginView extends StatefulWidget {
   LoginView({super.key});
@@ -97,7 +97,7 @@ class _LoginViewState extends State<LoginView> {
             )
           ),
 
-          PopupWidget(
+          FastPopupWidget(
             show: loginController.showPopup,
             title: loginController.popupTitle ?? "",
             content: loginController.popupContent ?? "",

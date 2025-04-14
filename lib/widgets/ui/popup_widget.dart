@@ -1,24 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
 
-import 'button_widget.dart';
-
 class PopupWidget extends StatefulWidget {
   final bool show;
   final Function? onClosePressed;
-  final String title;
-  final String content;
-  final String? imageSrc;
-  final List<ButtonWidget>? buttons;
   final bool showCloseButton;
+  final List<Widget> children;
 
   const PopupWidget({
-    required this.title,
-    required this.content,
     required this.show,
     this.onClosePressed,
-    this.imageSrc,
-    this.buttons,
+    required this.children,
     this.showCloseButton = true,
     super.key,
   });
@@ -125,36 +117,11 @@ class _PopupWidgetState extends State<PopupWidget>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(height: 100),
-                            if (widget.imageSrc != null)
-                              Image.asset(
-                                widget.imageSrc!,
-                                width: 200,
-                                fit: BoxFit.contain,
-                                height: 200,
-                              ),
-                            SizedBox(height: 20),
-                            Text(
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              widget.title,
-                            ),
-                            SizedBox(height: 10),
-                            Text(textAlign: TextAlign.center, widget.content),
-                          ],
+                            ...widget.children
+                            ],
                         ),
                       )
                     ),
-
-                    if (widget.buttons != null)
-                      Positioned(
-                        bottom: 30,
-                        left: 0,
-                        right: 0,
-                        child: Column(children: widget.buttons!),
-                      ),
 
                     if (widget.showCloseButton)
                       Positioned(

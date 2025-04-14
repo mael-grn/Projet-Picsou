@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:projet_picsou/views/login_view.dart';
 import 'package:projet_picsou/widgets/global_layout.dart';
-import 'package:projet_picsou/widgets/ui/TextFieldWidget.dart';
+import 'package:projet_picsou/widgets/ui/Text_field_widget.dart';
+import 'package:projet_picsou/widgets/ui/fast_popup_widget.dart';
 import 'package:provider/provider.dart';
 import '../controllers/register_controller.dart';
 import '../core/theme/app_theme.dart';
 import '../widgets/ui/button_widget.dart';
-import '../widgets/ui/popup.dart';
+import '../widgets/ui/popup_widget.dart';
 
 class RegisterView extends StatefulWidget {
   RegisterView({super.key});
@@ -114,7 +115,7 @@ class _RegisterViewState extends State<RegisterView> {
             )
           ),
 
-          PopupWidget(
+          FastPopupWidget(
             show: registerController.showPopup,
             title: registerController.popupTitle ?? "",
             content: registerController.popupContent ?? "",

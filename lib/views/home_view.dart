@@ -3,8 +3,9 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:projet_picsou/controllers/home_controller.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
 import 'package:projet_picsou/widgets/conversation/conversation_button_list_widget.dart';
+import 'package:projet_picsou/widgets/ui/fast_popup_widget.dart';
 import 'package:provider/provider.dart';
-import '../widgets/ui/popup.dart';
+import '../widgets/ui/popup_widget.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -101,7 +102,7 @@ class _HomeViewState extends State<HomeView>
           ),
         ),
 
-        PopupWidget(
+        FastPopupWidget(
           show: homeController.showPopup,
           title: homeController.popupTitle ?? "",
           content: homeController.popupContent ?? "",
