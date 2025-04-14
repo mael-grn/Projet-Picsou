@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:projet_picsou/exceptions/token_exception.dart';
 import '../enums/network_error_enum.dart';
 import '../exceptions/request_exception.dart';
 import '../models/user.dart';

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:projet_picsou/exceptions/request_exception.dart';
 import 'package:projet_picsou/services/friend_service.dart';
-import 'package:projet_picsou/utils/token_utils.dart';
-import 'package:restart_app/restart_app.dart';
 import '../models/payment.dart';
 import '../models/user.dart';
 
