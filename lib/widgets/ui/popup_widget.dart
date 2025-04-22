@@ -23,6 +23,8 @@ class _PopupWidgetState extends State<PopupWidget>
     with TickerProviderStateMixin {
   late AnimationController _popupController;
   late Animation<Offset> _popupAnimation;
+  late AnimationController _backgroundController;
+  late Animation<double> _backgroundAnimation;
   bool _isVisibleInTree = false;
 
   @override
@@ -41,10 +43,21 @@ class _PopupWidgetState extends State<PopupWidget>
       CurvedAnimation(parent: _popupController, curve: Curves.decelerate),
     );
 
+    _backgroundController = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+
+    _backgroundAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(_backgroundController);
+
     // Démarrer l'animation et marquer comme visible si show est true
     if (widget.show) {
       _isVisibleInTree = true;
       _popupController.forward();
+      _backgroundController.forward();
     }
   }
 
@@ -56,8 +69,10 @@ class _PopupWidgetState extends State<PopupWidget>
         _isVisibleInTree = true;
       });
       _popupController.forward();
+      _backgroundController.forward();
     } else if (!widget.show && oldWidget.show) {
-      _popupController.reverse().then((_) {
+      _popupController.reverse();
+      _backgroundController.reverse().then((_) {
         if (!mounted) return;
         setState(() {
           _isVisibleInTree = false;
@@ -69,6 +84,7 @@ class _PopupWidgetState extends State<PopupWidget>
   @override
   void dispose() {
     _popupController.dispose();
+    _backgroundController.dispose();
     super.dispose();
   }
 
@@ -84,23 +100,22 @@ class _PopupWidgetState extends State<PopupWidget>
               left: 0,
               right: 0,
               bottom: 0,
-              child: AnimatedOpacity(
-                opacity: widget.show ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 600),
-                child: Container(color: Color(0xC0000000)),
+              child: FadeTransition( // Utilisez FadeTransition pour l'animation d'opacité
+                opacity: _backgroundAnimation,
+                child: Container(color: const Color(0xC0000000)),
               ),
             ),
 
             SlideTransition(
               position: _popupAnimation,
               child: Container(
-                margin: EdgeInsets.only(top: 100),
+                margin: const EdgeInsets.only(top: 100),
                 height: double.infinity,
                 width: double.infinity,
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(40),
                     topRight: Radius.circular(40),
                   ),
@@ -110,17 +125,18 @@ class _PopupWidgetState extends State<PopupWidget>
                 child: Stack(
                   children: [
                     SingleChildScrollView(
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(height: 100),
-                            ...widget.children
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const SizedBox(height: 100),
+                              ...widget.children,
+                              const SizedBox(height: 100),
                             ],
-                        ),
-                      )
+                          ),
+                        )
                     ),
 
                     if (widget.showCloseButton)
@@ -129,7 +145,7 @@ class _PopupWidgetState extends State<PopupWidget>
                         left: 0,
                         right: 0,
                         child: Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -140,7 +156,7 @@ class _PopupWidgetState extends State<PopupWidget>
                                     foregroundVariantColor,
                                   ),
                                   padding: WidgetStateProperty.all(
-                                    EdgeInsets.all(10),
+                                    const EdgeInsets.all(10),
                                   ),
                                   shape: WidgetStateProperty.all(
                                     RoundedRectangleBorder(

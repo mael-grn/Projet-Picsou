@@ -47,13 +47,13 @@ class User {
     return {
       'id': id,
       'first_name': firstName,
-      'las_name': lastName,
+      'last_name': lastName,
       'email': email,
       'tel': tel,
+      'rib': rib,
       'email_paypal': emailPaypal,
       'tel_wero': telWero,
-      'rib': rib,
-      'profil_picture_ref': profilPictureRef,
+      'profil_pict_ref': profilPictureRef,
       'password': password,
     };
   }

@@ -24,16 +24,21 @@ void main() async {
     statusBarIconBrightness: Brightness.dark, // Pour des icônes noires sur fond clair
   ));
 
+  final userService = UserService();
+  final authService = AuthService();
+  final groupService = GroupService();
+  final friendService = FriendService();
+
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => EntryPointController(AuthService())),
-        ChangeNotifierProvider(create: (_) => ConversationListController(GroupService())),
-        ChangeNotifierProvider(create: (_) => FriendConversationController(FriendService())),
-        ChangeNotifierProvider(create: (_) => HomeController(UserService())),
-        ChangeNotifierProvider(create: (_) => LoginController(AuthService())),
-        ChangeNotifierProvider(create: (_) => RegisterController(AuthService())),
-        ChangeNotifierProvider(create: (_) => MeController()),
+        ChangeNotifierProvider(create: (_) => EntryPointController(authService)),
+        ChangeNotifierProvider(create: (_) => ConversationListController(groupService)),
+        ChangeNotifierProvider(create: (_) => FriendConversationController(friendService)),
+        ChangeNotifierProvider(create: (_) => HomeController(userService)),
+        ChangeNotifierProvider(create: (_) => LoginController(authService)),
+        ChangeNotifierProvider(create: (_) => RegisterController(authService)),
+        ChangeNotifierProvider(create: (_) => MeController(userService)),
       ],
       child: EntryPointView()
     ),
