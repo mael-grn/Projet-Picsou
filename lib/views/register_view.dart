@@ -23,6 +23,16 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     final registerController = context.watch<RegisterController>();
 
+    // Redirection automatique si la connexion a réussi
+    if (registerController.user != null && registerController.error == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => GlobalLayout()),
+        );
+      });
+    }
+
     return Scaffold(
       body: Stack(
         children: [

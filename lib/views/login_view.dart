@@ -9,18 +9,31 @@ import 'package:projet_picsou/widgets/ui/fast_popup_widget.dart';
 import 'package:provider/provider.dart';
 import '../core/theme/app_theme.dart';
 
+
 class LoginView extends StatefulWidget {
   LoginView({super.key});
   final _formKey = GlobalKey<FormState>();
 
   @override
   State<LoginView> createState() => _LoginViewState();
+
+
 }
 
 class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     final loginController = context.watch<LoginController>();
+
+    // Redirection automatique si la connexion a réussi
+    if (loginController.user != null && loginController.error == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => GlobalLayout()),
+        );
+      });
+    }
 
     return Scaffold(
       body: Stack(
@@ -113,8 +126,9 @@ class _LoginViewState extends State<LoginView> {
         backgroundColor: foregroundColor,
         onPressed:
             () => {
-              if (!loginController.isLoading && loginController.user == null)
-                {loginController.submitForm(widget._formKey)}
+              if (!loginController.isLoading && loginController.user == null) {
+                loginController.submitForm(widget._formKey)
+              }
               else if (!loginController.isLoading &&
                   loginController.user != null &&
                   loginController.error == null)

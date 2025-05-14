@@ -29,6 +29,7 @@ class LoginController with ChangeNotifier {
   }
 
   void submitForm(GlobalKey<FormState> formKey) {
+
     HapticFeedback.mediumImpact();
 
     String email = emailController.text;
@@ -70,10 +71,6 @@ class LoginController with ChangeNotifier {
 
     try {
       user = await authService.login(email, password);
-      popupTitle = "Bravo !";
-      popupContent = "Vous vous êtes souvenu de votre mot de passe, c'est pas donné à tout le monde.";
-      popupImage = "images/thumbs_up.png";
-      showPopup = true;
     }  on NetworkException catch (e) {
       if (e.networkError == NetworkErrorEnum.unauthorized || e.networkError == NetworkErrorEnum.notFound) {
         error = "Email ou mot de passe incorrect";
