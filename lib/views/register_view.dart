@@ -3,12 +3,11 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:projet_picsou/views/login_view.dart';
 import 'package:projet_picsou/widgets/global_layout.dart';
 import 'package:projet_picsou/widgets/ui/Text_field_widget.dart';
-import 'package:projet_picsou/widgets/ui/fast_popup_widget.dart';
 import 'package:provider/provider.dart';
 import '../controllers/register_controller.dart';
 import '../core/theme/app_theme.dart';
 import '../widgets/ui/button_widget.dart';
-import '../widgets/ui/popup_widget.dart';
+import '../dialogs/alert_dialog_builder.dart';
 
 class RegisterView extends StatefulWidget {
   RegisterView({super.key});
@@ -23,6 +22,11 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     final registerController = context.watch<RegisterController>();
 
+    if (registerController.showPopup) {
+      registerController.showPopup = false;
+      DialogBuilder.warning(context, registerController.popupTitle ?? "", registerController.popupContent ?? "");
+    }
+
     // Redirection automatique si la connexion a réussi
     if (registerController.user != null && registerController.error == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -34,108 +38,93 @@ class _RegisterViewState extends State<RegisterView> {
     }
 
     return Scaffold(
-      body: Stack(
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(30, 100, 30, 30),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Image.asset(
-                      height: 200,
-                      width: 200,
-                      "images/register.png"
-                  ),
-                  SizedBox(height: 10),
-                  Text(
+      body: Padding(
+          padding: EdgeInsets.fromLTRB(30, 100, 30, 30),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Image.asset(
+                    height: 200,
+                    width: 200,
+                    "images/register.png"
+                ),
+                SizedBox(height: 10),
+                Text(
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                  "Créer un compte",
+                ),
+                SizedBox(height: 10),
+                Text(
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                    "Créer un compte",
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                      textAlign: TextAlign.center,
-                      "Déjà membre de la communauté Picsou ?"
-                  ),
-                  SizedBox(height: 10),
+                    "Déjà membre de la communauté Picsou ?"
+                ),
+                SizedBox(height: 10),
 
-                  ButtonWidget(
-                    size: ButtonWidgetSize.small,
-                    buttonBackgroundColor: secondaryColor,
-                    textColor: foregroundColor,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LoginView(),
-                        ),
-                      );
-                    },
-                    message: "Se connecter",
-                  ),
+                ButtonWidget(
+                  size: ButtonWidgetSize.small,
+                  buttonBackgroundColor: secondaryColor,
+                  textColor: foregroundColor,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginView(),
+                      ),
+                    );
+                  },
+                  message: "Se connecter",
+                ),
 
-                  SizedBox(height: 20),
+                SizedBox(height: 20),
 
-                  Form(
-                    key: widget._formKey,
-                    child: Column(
-                      children: [
-                        TextFieldWidget(
-                          labelText: 'Nom',
-                          controller: registerController.lastNameController,
+                Form(
+                  key: widget._formKey,
+                  child: Column(
+                    children: [
+                      TextFieldWidget(
+                        labelText: 'Nom',
+                        controller: registerController.lastNameController,
 
-                          validator: registerController.lastNameValidator,
-                        ),
-                        const SizedBox(height: 16.0),
-                        TextFieldWidget(
-                          controller: registerController.firstNameController,
-                          labelText: 'Prénom',
-                          validator: registerController.firstNameValidator,
-                        ),
-                        const SizedBox(height: 16.0),
-                        TextFieldWidget(
-                          controller: registerController.emailController,
-                          labelText: 'Email',
-                          keyboardType: TextInputType.emailAddress,
-                          validator: registerController.emailValidator,
-                        ),
-                        const SizedBox(height: 16.0),
-                        TextFieldWidget(
-                          controller: registerController.passwordController,
-                          obscureText: registerController.hidePassword,
-                          labelText: 'Mot de passe',
-                          suffixIcon: IconButton(
-                            color: foregroundColor,
-                            icon: Icon(
-                              registerController.hidePassword
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                            ),
-                            onPressed: registerController.togglePasswordVisibility,
+                        validator: registerController.lastNameValidator,
+                      ),
+                      const SizedBox(height: 16.0),
+                      TextFieldWidget(
+                        controller: registerController.firstNameController,
+                        labelText: 'Prénom',
+                        validator: registerController.firstNameValidator,
+                      ),
+                      const SizedBox(height: 16.0),
+                      TextFieldWidget(
+                        controller: registerController.emailController,
+                        labelText: 'Email',
+                        keyboardType: TextInputType.emailAddress,
+                        validator: registerController.emailValidator,
+                      ),
+                      const SizedBox(height: 16.0),
+                      TextFieldWidget(
+                        controller: registerController.passwordController,
+                        obscureText: registerController.hidePassword,
+                        labelText: 'Mot de passe',
+                        suffixIcon: IconButton(
+                          color: foregroundColor,
+                          icon: Icon(
+                            registerController.hidePassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
                           ),
-                          validator: registerController.passwordValidator,
+                          onPressed: registerController.togglePasswordVisibility,
                         ),
-                      ],
-                    ),
+                        validator: registerController.passwordValidator,
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 100),
-                ],
-              ),
-            )
-          ),
-
-          FastPopupWidget(
-            show: registerController.showPopup,
-            title: registerController.popupTitle ?? "",
-            content: registerController.popupContent ?? "",
-            imageSrc: registerController.popupImage,
-            onClosePressed: () {
-              registerController.closePopup();
-            },
-          ),
-
-        ],
+                ),
+                SizedBox(height: 100),
+              ],
+            ),
+          )
       ),
 
       floatingActionButton: FloatingActionButton.extended(

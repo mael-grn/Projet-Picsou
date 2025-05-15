@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
-import 'package:projet_picsou/views/splash_screen_view.dart';
 import 'package:projet_picsou/widgets/ui/button_widget.dart';
-import 'package:projet_picsou/widgets/ui/fast_popup_widget.dart';
-import 'package:projet_picsou/widgets/ui/popup_widget.dart';
+import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:provider/provider.dart';
-
 import '../controllers/me_controller.dart';
-import '../models/user.dart';
 
 class MeView extends StatefulWidget {
   const MeView({super.key});
@@ -34,6 +30,11 @@ class _MeViewState extends State<MeView>
   Widget build(BuildContext context) {
     super.build(context);
     final meController = context.watch<MeController>();
+
+    if (meController.showPopup) {
+      meController.showPopup = false;
+      DialogBuilder.warning(context, meController.popupTitle ?? "", meController.popupContent ?? "");
+    }
 
     return Stack(
       children: [
@@ -104,7 +105,7 @@ class _MeViewState extends State<MeView>
                                       IconButton(
                                           color: foregroundColor,
                                           iconSize: 20,
-                                          onPressed: meController.onEditFirstNameClick,
+                                          onPressed: () => DialogBuilder.warning(context, "En travaux", "La fonctionnalité n'est pas encore disponible"),
                                           icon: Icon(Icons.edit)
                                       )
                                     ]
@@ -135,7 +136,7 @@ class _MeViewState extends State<MeView>
                                       IconButton(
                                           color: foregroundColor,
                                           iconSize: 20,
-                                          onPressed: meController.onEditLastNameClick,
+                                          onPressed: () => DialogBuilder.warning(context, "En travaux", "La fonctionnalité n'est pas encore disponible"),
                                           icon: Icon(Icons.edit)
                                       )
                                     ]
@@ -167,7 +168,7 @@ class _MeViewState extends State<MeView>
                                       IconButton(
                                           color: foregroundColor,
                                           iconSize: 20,
-                                          onPressed: meController.onEditEmailClick,
+                                          onPressed: () => DialogBuilder.warning(context, "En travaux", "La fonctionnalité n'est pas encore disponible"),
                                           icon: Icon(Icons.edit)
                                       )
                                     ]
@@ -204,7 +205,7 @@ class _MeViewState extends State<MeView>
                                       IconButton(
                                           color: foregroundColor,
                                           iconSize: 20,
-                                          onPressed: meController.onEditTelClick,
+                                          onPressed: () => DialogBuilder.warning(context, "En travaux", "La fonctionnalité n'est pas encore disponible"),
                                           icon: Icon(Icons.edit)
                                       )
                                     ]
@@ -248,7 +249,7 @@ class _MeViewState extends State<MeView>
                                       IconButton(
                                           color: foregroundColor,
                                           iconSize: 20,
-                                          onPressed: meController.onEditPaypalClick,
+                                          onPressed: () => DialogBuilder.warning(context, "En travaux", "La fonctionnalité n'est pas encore disponible"),
                                           icon: Icon(Icons.edit)
                                       )
                                     ]
@@ -279,7 +280,7 @@ class _MeViewState extends State<MeView>
                                       IconButton(
                                           color: foregroundColor,
                                           iconSize: 20,
-                                          onPressed: meController.onEditWeroClick,
+                                          onPressed: () => DialogBuilder.warning(context, "En travaux", "La fonctionnalité n'est pas encore disponible"),
                                           icon: Icon(Icons.edit)
                                       )
                                     ]
@@ -316,7 +317,7 @@ class _MeViewState extends State<MeView>
                                       IconButton(
                                           color: foregroundColor,
                                           iconSize: 20,
-                                          onPressed: meController.onEditRibClick,
+                                          onPressed: () => DialogBuilder.warning(context, "En travaux", "La fonctionnalité n'est pas encore disponible"),
                                           icon: Icon(Icons.edit)
                                       )
                                     ]
@@ -344,22 +345,7 @@ class _MeViewState extends State<MeView>
           ),
         ),
 
-        PopupWidget(
-            show: meController.showPopup,
-            children: [meController.popupContent ?? Container()],
-            onClosePressed: meController.closePopup
 
-        ),
-
-        FastPopupWidget(
-          show: meController.showFastPopup,
-          title: meController.fastPopupTitle ?? "",
-          content: meController.fastPopupContent ?? "",
-          imageSrc: meController.fastPopupImage,
-          onClosePressed: () {
-            meController.closeFastPopup();
-          },
-        ),
       ],
     );
   }
