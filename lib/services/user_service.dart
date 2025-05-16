@@ -20,8 +20,14 @@ class UserService {
   }
 
   Future<User> updateUser(User user) async {
-    final response = await Provider.putSecure('/users/${user.id}', user.toJson());
-    return User.fromJson(response['user']);
+    try {
+      final response = await Provider.putSecure('/user/', user.toJson());
+      final newUser = User.fromJson(response);
+      User.setCurrentUserInstance(newUser);
+      return newUser;
+    } catch (_) {
+      rethrow;
+    }
   }
 
   Future<void> deleteUser(int userId) async {

@@ -115,10 +115,6 @@ class RegisterController with ChangeNotifier {
         profilPictureRef,
       );
       User.setCurrentUserInstance(user!);
-      popupTitle = "Bienvenu !";
-      popupContent = "Vous venez de vous inscrire sur Picsou. Cliquez sur continuer pour plonger dans un univers fascinant.";
-      popupImage = "images/thumbs_up.png";
-      showPopup = true;
     }  on NetworkException catch (e) {
       if (e.networkError.code == NetworkErrorEnum.conflict.code) {
         error = "Cet email est déjà utilisé";
