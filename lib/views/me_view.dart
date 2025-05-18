@@ -31,6 +31,10 @@ class _MeViewState extends State<MeView>
     super.build(context);
     final meController = context.watch<MeController>();
 
+    if (meController.user == null) {
+      return Center(child: CircularProgressIndicator());
+    }
+
     if (meController.showPopup) {
       meController.showPopup = false;
       DialogBuilder.warning(context, meController.popupTitle ?? "",
@@ -72,307 +76,175 @@ class _MeViewState extends State<MeView>
                         child: Column(
                           children: [
 
-                            Text(
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold),
-                                "Vos données"
+                            SizedBox(height: 15),
+
+                            Row(
+                              children: [Text(
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 20),
+                                  "Vos données"
+                              )]
                             ),
 
                             SizedBox(height: 5),
 
                             Container(
-                                padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(25),
-                                    topRight: Radius.circular(25),
-                                    bottomLeft: Radius.circular(5),
-                                    bottomRight: Radius.circular(5),
+                              width: double.infinity,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                color: backgroundVariantColor,
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(style: TextStyle(fontWeight: FontWeight.bold), "Prénom : "),
+                                      Text(
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        meController.user!.firstName,
+                                      ),
+                                    ],
                                   ),
-                                  color: backgroundVariantColor,
-                                ),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween,
+
+                                  SizedBox(height: 5),
+
+                                  Row(
                                     children: [
-                                      Expanded( // Important pour que Text puisse utiliser l'espace disponible
-                                        child: Text(
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                            "Prénom : ${meController.user
-                                                ?.firstName}",
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1
-                                        ),
+                                      Text(style: TextStyle(fontWeight: FontWeight.bold), "Nom : "),
+                                      Text(
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        meController.user!.lastName,
                                       ),
-                                      IconButton(
-                                          color: foregroundColor,
-                                          iconSize: 20,
-                                          onPressed: () =>
-                                              DialogBuilder.warning(
-                                                  context, "En travaux",
-                                                  "La fonctionnalité n'est pas encore disponible"),
-                                          icon: Icon(Icons.edit)
-                                      )
-                                    ]
-                                )
-                            ),
-
-                            SizedBox(height: 5),
-
-                            Container(
-                                padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(5)),
-                                  color: backgroundVariantColor,
-                                ),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                            "Nom : ${meController.user
-                                                ?.lastName}",
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1
-                                        ),
-                                      ),
-                                      IconButton(
-                                          color: foregroundColor,
-                                          iconSize: 20,
-                                          onPressed: () =>
-                                              DialogBuilder.warning(
-                                                  context, "En travaux",
-                                                  "La fonctionnalité n'est pas encore disponible"),
-                                          icon: Icon(Icons.edit)
-                                      )
-                                    ]
-                                )
-                            ),
-
-                            SizedBox(height: 5),
-
-                            Container(
-                                padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                                width: double.infinity,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(5)),
-                                  color: backgroundVariantColor,
-                                ),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                            "Email : ${meController.user
-                                                ?.email}",
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1
-                                        ),
-                                      ),
-                                      IconButton(
-                                          color: foregroundColor,
-                                          iconSize: 20,
-                                          onPressed: () =>
-                                              DialogBuilder.warning(
-                                                  context, "En travaux",
-                                                  "La fonctionnalité n'est pas encore disponible"),
-                                          icon: Icon(Icons.edit)
-                                      )
-                                    ]
-                                )
-                            ),
-
-                            SizedBox(height: 5),
-
-                            Container(
-                                padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                                width: double.infinity,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(5),
-                                    topRight: Radius.circular(5),
-                                    bottomLeft: Radius.circular(25),
-                                    bottomRight: Radius.circular(25),
+                                    ],
                                   ),
-                                  color: backgroundVariantColor,
-                                ),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween,
+
+                                  SizedBox(height: 5),
+
+                                  Row(
                                     children: [
-                                      Expanded(
-                                        child: Text(
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                            "Téléphone : ${meController.user
-                                                ?.tel}",
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1
-                                        ),
+                                      Text(style: TextStyle(fontWeight: FontWeight.bold), "Email : "),
+                                      Text(
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        meController.user!.email,
                                       ),
-                                      IconButton(
-                                          color: foregroundColor,
-                                          iconSize: 20,
-                                          onPressed: () =>
-                                              DialogBuilder.warning(
-                                                  context, "En travaux",
-                                                  "La fonctionnalité n'est pas encore disponible"),
-                                          icon: Icon(Icons.edit)
-                                      )
-                                    ]
-                                )
-                            ),
-
-                            SizedBox(height: 20),
-
-                            Text(
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold),
-                                "Vos informations de paiement"
-                            ),
-
-                            SizedBox(height: 5),
-
-                            Container(
-                                padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(25),
-                                    topRight: Radius.circular(25),
-                                    bottomLeft: Radius.circular(5),
-                                    bottomRight: Radius.circular(5),
+                                    ],
                                   ),
-                                  color: backgroundVariantColor,
-                                ),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween,
+
+                                  SizedBox(height: 5),
+
+                                  Row(
                                     children: [
-                                      Expanded( // Important pour que Text puisse utiliser l'espace disponible
-                                        child: Text(
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                            "Paypal : ${meController.user
-                                                ?.emailPaypal}",
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1
-                                        ),
+                                      Text(style: TextStyle(fontWeight: FontWeight.bold), "Téléphone : "),
+                                      Text(
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        meController.user?.tel ?? "Pas de numéro de téléphone",
                                       ),
-                                      IconButton(
-                                          color: foregroundColor,
-                                          iconSize: 20,
-                                          onPressed: () =>
-                                              DialogBuilder.warning(
-                                                  context, "En travaux",
-                                                  "La fonctionnalité n'est pas encore disponible"),
-                                          icon: Icon(Icons.edit)
-                                      )
-                                    ]
-                                )
-                            ),
-
-                            SizedBox(height: 5),
-
-                            Container(
-                                padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(5)),
-                                  color: backgroundVariantColor,
-                                ),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                            "Wero : ${meController.user
-                                                ?.telWero}",
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1
-                                        ),
-                                      ),
-                                      IconButton(
-                                          color: foregroundColor,
-                                          iconSize: 20,
-                                          onPressed: () =>
-                                              DialogBuilder.warning(
-                                                  context, "En travaux",
-                                                  "La fonctionnalité n'est pas encore disponible"),
-                                          icon: Icon(Icons.edit)
-                                      )
-                                    ]
-                                )
-                            ),
-
-                            SizedBox(height: 5),
-
-                            Container(
-                                padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                                width: double.infinity,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(5),
-                                    topRight: Radius.circular(5),
-                                    bottomLeft: Radius.circular(25),
-                                    bottomRight: Radius.circular(25),
+                                    ],
                                   ),
-                                  color: backgroundVariantColor,
-                                ),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                            "RIB : ${meController.user?.rib}",
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1
-                                        ),
-                                      ),
-                                      IconButton(
-                                          color: foregroundColor,
-                                          iconSize: 20,
-                                          onPressed: () =>
-                                              DialogBuilder.warning(
-                                                  context, "En travaux",
-                                                  "La fonctionnalité n'est pas encore disponible"),
-                                          icon: Icon(Icons.edit)
-                                      )
-                                    ]
-                                )
+
+                                  SizedBox(height: 5),
+
+                                  ButtonWidget(
+                                      message: "Modifier",
+                                      icon: Icons.edit,
+                                      onPressed: () =>
+                                      {
+                                        DialogBuilder.warning(
+                                          context,
+                                          "Pas trop vite !",
+                                          "Cette fonctionnalité n'est pas encore disponible, veuillez patenter encore quelques instants, Merci !",
+                                        )
+                                      }
+                                  ),
+                                ],
+                              ),
                             ),
 
-                            SizedBox(height: 20),
+                            SizedBox(height: 15),
+
+                            Row(
+                                children: [Text(
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold, fontSize: 20),
+                                    "Vos informations de paiement"
+                                )]
+                            ),
+
+                            SizedBox(height: 5),
+
+                            Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                color: backgroundVariantColor,
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(style: TextStyle(fontWeight: FontWeight.bold), "Paypal : "),
+                                      Text(
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        meController.user?.emailPaypal ?? "Pas de compte Paypal",
+                                      ),
+                                    ],
+                                  ),
+
+                                  SizedBox(height: 5),
+
+                                  Row(
+                                    children: [
+                                      Text(style: TextStyle(fontWeight: FontWeight.bold), "Wero : "),
+                                      Text(
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        meController.user?.telWero ?? "Pas de compte Wero",
+                                      ),
+                                    ],
+                                  ),
+
+                                  SizedBox(height: 5),
+
+                                  Row(
+                                    children: [
+                                      Text(style: TextStyle(fontWeight: FontWeight.bold), "Rib : "),
+                                      Text(
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        meController.user?.rib ?? "Pas de Rib",
+                                      ),
+                                    ],
+                                  ),
+
+                                  SizedBox(height: 5),
+
+                                  ButtonWidget(
+
+                                      message: "Modifier",
+                                      icon: Icons.edit,
+                                      onPressed: () =>
+                                      {
+                                        DialogBuilder.warning(
+                                          context,
+                                          "Pas trop vite !",
+                                          "Cette fonctionnalité n'est pas encore disponible, veuillez patenter encore quelques instants, Merci !",
+                                        )
+                                      }
+                                  ),
+                                ],
+                              )
+                            ),
+
+
+
+                            SizedBox(height: 35),
 
                             ButtonWidget(
                                 buttonBackgroundColor: Colors.redAccent,
