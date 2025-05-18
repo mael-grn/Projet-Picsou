@@ -18,6 +18,9 @@ class EditPersonalDataController with ChangeNotifier {
 
   void initUser() {
     try {
+      isLoading = true;
+      notifyListeners();
+
       user = User.getCurrentUserInstance();
       lastNameController.text = user!.lastName;
       firstNameController.text = user!.firstName;
@@ -25,6 +28,7 @@ class EditPersonalDataController with ChangeNotifier {
     } catch (e) {
       user = null;
     } finally {
+      isLoading = false;
       notifyListeners();
     }
   }
@@ -54,13 +58,14 @@ class EditPersonalDataController with ChangeNotifier {
       );
 
       try {
-        await userService.updateUser(newUser);
+        user = await userService.updateUser(newUser);
         userUpdated = true;
       } on NetworkException catch (e) {
-        this.error = e.networkError.message;
+        error = e.networkError.message;
       } catch (_) {
-        this.error = "Une erreur est survenue lors de la mise à jour de l'utilisateur.";
+        error = "Une erreur est survenue lors de la mise à jour de l'utilisateur.";
       } finally {
+        isLoading = false;
         notifyListeners();
       }
     }

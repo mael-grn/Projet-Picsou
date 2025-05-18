@@ -45,6 +45,7 @@ class DialogBuilder {
 
   static Future<void> loading(BuildContext context) {
     return showDialog<void>(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(

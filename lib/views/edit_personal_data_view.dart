@@ -31,7 +31,7 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>
     super.build(context);
     final controller = context.watch<EditPersonalDataController>();
 
-    if (controller.user == null || controller.isLoading) {
+    if (controller.isLoading) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         DialogBuilder.loading(context);
       });
@@ -50,7 +50,9 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>
 
     if (controller.userUpdated) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pop(context);
+        // Ferme la popup de chargement si elle est ouverte
+        Navigator.pop(context); // ferme la popup
+        Navigator.pop(context); // revient à la page précédente
       });
     }
 
