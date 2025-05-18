@@ -26,8 +26,10 @@ class _LoginViewState extends State<LoginView> {
     final loginController = context.watch<LoginController>();
 
     if (loginController.showPopup) {
-      loginController.showPopup = false;
-      DialogBuilder.warning(context, loginController.popupTitle ?? "", loginController.popupContent ?? "");
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        loginController.showPopup = false;
+        DialogBuilder.warning(context, loginController.popupTitle ?? "", loginController.popupContent ?? "");
+      });
     }
 
     // Redirection automatique si la connexion a réussi
