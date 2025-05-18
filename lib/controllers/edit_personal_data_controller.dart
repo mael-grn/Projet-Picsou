@@ -33,7 +33,11 @@ class EditPersonalDataController with ChangeNotifier {
     }
   }
 
-  Future<void> updateUser() async {
+  Future<void> updateUser(GlobalKey<FormState> formKey) async {
+
+    if (!formKey.currentState!.validate()) {
+    return;
+    }
 
     isLoading = true;
     notifyListeners();

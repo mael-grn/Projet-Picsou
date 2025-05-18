@@ -3,13 +3,14 @@ import 'package:projet_picsou/core/theme/app_theme.dart';
 import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:provider/provider.dart';
 import '../controllers/edit_personal_data_controller.dart';
+import '../controllers/home_controller.dart';
 import '../controllers/me_controller.dart';
 import '../models/user.dart';
 import '../widgets/ui/Text_field_widget.dart';
 
 class EditPersonalDataView extends StatefulWidget {
-  const EditPersonalDataView({super.key});
-
+  EditPersonalDataView({super.key});
+  final _formKey = GlobalKey<FormState>();
   @override
   _EditPersonalDataViewState createState() => _EditPersonalDataViewState();
 }
@@ -26,16 +27,26 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>
     });
   }
 
+  bool _isDialogOpen = false;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     final controller = context.watch<EditPersonalDataController>();
 
-    if (controller.isLoading) {
+    if (controller.isLoading && !_isDialogOpen) {
+      _isDialogOpen = true;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         DialogBuilder.loading(context);
       });
 
+    }
+
+    if (!controller.isLoading && _isDialogOpen) {
+      _isDialogOpen = false;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pop(context); // ferme la popup
+      });
     }
 
     if (controller.error != null) {
@@ -50,8 +61,11 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>
 
     if (controller.userUpdated) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        // Ferme la popup de chargement si elle est ouverte
-        Navigator.pop(context); // ferme la popup
+        controller.userUpdated = false;
+        final meController = Provider.of<MeController>(context, listen: false);
+        final homeController = Provider.of<HomeController>(context, listen: false);
+        meController.initUser();
+        homeController.getCurrentUser();
         Navigator.pop(context); // revient à la page précédente
       });
     }
@@ -68,34 +82,37 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>
       body: Container(
         padding: EdgeInsets.fromLTRB(30, 20, 30, 0),
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              TextFieldWidget(
-                controller: controller.firstNameController,
-                labelText: "Prénom",
-                validator: User.checkNameFormatValidator,
-              ),
-              SizedBox(height: 10),
-              TextFieldWidget(
-                controller: controller.lastNameController,
-                labelText: "Nom",
-                validator: User.checkNameFormatValidator,
-              ),
-              SizedBox(height: 10),
-              TextFieldWidget(
-                controller: controller.phoneController,
-                labelText: "Téléphone",
-                validator: User.checkTelFormatValidator,
-              ),
-            ],
-          ),
+          child: Form(
+            key: widget._formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                TextFieldWidget(
+                  controller: controller.firstNameController,
+                  labelText: "Prénom",
+                  validator: User.checkNameFormatValidator,
+                ),
+                SizedBox(height: 10),
+                TextFieldWidget(
+                  controller: controller.lastNameController,
+                  labelText: "Nom",
+                  validator: User.checkNameFormatValidator,
+                ),
+                SizedBox(height: 10),
+                TextFieldWidget(
+                  controller: controller.phoneController,
+                  labelText: "Téléphone",
+                  validator: User.checkTelFormatValidator,
+                ),
+              ],
+            ),
+          )
         ),
       ),
 
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          controller.updateUser();
+          controller.updateUser(widget._formKey);
         },
         label: Text(style: TextStyle(color: foregroundColor), "Valider"),
         icon: Icon(color: foregroundColor, Icons.save),
