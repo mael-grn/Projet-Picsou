@@ -1,9 +1,11 @@
 
 import 'package:flutter/material.dart';
-import 'package:projet_picsou/widgets/ui/Text_field_widget.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
+import '../core/theme/app_theme.dart';
 
 class DialogBuilder {
-  static Future<void> warning(BuildContext context, String title, String content) {
+  static Future<void> warning(BuildContext context, String title, String content, [Function? onCLose]) {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -29,10 +31,33 @@ class DialogBuilder {
             TextButton(
               child: const Text('Ok'),
               onPressed: () {
+                if (onCLose != null) {
+                  onCLose();
+                }
                 Navigator.of(context).pop();
               },
             ),
           ],
+        );
+      },
+    );
+  }
+
+  static Future<void> loading(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SizedBox(
+            width: 100,
+            height: 100,
+            child: Center(
+              child: LoadingAnimationWidget.inkDrop(
+                color: foregroundColor,
+                size: 20,
+              ),
+            )
+          )
         );
       },
     );

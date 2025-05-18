@@ -65,6 +65,9 @@ class User {
     return true;
   }
 
+  static String? checkNameFormatValidator(String? name) =>
+      checkNameFormat(name) ? null : "Le nom doit contenir entre 2 et 50 caractères et ne doit pas contenir d'espaces.";
+
   static bool checkEmailFormat(String? email) {
     if (email == null || email.isEmpty) {
       return false;
@@ -72,6 +75,20 @@ class User {
     final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
     return emailRegex.hasMatch(email);
   }
+
+  static String? checkEmailFormatValidator(String? email) =>
+      checkEmailFormat(email) ? null : "Veuillez entrer un email valide.";
+
+  static bool checkTelFormat(String? tel) {
+    if (tel == null || tel.isEmpty) {
+      return false;
+    }
+    final telRegex = RegExp(r'^\+?[0-9]{10,15}$');
+    return telRegex.hasMatch(tel);
+  }
+
+  static String? checkTelFormatValidator(String? tel) =>
+      checkTelFormat(tel) ? null : "Le numéro de téléphone doit contenir entre 10 et 15 chiffres.";
 
   static bool checkPasswordFormat(String? password) {
     if (password == null || password.isEmpty) {
@@ -81,6 +98,9 @@ class User {
         r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
     return passwordRegex.hasMatch(password);
   }
+
+  static String? checkPasswordFormatValidator(String? password) =>
+      checkPasswordFormat(password) ? null : "Le mot de passe doit contenir au moins 1 lettre majuscule, 1 lettre minuscule, 1 chiffre, 1 caractère spécial (@, \$, !, %, *, ?, &) et doit contenir au moins 8 caractères.";
 
   static setCurrentUserInstance(User user) {
     _currentUser = user;

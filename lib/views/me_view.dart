@@ -4,6 +4,7 @@ import 'package:projet_picsou/widgets/ui/button_widget.dart';
 import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:provider/provider.dart';
 import '../controllers/me_controller.dart';
+import 'edit_personal_data_view.dart';
 
 class MeView extends StatefulWidget {
   const MeView({super.key});
@@ -79,11 +80,13 @@ class _MeViewState extends State<MeView>
                             SizedBox(height: 15),
 
                             Row(
-                              children: [Text(
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 20),
-                                  "Vos données"
-                              )]
+                                children: [Text(
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                    "Vos données"
+                                )
+                                ]
                             ),
 
                             SizedBox(height: 5),
@@ -92,14 +95,17 @@ class _MeViewState extends State<MeView>
                               width: double.infinity,
                               padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(20)),
                                 color: backgroundVariantColor,
                               ),
                               child: Column(
                                 children: [
                                   Row(
                                     children: [
-                                      Text(style: TextStyle(fontWeight: FontWeight.bold), "Prénom : "),
+                                      Text(style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                          "Prénom : "),
                                       Text(
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
@@ -112,7 +118,9 @@ class _MeViewState extends State<MeView>
 
                                   Row(
                                     children: [
-                                      Text(style: TextStyle(fontWeight: FontWeight.bold), "Nom : "),
+                                      Text(style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                          "Nom : "),
                                       Text(
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
@@ -125,7 +133,9 @@ class _MeViewState extends State<MeView>
 
                                   Row(
                                     children: [
-                                      Text(style: TextStyle(fontWeight: FontWeight.bold), "Email : "),
+                                      Text(style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                          "Email : "),
                                       Text(
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
@@ -138,11 +148,14 @@ class _MeViewState extends State<MeView>
 
                                   Row(
                                     children: [
-                                      Text(style: TextStyle(fontWeight: FontWeight.bold), "Téléphone : "),
+                                      Text(style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                          "Téléphone : "),
                                       Text(
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        meController.user?.tel ?? "Pas de numéro de téléphone",
+                                        meController.user?.tel ??
+                                            "Pas de numéro de téléphone",
                                       ),
                                     ],
                                   ),
@@ -154,12 +167,11 @@ class _MeViewState extends State<MeView>
                                       icon: Icons.edit,
                                       onPressed: () =>
                                       {
-                                        DialogBuilder.warning(
-                                          context,
-                                          "Pas trop vite !",
-                                          "Cette fonctionnalité n'est pas encore disponible, veuillez patenter encore quelques instants, Merci !",
-                                        )
-                                      }
+                                      Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => EditPersonalDataView()),
+                                      )
+                                  }
                                   ),
                                 ],
                               ),
@@ -170,78 +182,89 @@ class _MeViewState extends State<MeView>
                             Row(
                                 children: [Text(
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold, fontSize: 20),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
                                     "Vos informations de paiement"
-                                )]
+                                )
+                                ]
                             ),
 
                             SizedBox(height: 5),
 
                             Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                color: backgroundVariantColor,
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(style: TextStyle(fontWeight: FontWeight.bold), "Paypal : "),
-                                      Text(
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        meController.user?.emailPaypal ?? "Pas de compte Paypal",
-                                      ),
-                                    ],
-                                  ),
+                                width: double.infinity,
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20)),
+                                  color: backgroundVariantColor,
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                            "Paypal : "),
+                                        Text(
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          meController.user?.emailPaypal ??
+                                              "Pas de compte Paypal",
+                                        ),
+                                      ],
+                                    ),
 
-                                  SizedBox(height: 5),
+                                    SizedBox(height: 5),
 
-                                  Row(
-                                    children: [
-                                      Text(style: TextStyle(fontWeight: FontWeight.bold), "Wero : "),
-                                      Text(
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        meController.user?.telWero ?? "Pas de compte Wero",
-                                      ),
-                                    ],
-                                  ),
+                                    Row(
+                                      children: [
+                                        Text(style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                            "Wero : "),
+                                        Text(
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          meController.user?.telWero ??
+                                              "Pas de compte Wero",
+                                        ),
+                                      ],
+                                    ),
 
-                                  SizedBox(height: 5),
+                                    SizedBox(height: 5),
 
-                                  Row(
-                                    children: [
-                                      Text(style: TextStyle(fontWeight: FontWeight.bold), "Rib : "),
-                                      Text(
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        meController.user?.rib ?? "Pas de Rib",
-                                      ),
-                                    ],
-                                  ),
+                                    Row(
+                                      children: [
+                                        Text(style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                            "Rib : "),
+                                        Text(
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          meController.user?.rib ??
+                                              "Pas de Rib",
+                                        ),
+                                      ],
+                                    ),
 
-                                  SizedBox(height: 5),
+                                    SizedBox(height: 5),
 
-                                  ButtonWidget(
+                                    ButtonWidget(
 
-                                      message: "Modifier",
-                                      icon: Icons.edit,
-                                      onPressed: () =>
-                                      {
-                                        DialogBuilder.warning(
-                                          context,
-                                          "Pas trop vite !",
-                                          "Cette fonctionnalité n'est pas encore disponible, veuillez patenter encore quelques instants, Merci !",
-                                        )
-                                      }
-                                  ),
-                                ],
-                              )
+                                        message: "Modifier",
+                                        icon: Icons.edit,
+                                        onPressed: () =>
+                                        {
+                                          DialogBuilder.warning(
+                                            context,
+                                            "Pas trop vite !",
+                                            "Cette fonctionnalité n'est pas encore disponible, veuillez patenter encore quelques instants, Merci !",
+                                          )
+                                        }
+                                    ),
+                                  ],
+                                )
                             ),
-
 
 
                             SizedBox(height: 35),

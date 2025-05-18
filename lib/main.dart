@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projet_picsou/controllers/conversation_list_controller.dart';
+import 'package:projet_picsou/controllers/edit_personal_data_controller.dart';
 import 'package:projet_picsou/controllers/entry_point_controller.dart';
 import 'package:projet_picsou/controllers/friend_conversation_controller.dart';
 import 'package:projet_picsou/controllers/home_controller.dart';
@@ -39,6 +40,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => LoginController(authService)),
         ChangeNotifierProvider(create: (_) => RegisterController(authService)),
         ChangeNotifierProvider(create: (_) => MeController(userService)),
+        ChangeNotifierProvider(create: (_) => EditPersonalDataController(userService)),
       ],
       child: EntryPointView()
     ),
