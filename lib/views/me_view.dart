@@ -33,7 +33,8 @@ class _MeViewState extends State<MeView>
 
     if (meController.showPopup) {
       meController.showPopup = false;
-      DialogBuilder.warning(context, meController.popupTitle ?? "", meController.popupContent ?? "");
+      DialogBuilder.warning(context, meController.popupTitle ?? "",
+          meController.popupContent ?? "");
     }
 
     return Stack(
@@ -48,7 +49,8 @@ class _MeViewState extends State<MeView>
               Text(
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                "${meController.user?.firstName} ${meController.user?.lastName}",
+                "${meController.user?.firstName} ${meController.user
+                    ?.lastName}",
                 overflow: TextOverflow.ellipsis, // Ajout de l'overflow
                 maxLines: 1, // Limite à une seule ligne
               ),
@@ -72,7 +74,8 @@ class _MeViewState extends State<MeView>
 
                             Text(
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontSize: 25, fontWeight: FontWeight.bold),
                                 "Vos données"
                             ),
 
@@ -91,13 +94,16 @@ class _MeViewState extends State<MeView>
                                   color: backgroundVariantColor,
                                 ),
                                 child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
                                     children: [
                                       Expanded( // Important pour que Text puisse utiliser l'espace disponible
                                         child: Text(
                                             textAlign: TextAlign.start,
-                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                                            "Prénom : ${meController.user?.firstName}",
+                                            style: TextStyle(fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                            "Prénom : ${meController.user
+                                                ?.firstName}",
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1
                                         ),
@@ -105,7 +111,10 @@ class _MeViewState extends State<MeView>
                                       IconButton(
                                           color: foregroundColor,
                                           iconSize: 20,
-                                          onPressed: () => DialogBuilder.warning(context, "En travaux", "La fonctionnalité n'est pas encore disponible"),
+                                          onPressed: () =>
+                                              DialogBuilder.warning(
+                                                  context, "En travaux",
+                                                  "La fonctionnalité n'est pas encore disponible"),
                                           icon: Icon(Icons.edit)
                                       )
                                     ]
@@ -118,17 +127,21 @@ class _MeViewState extends State<MeView>
                                 padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(Radius.circular(5)),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(5)),
                                   color: backgroundVariantColor,
                                 ),
                                 child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
                                     children: [
                                       Expanded(
                                         child: Text(
                                             textAlign: TextAlign.start,
-                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                                            "Nom : ${meController.user?.lastName}",
+                                            style: TextStyle(fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                            "Nom : ${meController.user
+                                                ?.lastName}",
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1
                                         ),
@@ -136,7 +149,10 @@ class _MeViewState extends State<MeView>
                                       IconButton(
                                           color: foregroundColor,
                                           iconSize: 20,
-                                          onPressed: () => DialogBuilder.warning(context, "En travaux", "La fonctionnalité n'est pas encore disponible"),
+                                          onPressed: () =>
+                                              DialogBuilder.warning(
+                                                  context, "En travaux",
+                                                  "La fonctionnalité n'est pas encore disponible"),
                                           icon: Icon(Icons.edit)
                                       )
                                     ]
@@ -150,17 +166,21 @@ class _MeViewState extends State<MeView>
                                 width: double.infinity,
                                 height: 60,
                                 decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(Radius.circular(5)),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(5)),
                                   color: backgroundVariantColor,
                                 ),
                                 child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
                                     children: [
                                       Expanded(
                                         child: Text(
                                             textAlign: TextAlign.start,
-                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                                            "Email : ${meController.user?.email}",
+                                            style: TextStyle(fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                            "Email : ${meController.user
+                                                ?.email}",
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1
                                         ),
@@ -168,7 +188,10 @@ class _MeViewState extends State<MeView>
                                       IconButton(
                                           color: foregroundColor,
                                           iconSize: 20,
-                                          onPressed: () => DialogBuilder.warning(context, "En travaux", "La fonctionnalité n'est pas encore disponible"),
+                                          onPressed: () =>
+                                              DialogBuilder.warning(
+                                                  context, "En travaux",
+                                                  "La fonctionnalité n'est pas encore disponible"),
                                           icon: Icon(Icons.edit)
                                       )
                                     ]
@@ -191,13 +214,16 @@ class _MeViewState extends State<MeView>
                                   color: backgroundVariantColor,
                                 ),
                                 child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
                                     children: [
                                       Expanded(
                                         child: Text(
                                             textAlign: TextAlign.start,
-                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                                            "Téléphone : ${meController.user?.tel}",
+                                            style: TextStyle(fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                            "Téléphone : ${meController.user
+                                                ?.tel}",
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1
                                         ),
@@ -205,7 +231,10 @@ class _MeViewState extends State<MeView>
                                       IconButton(
                                           color: foregroundColor,
                                           iconSize: 20,
-                                          onPressed: () => DialogBuilder.warning(context, "En travaux", "La fonctionnalité n'est pas encore disponible"),
+                                          onPressed: () =>
+                                              DialogBuilder.warning(
+                                                  context, "En travaux",
+                                                  "La fonctionnalité n'est pas encore disponible"),
                                           icon: Icon(Icons.edit)
                                       )
                                     ]
@@ -216,7 +245,8 @@ class _MeViewState extends State<MeView>
 
                             Text(
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontSize: 25, fontWeight: FontWeight.bold),
                                 "Vos informations de paiement"
                             ),
 
@@ -235,13 +265,16 @@ class _MeViewState extends State<MeView>
                                   color: backgroundVariantColor,
                                 ),
                                 child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
                                     children: [
                                       Expanded( // Important pour que Text puisse utiliser l'espace disponible
                                         child: Text(
                                             textAlign: TextAlign.start,
-                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                                            "Paypal : ${meController.user?.emailPaypal}",
+                                            style: TextStyle(fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                            "Paypal : ${meController.user
+                                                ?.emailPaypal}",
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1
                                         ),
@@ -249,7 +282,10 @@ class _MeViewState extends State<MeView>
                                       IconButton(
                                           color: foregroundColor,
                                           iconSize: 20,
-                                          onPressed: () => DialogBuilder.warning(context, "En travaux", "La fonctionnalité n'est pas encore disponible"),
+                                          onPressed: () =>
+                                              DialogBuilder.warning(
+                                                  context, "En travaux",
+                                                  "La fonctionnalité n'est pas encore disponible"),
                                           icon: Icon(Icons.edit)
                                       )
                                     ]
@@ -262,17 +298,21 @@ class _MeViewState extends State<MeView>
                                 padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(Radius.circular(5)),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(5)),
                                   color: backgroundVariantColor,
                                 ),
                                 child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
                                     children: [
                                       Expanded(
                                         child: Text(
                                             textAlign: TextAlign.start,
-                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                                            "Wero : ${meController.user?.telWero}",
+                                            style: TextStyle(fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                            "Wero : ${meController.user
+                                                ?.telWero}",
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1
                                         ),
@@ -280,7 +320,10 @@ class _MeViewState extends State<MeView>
                                       IconButton(
                                           color: foregroundColor,
                                           iconSize: 20,
-                                          onPressed: () => DialogBuilder.warning(context, "En travaux", "La fonctionnalité n'est pas encore disponible"),
+                                          onPressed: () =>
+                                              DialogBuilder.warning(
+                                                  context, "En travaux",
+                                                  "La fonctionnalité n'est pas encore disponible"),
                                           icon: Icon(Icons.edit)
                                       )
                                     ]
@@ -303,12 +346,14 @@ class _MeViewState extends State<MeView>
                                   color: backgroundVariantColor,
                                 ),
                                 child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
                                     children: [
                                       Expanded(
                                         child: Text(
                                             textAlign: TextAlign.start,
-                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                            style: TextStyle(fontSize: 20,
+                                                fontWeight: FontWeight.bold),
                                             "RIB : ${meController.user?.rib}",
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1
@@ -317,7 +362,10 @@ class _MeViewState extends State<MeView>
                                       IconButton(
                                           color: foregroundColor,
                                           iconSize: 20,
-                                          onPressed: () => DialogBuilder.warning(context, "En travaux", "La fonctionnalité n'est pas encore disponible"),
+                                          onPressed: () =>
+                                              DialogBuilder.warning(
+                                                  context, "En travaux",
+                                                  "La fonctionnalité n'est pas encore disponible"),
                                           icon: Icon(Icons.edit)
                                       )
                                     ]
@@ -331,7 +379,15 @@ class _MeViewState extends State<MeView>
                                 textColor: foregroundColor,
                                 message: "Déconnexion",
                                 icon: Icons.logout,
-                                onPressed: meController.logout
+                                onPressed: () =>
+                                {
+                                  DialogBuilder.yesOrNo(
+                                      context,
+                                      "Déconnexion",
+                                      "Voulez-vous vraiment vous déconnecter ?",
+                                      meController.logout
+                                  )
+                                }
                             ),
 
                             SizedBox(height: 130),

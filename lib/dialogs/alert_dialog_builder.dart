@@ -8,11 +8,25 @@ class DialogBuilder {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(title),
-          content: Text(content),
+          title: Text(
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              title
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                  height: 200,
+                  width: 200,
+                  "images/warning.png"
+              ),
+              Text(content)
+            ]
+          ),
+
           actions: <Widget>[
             TextButton(
-              style: TextButton.styleFrom(textStyle: Theme.of(context).textTheme.labelLarge),
               child: const Text('Ok'),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -24,21 +38,32 @@ class DialogBuilder {
     );
   }
 
-  /*
-  static Future<void> textInput(BuildContext context, String title, String labelText, Function(String) onSubmitted) {
+  static Future<void> yesOrNo(BuildContext context, String title, String content, Function onYes, [Function? onNo]) {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(title),
-          content: TextFieldWidget(
-            labelText: ,
+          title: Text(
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              title
           ),
+          content: Text(content),
+
           actions: <Widget>[
             TextButton(
-              style: TextButton.styleFrom(textStyle: Theme.of(context).textTheme.labelLarge),
-              child: const Text('Ok'),
+              child: const Text('Non'),
               onPressed: () {
+                if (onNo != null) {
+                  onNo();
+                }
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Oui'),
+              onPressed: () {
+                onYes();
                 Navigator.of(context).pop();
               },
             ),
@@ -47,8 +72,5 @@ class DialogBuilder {
       },
     );
   }
-
-   */
-
 
 }
