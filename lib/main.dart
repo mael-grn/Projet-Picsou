@@ -43,7 +43,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => HomeController(userService)),
         ChangeNotifierProvider(create: (_) => LoginController(authService)),
         ChangeNotifierProvider(create: (_) => RegisterController(authService)),
-        ChangeNotifierProvider(create: (_) => MeController(userService)),
+        ChangeNotifierProvider(create: (_) => MeController()),
         ChangeNotifierProvider(create: (_) => FriendsController(friendService)),
         ChangeNotifierProvider(create: (_) => EditPersonalDataController(userService)),
       ],

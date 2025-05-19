@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
+import 'package:projet_picsou/models/user.dart';
 import 'package:projet_picsou/widgets/ui/button_widget.dart';
 import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,6 @@ class _MeViewState extends State<MeView>
     final controller = Provider.of<MeController>(context, listen: false);
     controller.initAnimations(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.initUser();
       controller.animationsController.forward();
     });
   }
@@ -31,10 +31,6 @@ class _MeViewState extends State<MeView>
   Widget build(BuildContext context) {
     super.build(context);
     final meController = context.watch<MeController>();
-
-    if (meController.user == null) {
-      return Center(child: CircularProgressIndicator());
-    }
 
     return Stack(
       children: [
@@ -48,8 +44,7 @@ class _MeViewState extends State<MeView>
               Text(
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                "${meController.user?.firstName} ${meController.user
-                    ?.lastName}",
+                "${User.getCurrentUserInstance().firstName} ${User.getCurrentUserInstance().lastName}",
                 overflow: TextOverflow.ellipsis, // Ajout de l'overflow
                 maxLines: 1, // Limite à une seule ligne
               ),
@@ -103,7 +98,7 @@ class _MeViewState extends State<MeView>
                                       Text(
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        meController.user!.firstName,
+                                        User.getCurrentUserInstance().firstName,
                                       ),
                                     ],
                                   ),
@@ -118,7 +113,7 @@ class _MeViewState extends State<MeView>
                                       Text(
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        meController.user!.lastName,
+                                        User.getCurrentUserInstance().lastName,
                                       ),
                                     ],
                                   ),
@@ -133,7 +128,7 @@ class _MeViewState extends State<MeView>
                                       Text(
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        meController.user!.email,
+                                        User.getCurrentUserInstance().email,
                                       ),
                                     ],
                                   ),
@@ -148,8 +143,7 @@ class _MeViewState extends State<MeView>
                                       Text(
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        meController.user?.tel ??
-                                            "Pas de numéro de téléphone",
+                                        User.getCurrentUserInstance().tel
                                       ),
                                     ],
                                   ),
@@ -157,6 +151,7 @@ class _MeViewState extends State<MeView>
                                   SizedBox(height: 5),
 
                                   ButtonWidget(
+                                    size: ButtonWidgetSize.small,
                                       message: "Modifier",
                                       icon: Icons.edit,
                                       onPressed: () =>
@@ -203,8 +198,7 @@ class _MeViewState extends State<MeView>
                                         Text(
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
-                                          meController.user?.emailPaypal ??
-                                              "Pas de compte Paypal",
+                                          User.getCurrentUserInstance().emailPaypal
                                         ),
                                       ],
                                     ),
@@ -219,8 +213,7 @@ class _MeViewState extends State<MeView>
                                         Text(
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
-                                          meController.user?.telWero ??
-                                              "Pas de compte Wero",
+                                          User.getCurrentUserInstance().telWero
                                         ),
                                       ],
                                     ),
@@ -235,8 +228,7 @@ class _MeViewState extends State<MeView>
                                         Text(
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
-                                          meController.user?.rib ??
-                                              "Pas de Rib",
+                                          User.getCurrentUserInstance().rib
                                         ),
                                       ],
                                     ),
@@ -244,7 +236,7 @@ class _MeViewState extends State<MeView>
                                     SizedBox(height: 5),
 
                                     ButtonWidget(
-
+                                        size: ButtonWidgetSize.small,
                                         message: "Modifier",
                                         icon: Icons.edit,
                                         onPressed: () =>

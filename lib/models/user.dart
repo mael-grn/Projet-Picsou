@@ -1,4 +1,6 @@
-import 'package:projet_picsou/exceptions/not_logged_in_exception.dart';
+import 'package:restart_app/restart_app.dart';
+
+import '../utils/token_utils.dart';
 
 class User {
 
@@ -107,7 +109,8 @@ class User {
   }
   static User getCurrentUserInstance() {
     if (_currentUser == null) {
-      throw NotLoggedInException('No user have been set. This meen you are using this app without being logged in');
+      TokenUtils.removeToken();
+      Restart.restartApp();
     }
     return _currentUser!;
   }

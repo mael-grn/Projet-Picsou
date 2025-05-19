@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:projet_picsou/controllers/friends_controller.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
-import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:provider/provider.dart';
 import '../controllers/edit_personal_data_controller.dart';
-import '../controllers/home_controller.dart';
-import '../controllers/me_controller.dart';
 import '../models/user.dart';
 import '../widgets/ui/Text_field_widget.dart';
 
@@ -36,12 +32,6 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>
     if (controller.userUpdated) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         controller.userUpdated = false;
-        final meController = Provider.of<MeController>(context, listen: false);
-        final homeController = Provider.of<HomeController>(context, listen: false);
-        final friendController = Provider.of<FriendsController>(context, listen: false);
-        meController.initUser();
-        homeController.getCurrentUser();
-        friendController.initUser();
         Navigator.pop(context); // revient à la page précédente
       });
     }

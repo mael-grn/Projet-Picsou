@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:projet_picsou/controllers/home_controller.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
 import 'package:projet_picsou/widgets/conversation/conversation_button_list_widget.dart';
 import 'package:provider/provider.dart';
-import '../dialogs/alert_dialog_builder.dart';
+import '../models/user.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -25,7 +24,6 @@ class _HomeViewState extends State<HomeView>
     controller.initAnimations(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       controller.getUserBalance();
-      controller.getCurrentUser();
       controller.animationsController.forward();
     });
   }
@@ -46,7 +44,7 @@ class _HomeViewState extends State<HomeView>
               Padding(
                 padding: EdgeInsets.fromLTRB(15, 75, 15, 20),
                 child: Text(
-                  'Bonjour, ${homeController.currentUser?.firstName ?? 'Utilisateur'}',
+                  'Bonjour, ${User.getCurrentUserInstance().firstName}',
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
@@ -71,12 +69,7 @@ class _HomeViewState extends State<HomeView>
                   children: [
                     Padding(
                         padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
-                        child: homeController.isLoading ?
-                        LoadingAnimationWidget.inkDrop(
-                          color: foregroundColor,
-                          size: 30,
-                        ) :
-                        Text(
+                        child: Text(
                             style: TextStyle(
                                 fontWeight: FontWeight.w800,
                                 fontSize: 40,

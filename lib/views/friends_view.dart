@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:projet_picsou/controllers/friends_controller.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
-import 'package:projet_picsou/widgets/ui/button_widget.dart';
-import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:provider/provider.dart';
-import '../controllers/me_controller.dart';
-import 'edit_personal_data_view.dart';
 
 class FriendsView extends StatefulWidget {
   const FriendsView({super.key});
@@ -23,7 +18,6 @@ class _FriendsViewState extends State<FriendsView>
     final controller = Provider.of<FriendsController>(context, listen: false);
     controller.initAnimations(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.initUser();
       controller.initFriends();
       controller.animationsController.forward();
     });
@@ -33,10 +27,6 @@ class _FriendsViewState extends State<FriendsView>
   Widget build(BuildContext context) {
     super.build(context);
     final controller = context.watch<FriendsController>();
-
-    if (controller.user == null) {
-      return Center(child: CircularProgressIndicator());
-    }
 
     return Stack(
       children: [
@@ -69,14 +59,7 @@ class _FriendsViewState extends State<FriendsView>
                       color: backgroundColor,
                     ),
                     child:
-                        controller.isLoading
-                            ? Center(
-                              child: LoadingAnimationWidget.inkDrop(
-                                color: foregroundColor,
-                                size: 20,
-                              ),
-                            )
-                            : controller.friends.isEmpty
+                        controller.friends.isEmpty
                             ? Center(
                               child: Column(
                                 children: [

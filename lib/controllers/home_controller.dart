@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:projet_picsou/services/user_service.dart';
-
-import '../exceptions/not_logged_in_exception.dart';
+import '../exceptions/request_exception.dart';
 import '../models/user.dart';
 
 class HomeController with ChangeNotifier {
-  User? currentUser;
-  bool showPopup = false;
-  String? popupTitle;
-  String? popupContent;
-  String? popupImage;
   double userBalance = 0.0;
-  bool isLoading = false;
   UserService userService;
   late AnimationController animationsController;
   late Animation<Offset> firstOffsetAnimation;
@@ -43,39 +37,16 @@ class HomeController with ChangeNotifier {
   }
 
   Future<void> getUserBalance() async {
+    DialogBuilder.loading();
     try {
-      isLoading = true;
-      notifyListeners();
       userBalance = await userService.getUserBalance(User.getCurrentUserInstance().id);
+      DialogBuilder.closeCurrentDialog();
+      notifyListeners();
+    } on NetworkException catch (e) {
+      DialogBuilder.networkError(e.networkError);
     } catch (e) {
-      showPopup = true;
-      popupTitle = "Une erreur est survenue";
-      popupContent = e.toString();
-      popupImage = "images/error.png";
-    } finally {
-      isLoading = false;
-      notifyListeners();
+      DialogBuilder.appError();
     }
-  }
-
-  void getCurrentUser() {
-    try {
-      currentUser = User.getCurrentUserInstance();
-    } on NotLoggedInException catch (e) {
-      showPopup = true;
-      popupTitle = "Une erreur est survenue";
-      popupContent = e.message;
-      popupImage = "images/error.png";
-      notifyListeners();
-    }
-  }
-
-  void closePopup() {
-    showPopup = false;
-    popupTitle = null;
-    popupContent = null;
-    popupImage = null;
-    notifyListeners();
   }
 
 }
