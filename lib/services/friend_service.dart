@@ -21,6 +21,7 @@ class FriendService {
   }
 
   Future<List<User>> getFriends() async {
+    return [];
     final response = await Provider.getSecure('/users/friends');
     return response['friends'].map<User>((json) => User.fromJson(json)).toList();
   }

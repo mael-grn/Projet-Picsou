@@ -4,6 +4,7 @@ import 'package:projet_picsou/controllers/conversation_list_controller.dart';
 import 'package:projet_picsou/controllers/edit_personal_data_controller.dart';
 import 'package:projet_picsou/controllers/entry_point_controller.dart';
 import 'package:projet_picsou/controllers/friend_conversation_controller.dart';
+import 'package:projet_picsou/controllers/friends_controller.dart';
 import 'package:projet_picsou/controllers/home_controller.dart';
 import 'package:projet_picsou/controllers/login_controller.dart';
 import 'package:projet_picsou/controllers/me_controller.dart';
@@ -15,6 +16,9 @@ import 'package:projet_picsou/services/user_service.dart';
 import 'package:projet_picsou/views/entry_point_view.dart';
 import 'package:provider/provider.dart';
 
+import 'core/theme/app_theme.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
 
@@ -40,9 +44,16 @@ void main() async {
         ChangeNotifierProvider(create: (_) => LoginController(authService)),
         ChangeNotifierProvider(create: (_) => RegisterController(authService)),
         ChangeNotifierProvider(create: (_) => MeController(userService)),
+        ChangeNotifierProvider(create: (_) => FriendsController(friendService)),
         ChangeNotifierProvider(create: (_) => EditPersonalDataController(userService)),
       ],
-      child: EntryPointView()
+      child: MaterialApp(
+        title: 'PICSOU',
+        debugShowCheckedModeBanner: false,
+        theme: appTheme,
+        navigatorKey: navigatorKey,
+        home: EntryPointView(),
+      )
     ),
   );
 }

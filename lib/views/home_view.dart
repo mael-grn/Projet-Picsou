@@ -35,10 +35,6 @@ class _HomeViewState extends State<HomeView>
     super.build(context); // Nécessaire pour AutomaticKeepAliveClientMixin
     final homeController = context.watch<HomeController>();
 
-    if (homeController.showPopup) {
-      homeController.showPopup = false;
-      DialogBuilder.warning(context, homeController.popupTitle ?? "", homeController.popupContent ?? "");
-    }
 
     return Container(
       color: primaryColor,

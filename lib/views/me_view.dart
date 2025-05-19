@@ -36,12 +36,6 @@ class _MeViewState extends State<MeView>
       return Center(child: CircularProgressIndicator());
     }
 
-    if (meController.showPopup) {
-      meController.showPopup = false;
-      DialogBuilder.warning(context, meController.popupTitle ?? "",
-          meController.popupContent ?? "");
-    }
-
     return Stack(
       children: [
         Container(
@@ -256,7 +250,6 @@ class _MeViewState extends State<MeView>
                                         onPressed: () =>
                                         {
                                           DialogBuilder.warning(
-                                            context,
                                             "Pas trop vite !",
                                             "Cette fonctionnalité n'est pas encore disponible, veuillez patenter encore quelques instants, Merci !",
                                           )
@@ -277,7 +270,6 @@ class _MeViewState extends State<MeView>
                                 onPressed: () =>
                                 {
                                   DialogBuilder.yesOrNo(
-                                      context,
                                       "Déconnexion",
                                       "Voulez-vous vraiment vous déconnecter ?",
                                       meController.logout

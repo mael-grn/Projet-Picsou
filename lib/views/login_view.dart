@@ -25,13 +25,6 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     final loginController = context.watch<LoginController>();
 
-    if (loginController.showPopup) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        loginController.showPopup = false;
-        DialogBuilder.warning(context, loginController.popupTitle ?? "", loginController.popupContent ?? "");
-      });
-    }
-
     // Redirection automatique si la connexion a réussi
     if (loginController.user != null && loginController.error == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {

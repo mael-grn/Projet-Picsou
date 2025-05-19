@@ -22,10 +22,6 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     final registerController = context.watch<RegisterController>();
 
-    if (registerController.showPopup) {
-      registerController.showPopup = false;
-      DialogBuilder.warning(context, registerController.popupTitle ?? "", registerController.popupContent ?? "");
-    }
 
     // Redirection automatique si la connexion a réussi
     if (registerController.user != null && registerController.error == null) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projet_picsou/controllers/friends_controller.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
 import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:provider/provider.dart';
@@ -27,45 +28,20 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>
     });
   }
 
-  bool _isDialogOpen = false;
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
     final controller = context.watch<EditPersonalDataController>();
-
-    if (controller.isLoading && !_isDialogOpen) {
-      _isDialogOpen = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        DialogBuilder.loading(context);
-      });
-
-    }
-
-    if (!controller.isLoading && _isDialogOpen) {
-      _isDialogOpen = false;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pop(context); // ferme la popup
-      });
-    }
-
-    if (controller.error != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        DialogBuilder.warning(context, "Une erreur s'est produite", controller.error!, () {
-          controller.error = null;
-          Navigator.pop(context);
-        });
-      });
-
-    }
 
     if (controller.userUpdated) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         controller.userUpdated = false;
         final meController = Provider.of<MeController>(context, listen: false);
         final homeController = Provider.of<HomeController>(context, listen: false);
+        final friendController = Provider.of<FriendsController>(context, listen: false);
         meController.initUser();
         homeController.getCurrentUser();
+        friendController.initUser();
         Navigator.pop(context); // revient à la page précédente
       });
     }

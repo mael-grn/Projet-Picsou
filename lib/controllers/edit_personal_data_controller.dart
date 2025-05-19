@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:projet_picsou/exceptions/request_exception.dart';
 import 'package:projet_picsou/services/user_service.dart';
 import '../models/user.dart';
@@ -7,8 +8,6 @@ import '../models/user.dart';
 class EditPersonalDataController with ChangeNotifier {
   final UserService userService;
   User? user;
-  bool isLoading = false;
-  String? error;
   bool userUpdated = false;
   final lastNameController = TextEditingController();
   final firstNameController = TextEditingController();
@@ -18,8 +17,7 @@ class EditPersonalDataController with ChangeNotifier {
 
   void initUser() {
     try {
-      isLoading = true;
-      notifyListeners();
+      DialogBuilder.loading();
 
       user = User.getCurrentUserInstance();
       lastNameController.text = user!.lastName;
@@ -28,8 +26,7 @@ class EditPersonalDataController with ChangeNotifier {
     } catch (e) {
       user = null;
     } finally {
-      isLoading = false;
-      notifyListeners();
+      DialogBuilder.closeCurrentDialog();
     }
   }
 
@@ -39,8 +36,7 @@ class EditPersonalDataController with ChangeNotifier {
     return;
     }
 
-    isLoading = true;
-    notifyListeners();
+    DialogBuilder.loading();
 
     HapticFeedback.mediumImpact();
     String lastName = lastNameController.text;
@@ -63,14 +59,13 @@ class EditPersonalDataController with ChangeNotifier {
 
       try {
         user = await userService.updateUser(newUser);
+        DialogBuilder.closeCurrentDialog();
         userUpdated = true;
-      } on NetworkException catch (e) {
-        error = e.networkError.message;
-      } catch (_) {
-        error = "Une erreur est survenue lors de la mise à jour de l'utilisateur.";
-      } finally {
-        isLoading = false;
         notifyListeners();
+      } on NetworkException catch (e) {
+        DialogBuilder.networkError(e.networkError);
+      } catch (_) {
+        DialogBuilder.appError();
       }
     }
   }
