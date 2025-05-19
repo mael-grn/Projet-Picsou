@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:projet_picsou/exceptions/request_exception.dart';
 import 'package:projet_picsou/services/user_service.dart';
+import '../main.dart';
 import '../models/user.dart';
 
 class EditPersonalDataController with ChangeNotifier {
@@ -12,6 +13,7 @@ class EditPersonalDataController with ChangeNotifier {
   final lastNameController = TextEditingController();
   final firstNameController = TextEditingController();
   final phoneController = TextEditingController();
+  static final context = navigatorKey.currentContext;
 
   EditPersonalDataController(this.userService);
 
@@ -59,7 +61,13 @@ class EditPersonalDataController with ChangeNotifier {
 
       try {
         user = await userService.updateUser(newUser);
-        DialogBuilder.closeCurrentDialog();
+        DialogBuilder.success(
+          "Succès",
+          "Vos données personnelles ont été mises à jour.",
+            () {
+              Navigator.pop(context!);
+            }
+        );
         userUpdated = true;
         notifyListeners();
       } on NetworkException catch (e) {

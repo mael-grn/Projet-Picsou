@@ -6,7 +6,8 @@ import '../models/user.dart';
 
 class MeController with ChangeNotifier {
   late AnimationController animationsController;
-  late Animation<Offset> offsetAnimation;
+  late Animation<Offset> firstOffsetAnimation;
+  late Animation<Offset> secondOffsetAnimation;
 
   MeController();
 
@@ -16,8 +17,16 @@ class MeController with ChangeNotifier {
       vsync: vsync,
     );
 
-    offsetAnimation = Tween<Offset>(
-      begin: const Offset(0.0, 1),
+    firstOffsetAnimation = Tween<Offset>(
+      begin: const Offset(0.0, 0.8),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: animationsController,
+      curve: Curves.decelerate,
+    ));
+
+    secondOffsetAnimation = Tween<Offset>(
+      begin: const Offset(0.0, 1.0),
       end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: animationsController,

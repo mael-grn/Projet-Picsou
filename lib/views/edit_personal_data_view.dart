@@ -29,13 +29,6 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>
     super.build(context);
     final controller = context.watch<EditPersonalDataController>();
 
-    if (controller.userUpdated) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        controller.userUpdated = false;
-        Navigator.pop(context); // revient à la page précédente
-      });
-    }
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
