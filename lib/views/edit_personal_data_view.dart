@@ -38,40 +38,62 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Modifier mes informations"),
-        backgroundColor: backgroundVariantColor,
-        actions: [
+        elevation: 0,
+        scrolledUnderElevation: 10.0,
 
-        ],
+        backgroundColor: backgroundColor,
+        title: Text("Modifier mes informations"),
       ),
 
       body: Container(
-        padding: EdgeInsets.fromLTRB(30, 20, 30, 0),
+        padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
         child: SingleChildScrollView(
-          child: Form(
-            key: widget._formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                TextFieldWidget(
-                  controller: controller.firstNameController,
-                  labelText: "Prénom",
-                  validator: User.checkNameFormatValidator,
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              Image.asset(
+                  height: 200,
+                  width: 200,
+                  "images/edit.png"
+              ),
+              SizedBox(height: 30),
+              Text(
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                "Modifier vos informations",
+              ),
+              SizedBox(height: 20),
+              Text(
+                  textAlign: TextAlign.center,
+                  "Vous pouvez modifier vos informations personnelles ici."
+              ),
+              SizedBox(height: 40),
+              Form(
+                key: widget._formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    TextFieldWidget(
+                      controller: controller.firstNameController,
+                      labelText: "Prénom",
+                      validator: User.checkNameFormatValidator,
+                    ),
+                    SizedBox(height: 10),
+                    TextFieldWidget(
+                      controller: controller.lastNameController,
+                      labelText: "Nom",
+                      validator: User.checkNameFormatValidator,
+                    ),
+                    SizedBox(height: 10),
+                    TextFieldWidget(
+                      controller: controller.phoneController,
+                      labelText: "Téléphone",
+                      validator: User.checkTelFormatValidator,
+                    ),
+                  ],
                 ),
-                SizedBox(height: 10),
-                TextFieldWidget(
-                  controller: controller.lastNameController,
-                  labelText: "Nom",
-                  validator: User.checkNameFormatValidator,
-                ),
-                SizedBox(height: 10),
-                TextFieldWidget(
-                  controller: controller.phoneController,
-                  labelText: "Téléphone",
-                  validator: User.checkTelFormatValidator,
-                ),
-              ],
-            ),
+              )
+            ],
           )
         ),
       ),
