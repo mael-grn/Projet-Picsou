@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:projet_picsou/enums/network_error_enum.dart';
+import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:projet_picsou/exceptions/request_exception.dart';
 import '../models/user.dart';
 import '../services/auth_service.dart';
@@ -8,25 +8,11 @@ import '../services/auth_service.dart';
 class LoginController with ChangeNotifier {
   final AuthService authService;
   User? user;
-  bool showPopup = false;
-  String? popupTitle;
-  String? popupContent;
-  String? popupImage;
   bool hidePassword = true;
-  bool isLoading = false;
-  String? error;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   LoginController(this.authService);
-
-  void closePopup() {
-    showPopup = false;
-    popupTitle = null;
-    popupContent = null;
-    popupImage = null;
-    notifyListeners();
-  }
 
   void submitForm(GlobalKey<FormState> formKey) {
 
@@ -62,35 +48,21 @@ class LoginController with ChangeNotifier {
   Future<void> login(GlobalKey<FormState> formKey, String email, String password) async {
 
     if (!formKey.currentState!.validate()) {
+      DialogBuilder.warning("Le formulaire n'est pas valide", "Veuillez vérifier les champs du formulaire");
       return;
     }
 
-    isLoading = true;
-    error = null;
-    notifyListeners();
+    DialogBuilder.loading();
 
     try {
       user = await authService.login(email, password);
-    }  on NetworkException catch (e) {
-      if (e.networkError == NetworkErrorEnum.unauthorized || e.networkError == NetworkErrorEnum.notFound) {
-        error = "Email ou mot de passe incorrect";
-        popupContent = "Email ou mot de passe incorrect";
-      } else {
-        error = "${e.networkError.message} (${e.networkError.code})";
-        popupContent = "${e.networkError.message} (${e.networkError.code})";
-      }
-      popupTitle = "Erreur";
-      popupImage = "images/error.png";
-      showPopup = true;
-    } catch (_) {
-      error = "Erreur serveur";
-      popupTitle = "Erreur";
-      popupContent = "Erreur de l'application";
-      popupImage = "images/error.png";
-      showPopup = true;
-    } finally {
-      isLoading = false;
+      DialogBuilder.closeCurrentDialog();
       notifyListeners();
+    }  on NetworkException catch (e) {
+      DialogBuilder.networkError(e.networkError);
+    } catch (_) {
+      DialogBuilder.appError();
+    } finally {
     }
   }
 }

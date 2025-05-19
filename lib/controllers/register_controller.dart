@@ -2,33 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projet_picsou/enums/network_error_enum.dart';
 import 'package:projet_picsou/exceptions/request_exception.dart';
+import '../dialogs/alert_dialog_builder.dart';
 import '../models/user.dart';
 import '../services/auth_service.dart';
 
 class RegisterController with ChangeNotifier {
   final AuthService authService;
   User? user;
-  bool showPopup = false;
-  String? popupTitle;
-  String? popupContent;
-  String? popupImage;
   bool hidePassword = true;
-  bool isLoading = false;
-  String? error;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final lastNameController = TextEditingController();
   final firstNameController = TextEditingController();
 
   RegisterController(this.authService);
-
-  void closePopup() {
-    showPopup = false;
-    popupTitle = null;
-    popupContent = null;
-    popupImage = null;
-    notifyListeners();
-  }
 
   void submitForm(GlobalKey<FormState> formKey) {
     HapticFeedback.mediumImpact();
@@ -89,19 +76,15 @@ class RegisterController with ChangeNotifier {
         String rib = "",
         String profilPictureRef = "",
       }) async {
-    isLoading = true;
-    error = null;
-    notifyListeners();
+
+    if (!formKey.currentState!.validate()) {
+      DialogBuilder.warning("Le formulaire n'est pas valide", "Veuillez vérifier les champs du formulaire");
+      return;
+    }
+
+    DialogBuilder.loading();
 
     try {
-
-      if (!formKey.currentState!.validate()) {
-        return;
-      }
-
-      isLoading = true;
-      error = null;
-      notifyListeners();
 
       user = await authService.register(
         firstName,
@@ -114,28 +97,13 @@ class RegisterController with ChangeNotifier {
         rib,
         profilPictureRef,
       );
+      DialogBuilder.closeCurrentDialog();
       User.setCurrentUserInstance(user!);
-    }  on NetworkException catch (e) {
-      if (e.networkError.code == NetworkErrorEnum.conflict.code) {
-        error = "Cet email est déjà utilisé";
-        popupContent = "Cet email est déjà utilisé";
-      } else {
-        error = "${e.networkError.message} (${e.networkError.code})";
-        popupContent = "${e.networkError.message} (${e.networkError.code})";
-      }
-      popupTitle = "Erreur";
-      popupImage = "images/error.png";
-      showPopup = true;
-    } catch (_) {
-      // cas ou il n'y a pas de token
-      error = "Erreur dans l'application";
-      popupTitle = "Erreur";
-      popupContent = "Erreur de l'application";
-      popupImage = "images/error.png";
-      showPopup = true;
-    }  finally {
-      isLoading = false;
       notifyListeners();
+    }  on NetworkException catch (e) {
+      DialogBuilder.networkError(e.networkError);
+    } catch (_) {
+      DialogBuilder.appError();
     }
   }
 }

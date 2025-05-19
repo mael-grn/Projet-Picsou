@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:projet_picsou/controllers/login_controller.dart';
 import 'package:projet_picsou/views/register_view.dart';
 import 'package:projet_picsou/widgets/global_layout.dart';
@@ -7,7 +6,6 @@ import 'package:projet_picsou/widgets/ui/Text_field_widget.dart';
 import 'package:projet_picsou/widgets/ui/button_widget.dart';
 import 'package:provider/provider.dart';
 import '../core/theme/app_theme.dart';
-import '../dialogs/alert_dialog_builder.dart';
 
 
 class LoginView extends StatefulWidget {
@@ -26,7 +24,7 @@ class _LoginViewState extends State<LoginView> {
     final loginController = context.watch<LoginController>();
 
     // Redirection automatique si la connexion a réussi
-    if (loginController.user != null && loginController.error == null) {
+    if (loginController.user != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.pushReplacement(
           context,
@@ -37,11 +35,12 @@ class _LoginViewState extends State<LoginView> {
 
     return Scaffold(
       body: Padding(
-          padding: EdgeInsets.fromLTRB(30, 100, 30, 30),
+          padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                SizedBox(height: 50),
                 Image.asset(
                     height: 200,
                     width: 200,
@@ -111,29 +110,9 @@ class _LoginViewState extends State<LoginView> {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: foregroundColor,
         onPressed:
-            () => {
-              if (!loginController.isLoading && loginController.user == null) {
-                loginController.submitForm(widget._formKey)
-              }
-              else if (!loginController.isLoading &&
-                  loginController.user != null &&
-                  loginController.error == null)
-                {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => GlobalLayout()),
-                  ),
-                },
-            },
+            () => loginController.submitForm(widget._formKey),
         label:
-            loginController.isLoading
-                ? LoadingAnimationWidget.inkDrop(
-                  color: backgroundColor,
-                  size: 20,
-                )
-                : loginController.error == null && loginController.user != null
-                ? Text(style: TextStyle(color: backgroundColor), 'Continuer')
-                : Text(style: TextStyle(color: backgroundColor), 'Connexion'),
+        Text(style: TextStyle(color: backgroundColor), 'Connexion'),
       ),
     );
   }

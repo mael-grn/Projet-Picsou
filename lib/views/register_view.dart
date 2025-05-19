@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:projet_picsou/views/login_view.dart';
 import 'package:projet_picsou/widgets/global_layout.dart';
 import 'package:projet_picsou/widgets/ui/Text_field_widget.dart';
@@ -7,7 +6,6 @@ import 'package:provider/provider.dart';
 import '../controllers/register_controller.dart';
 import '../core/theme/app_theme.dart';
 import '../widgets/ui/button_widget.dart';
-import '../dialogs/alert_dialog_builder.dart';
 
 class RegisterView extends StatefulWidget {
   RegisterView({super.key});
@@ -24,7 +22,7 @@ class _RegisterViewState extends State<RegisterView> {
 
 
     // Redirection automatique si la connexion a réussi
-    if (registerController.user != null && registerController.error == null) {
+    if (registerController.user != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.pushReplacement(
           context,
@@ -35,11 +33,12 @@ class _RegisterViewState extends State<RegisterView> {
 
     return Scaffold(
       body: Padding(
-          padding: EdgeInsets.fromLTRB(30, 100, 30, 30),
+          padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                SizedBox(height: 50),
                 Image.asset(
                     height: 200,
                     width: 200,
@@ -126,31 +125,12 @@ class _RegisterViewState extends State<RegisterView> {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: foregroundColor,
         onPressed:
-            () => {
-              if (!registerController.isLoading && registerController.user == null)
-                {registerController.submitForm(widget._formKey)}
-              else if (!registerController.isLoading &&
-                  registerController.user != null &&
-                  registerController.error == null)
-                {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => GlobalLayout()),
-                  ),
-                },
-            },
+            () => registerController.submitForm(widget._formKey),
         label:
-        registerController.isLoading
-                ? LoadingAnimationWidget.inkDrop(
-                  color: backgroundColor,
-                  size: 20,
-                )
-                : registerController.error == null && registerController.user != null
-                ? Text(style: TextStyle(color: backgroundColor), 'Continuer')
-                : Text(
-                  style: TextStyle(color: backgroundColor),
-                  'Créer un compte',
-                ),
+        Text(
+          style: TextStyle(color: backgroundColor),
+          'Créer un compte',
+        ),
       ),
     );
   }

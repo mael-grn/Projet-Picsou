@@ -45,28 +45,35 @@ class DialogBuilder {
   ]) {
     return _showDialog((BuildContext context) {
       return AlertDialog(
-        title: Text(
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          title,
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset(height: 200, width: 200, image),
-            Text(content),
-          ],
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(width: 300, image),
+              SizedBox(height: 20),
+              Text(
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                title,
+              ),
+              SizedBox(height: 20),
+              Text(textAlign: TextAlign.center, content),
+            ],
+          ),
         ),
 
         actions: <Widget>[
           TextButton(
-            child: const Text('Ok'),
+            style: TextButton.styleFrom(
+              backgroundColor: primaryColor,
+            ),
             onPressed: () {
               if (onCLose != null) {
                 onCLose();
               }
               Navigator.of(context).pop();
             },
+            child: const Text('Ok'),
           ),
         ],
       );
@@ -139,7 +146,7 @@ class DialogBuilder {
     }
     return _simpleImageDialog(
       context,
-      "Erreur",
+      "Une erreur s'est produite",
       "$detailedMessage (${error.code} : ${error.message})",
       image,
       onCLose,
