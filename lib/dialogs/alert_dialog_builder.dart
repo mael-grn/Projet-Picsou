@@ -207,6 +207,15 @@ class DialogBuilder {
     });
   }
 
+  static Future<void> customDialog(Widget content, List<Widget> actions) {
+    return _showDialog((BuildContext context) {
+      return AlertDialog(
+        content: content,
+        actions: actions,
+      );
+    });
+  }
+
   static Future<void> yesOrNo(
     String title,
     String content,
