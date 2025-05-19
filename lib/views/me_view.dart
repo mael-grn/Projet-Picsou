@@ -5,6 +5,7 @@ import 'package:projet_picsou/widgets/ui/button_widget.dart';
 import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:provider/provider.dart';
 import '../controllers/me_controller.dart';
+import '../core/PageRoute.dart';
 import 'edit_personal_data_view.dart';
 
 class MeView extends StatefulWidget {
@@ -154,13 +155,9 @@ class _MeViewState extends State<MeView>
                                     size: ButtonWidgetSize.small,
                                       message: "Modifier",
                                       icon: Icons.edit,
-                                      onPressed: () =>
-                                      {
-                                      Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => EditPersonalDataView()),
-                                      )
-                                  }
+                                      onPressed: () {
+                                        Navigator.of(context).push(DefaultPageRoute(builder: (_) => EditPersonalDataView()));
+                                      }
                                   ),
                                 ],
                               ),
