@@ -5,6 +5,7 @@ import 'package:projet_picsou/widgets/ui/button_widget.dart';
 import '../core/theme/app_theme.dart';
 import '../enums/network_error_enum.dart';
 import '../main.dart';
+import '../widgets/animations/scale_animation_widget.dart';
 
 class DialogBuilder {
   static final context = navigatorKey.currentContext;
@@ -45,36 +46,38 @@ class DialogBuilder {
     Function? onCLose,
   ]) {
     return _showDialog((BuildContext context) {
-      return AlertDialog(
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset(width: 300, height: 200, image),
-              SizedBox(height: 20),
-              Text(
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                title,
-              ),
-              SizedBox(height: 20),
-              Text(textAlign: TextAlign.center, content),
-            ],
+      return ScaleAnimationWidget(
+        child: AlertDialog(
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(width: 300, height: 200, image),
+                SizedBox(height: 20),
+                Text(
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  title,
+                ),
+                SizedBox(height: 20),
+                Text(textAlign: TextAlign.center, content),
+              ],
+            ),
           ),
-        ),
 
-        actions: <Widget>[
-          ButtonWidget(
-              message: "Ok",
-              icon: Icons.check,
-              onPressed: () {
-                if (onCLose != null) {
-                  onCLose();
+          actions: <Widget>[
+            ButtonWidget(
+                message: "Ok",
+                icon: Icons.check,
+                onPressed: () {
+                  if (onCLose != null) {
+                    onCLose();
+                  }
+                  Navigator.of(context).pop();
                 }
-                Navigator.of(context).pop();
-              }
-          )
-        ],
+            )
+          ],
+        )
       );
     });
   }

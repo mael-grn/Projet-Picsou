@@ -21,6 +21,7 @@ class ButtonWidget extends StatelessWidget {
   final Color foregroundColor;
   final VoidCallback onPressed;
   final EdgeInsetsGeometry padding;
+  final bool iconOnRight;
 
   const ButtonWidget({
     super.key,
@@ -30,11 +31,20 @@ class ButtonWidget extends StatelessWidget {
     this.backgroundColor = primaryColor,
     required this.onPressed,
     this.padding = const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+    this.iconOnRight = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton.icon(
+    final children = <Widget>[
+      if (!iconOnRight) Icon(icon, size: 22),
+      if (!iconOnRight) SizedBox(width: 10),
+      Text(message),
+      if (iconOnRight) SizedBox(width: 10),
+      if (iconOnRight) Icon(icon, size: 22),
+    ];
+
+    return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
         foregroundColor: foregroundColor,
@@ -50,12 +60,14 @@ class ButtonWidget extends StatelessWidget {
           fontFamily: 'Poppins',
         ),
       ),
-      icon: Icon(icon, size: 22),
-      label: Text(message),
       onPressed: () {
         HapticFeedback.mediumImpact();
         onPressed();
-      }
+      },
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: children,
+      ),
     );
   }
 }

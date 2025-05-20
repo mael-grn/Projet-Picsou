@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import '../controllers/register_controller.dart';
 import '../core/PageRoute.dart';
 import '../core/theme/app_theme.dart';
+import '../widgets/animations/scale_animation_widget.dart';
+import '../widgets/animations/scale_pop_animation_widget.dart';
 import '../widgets/ui/button_widget.dart';
 
 class RegisterView extends StatefulWidget {
@@ -29,10 +31,12 @@ class _RegisterViewState extends State<RegisterView> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 SizedBox(height: 75),
-                Image.asset(
-                    height: 200,
-                    width: 200,
-                    "images/register.png"
+                ScaleAnimationWidget(
+                  child: Image.asset(
+                      height: 200,
+                      width: 200,
+                      "images/register.png"
+                  ),
                 ),
                 SizedBox(height: 10),
                 Text(

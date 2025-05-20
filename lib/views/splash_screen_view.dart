@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projet_picsou/views/register_view.dart';
+import 'package:projet_picsou/widgets/animations/scale_animation_widget.dart';
+import 'package:projet_picsou/widgets/animations/slide_fade_animation_widget.dart';
 import '../../core/theme/app_theme.dart';
 import '../core/PageRoute.dart';
+import '../widgets/animations/scale_pop_animation_widget.dart';
 import '../widgets/ui/button_widget.dart';
 
 class SplashScreenView extends StatelessWidget {
@@ -20,7 +23,9 @@ class SplashScreenView extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(height: 300, "images/rich.png"),
+                ScaleAnimationWidget(
+                  child: Image.asset("images/rich.png", height: 300),
+                ),
                 SizedBox(height: 20),
                 Text(
                   textAlign: TextAlign.center,
@@ -29,6 +34,7 @@ class SplashScreenView extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                   "Bienvenu sur Picsou !",
+
                 ),
                 SizedBox(height: 10),
                 Text(
@@ -44,7 +50,7 @@ class SplashScreenView extends StatelessWidget {
                   },
                   message: "Commencer l'aventure",
                   icon: Icons.arrow_forward,
-                ),
+                )
               ],
             ),
           ),
