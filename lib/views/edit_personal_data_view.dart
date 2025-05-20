@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
+import 'package:projet_picsou/widgets/animations/scale_animation_widget.dart';
 import 'package:provider/provider.dart';
 import '../controllers/edit_personal_data_controller.dart';
 import '../models/user.dart';
 import '../widgets/ui/Text_field_widget.dart';
+import '../widgets/ui/button_widget.dart';
 
 class EditPersonalDataView extends StatefulWidget {
   EditPersonalDataView({super.key});
@@ -33,7 +35,7 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>
       appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 10.0,
-
+        surfaceTintColor: backgroundVariantColor,
         backgroundColor: backgroundColor,
         title: Text("Modifier mes informations"),
       ),
@@ -44,15 +46,17 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>
           child: Column(
             children: [
               SizedBox(height: 20),
-              Image.asset(
-                  height: 200,
-                  width: 200,
-                  "images/edit.png"
+              ScaleAnimationWidget(
+                  child: Image.asset(
+                      height: 200,
+                      width: 200,
+                      "images/edit.png"
+                  ),
               ),
               SizedBox(height: 30),
               Text(
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 35),
                 "Modifier vos informations",
               ),
               SizedBox(height: 20),
@@ -85,20 +89,20 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>
                     ),
                   ],
                 ),
-              )
+              ),
+              SizedBox(height: 20),
+              ButtonWidget(
+                onPressed: () {
+                  controller.updateUser(widget._formKey);
+                },
+                message: "Valider",
+                icon: Icons.save,
+              ),
+              SizedBox(height: 20),
             ],
           )
         ),
       ),
-
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          controller.updateUser(widget._formKey);
-        },
-        label: Text(style: TextStyle(color: foregroundColor), "Valider"),
-        icon: Icon(color: foregroundColor, Icons.save),
-        backgroundColor: primaryColor,
-      )
     );
   }
 
