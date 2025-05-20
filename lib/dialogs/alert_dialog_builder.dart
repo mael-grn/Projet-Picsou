@@ -225,35 +225,47 @@ class DialogBuilder {
     Function? onNo,
   ]) {
     return _showDialog((BuildContext context) {
-      return AlertDialog(
-        title: Text(
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          title,
-        ),
-        content: Text(content),
+      return ScaleAnimationWidget(
+          child: AlertDialog(
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(width: 300, height: 200, "images/interrogation.png"),
+                  SizedBox(height: 20),
+                  Text(
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    title,
+                  ),
+                  SizedBox(height: 20),
+                  Text(textAlign: TextAlign.center, content),
+                ],
+              ),
+            ),
 
-        actions: <Widget>[
-          ButtonWidget(
-              message: "Non",
-              backgroundColor: Colors.redAccent,
-              icon: Icons.close,
-              onPressed: () {
-                if (onNo != null) {
-                  onNo();
-                }
-                Navigator.of(context).pop();
-              }
-          ),
-          ButtonWidget(
-              message: "Oui",
-              icon: Icons.check,
-              onPressed: () {
-                onYes();
-                Navigator.of(context).pop();
-              }
+            actions: <Widget>[
+              ButtonWidget(
+                  message: "Non",
+                  backgroundColor: Colors.redAccent,
+                  icon: Icons.close,
+                  onPressed: () {
+                    if (onNo != null) {
+                      onNo();
+                    }
+                    Navigator.of(context).pop();
+                  }
+              ),
+              ButtonWidget(
+                  message: "Oui",
+                  icon: Icons.check,
+                  onPressed: () {
+                    onYes();
+                    Navigator.of(context).pop();
+                  }
+              )
+            ],
           )
-        ],
       );
     });
   }
