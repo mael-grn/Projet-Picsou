@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:projet_picsou/widgets/ui/button_widget.dart';
 
 import '../core/theme/app_theme.dart';
 import '../enums/network_error_enum.dart';
@@ -49,7 +50,7 @@ class DialogBuilder {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(width: 300, image),
+              Image.asset(width: 300, height: 200, image),
               SizedBox(height: 20),
               Text(
                 textAlign: TextAlign.center,
@@ -63,18 +64,16 @@ class DialogBuilder {
         ),
 
         actions: <Widget>[
-          TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: primaryColor,
-            ),
-            onPressed: () {
-              if (onCLose != null) {
-                onCLose();
+          ButtonWidget(
+              message: "Ok",
+              icon: Icons.check,
+              onPressed: () {
+                if (onCLose != null) {
+                  onCLose();
+                }
+                Navigator.of(context).pop();
               }
-              Navigator.of(context).pop();
-            },
-            child: const Text('Ok'),
-          ),
+          )
         ],
       );
     });
@@ -118,7 +117,7 @@ class DialogBuilder {
       case NetworkErrorEnum.unauthorized:
         detailedMessage =
             "Vous n'êtes pas autorisé à accéder à cette ressource. Veuillez vous connecter.";
-        image = "images/barrier.png";
+        image = "images/bodyguard.png";
         break;
       case NetworkErrorEnum.forbidden:
         detailedMessage =
@@ -232,22 +231,25 @@ class DialogBuilder {
         content: Text(content),
 
         actions: <Widget>[
-          TextButton(
-            child: const Text('Non'),
-            onPressed: () {
-              if (onNo != null) {
-                onNo();
+          ButtonWidget(
+              message: "Non",
+              backgroundColor: Colors.redAccent,
+              icon: Icons.close,
+              onPressed: () {
+                if (onNo != null) {
+                  onNo();
+                }
+                Navigator.of(context).pop();
               }
-              Navigator.of(context).pop();
-            },
           ),
-          TextButton(
-            child: const Text('Oui'),
-            onPressed: () {
-              onYes();
-              Navigator.of(context).pop();
-            },
-          ),
+          ButtonWidget(
+              message: "Oui",
+              icon: Icons.check,
+              onPressed: () {
+                onYes();
+                Navigator.of(context).pop();
+              }
+          )
         ],
       );
     });

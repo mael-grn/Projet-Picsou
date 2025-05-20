@@ -38,8 +38,8 @@ class ErrorScreenView extends StatelessWidget {
                       ButtonWidget(
                         message: "Redemarrer l'application",
                         icon: Icons.refresh,
-                        buttonBackgroundColor: foregroundVariantColor,
-                        textColor: backgroundColor,
+                        backgroundColor: foregroundVariantColor,
+                        foregroundColor: backgroundColor,
                         onPressed: () {
                           Restart.restartApp();
                         },

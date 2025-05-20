@@ -48,40 +48,50 @@ class _GlobalLayoutState extends State<GlobalLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView(
-        controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        onPageChanged: (index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        children: _pages,
-      ),
-      bottomNavigationBar: Container(
-        margin: const EdgeInsets.only(bottom: 25.0),
-        height: 70,
-        child: Center(
-          child: Container(
-            width: 280,
-            height: 70,
-            decoration: BoxDecoration(
-              color: foregroundColor,
-              borderRadius: BorderRadius.circular(50),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildNavItem('icons/home.svg', 0),
-                _buildNavItem('icons/money.svg', 1),
-                _buildNavItem('icons/friends.svg', 2),
-                _buildNavItem('icons/user.svg', 3),
-              ],
+    return Stack(
+      children: [
+        PageView(
+          controller: _pageController,
+          physics: const NeverScrollableScrollPhysics(),
+          onPageChanged: (index) {
+            setState(() {
+              currentPageIndex = index;
+            });
+          },
+          children: _pages,
+        ),
+
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 25.0),
+              height: 70,
+              child: Center(
+                child: Container(
+                  width: 280,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    color: foregroundColor,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildNavItem('icons/home.svg', 0),
+                      _buildNavItem('icons/money.svg', 1),
+                      _buildNavItem('icons/friends.svg', 2),
+                      _buildNavItem('icons/user.svg', 3),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        )
+      ],
     );
   }
 

@@ -4,6 +4,7 @@ import 'package:projet_picsou/widgets/global_layout.dart';
 import 'package:projet_picsou/widgets/ui/Text_field_widget.dart';
 import 'package:provider/provider.dart';
 import '../controllers/register_controller.dart';
+import '../core/PageRoute.dart';
 import '../core/theme/app_theme.dart';
 import '../widgets/ui/button_widget.dart';
 
@@ -20,17 +21,6 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     final registerController = context.watch<RegisterController>();
 
-
-    // Redirection automatique si la connexion a réussi
-    if (registerController.user != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => GlobalLayout()),
-        );
-      });
-    }
-
     return Scaffold(
       body: Padding(
           padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
@@ -38,7 +28,7 @@ class _RegisterViewState extends State<RegisterView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                SizedBox(height: 50),
+                SizedBox(height: 75),
                 Image.asset(
                     height: 200,
                     width: 200,
@@ -49,27 +39,6 @@ class _RegisterViewState extends State<RegisterView> {
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                   "Créer un compte",
-                ),
-                SizedBox(height: 10),
-                Text(
-                    textAlign: TextAlign.center,
-                    "Déjà membre de la communauté Picsou ?"
-                ),
-                SizedBox(height: 10),
-
-                ButtonWidget(
-                  size: ButtonWidgetSize.small,
-                  buttonBackgroundColor: secondaryColor,
-                  textColor: foregroundColor,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LoginView(),
-                      ),
-                    );
-                  },
-                  message: "Se connecter",
                 ),
 
                 SizedBox(height: 20),
@@ -116,22 +85,42 @@ class _RegisterViewState extends State<RegisterView> {
                     ],
                   ),
                 ),
-                SizedBox(height: 100),
+                SizedBox(height: 20),
+
+                ButtonWidget(
+                  backgroundColor: primaryColor,
+                  onPressed: () {
+                    registerController.submitForm(widget._formKey);
+                  },
+                  message: "S'enregistrer",
+                  icon: Icons.arrow_circle_right_outlined,
+                ),
+                SizedBox(height: 30),
+                Text(
+                    textAlign: TextAlign.center,
+                    "Déjà membre de la communauté Picsou ?"
+                ),
+                SizedBox(height: 10),
+
+                ButtonWidget(
+                  backgroundColor: backgroundVariantColor,
+                  foregroundColor: foregroundColor,
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(
+                      DefaultPageRoute(
+                        builder: (_) => LoginView(),
+                      ),
+                    );
+                  },
+                  message: "Se connecter",
+                  icon: Icons.open_in_new,
+                ),
+
+                SizedBox(height: 25),
               ],
             ),
           )
-      ),
-
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: foregroundColor,
-        onPressed:
-            () => registerController.submitForm(widget._formKey),
-        label:
-        Text(
-          style: TextStyle(color: backgroundColor),
-          'Créer un compte',
-        ),
-      ),
+      )
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projet_picsou/enums/network_error_enum.dart';
 import 'package:projet_picsou/exceptions/request_exception.dart';
+import 'package:restart_app/restart_app.dart';
 import '../dialogs/alert_dialog_builder.dart';
 import '../models/user.dart';
 import '../services/auth_service.dart';
@@ -18,7 +19,6 @@ class RegisterController with ChangeNotifier {
   RegisterController(this.authService);
 
   void submitForm(GlobalKey<FormState> formKey) {
-    HapticFeedback.mediumImpact();
     String lastName = lastNameController.text;
     String firstName = firstNameController.text;
     String email = emailController.text;
@@ -86,7 +86,7 @@ class RegisterController with ChangeNotifier {
 
     try {
 
-      user = await authService.register(
+      await authService.register(
         firstName,
         lastName,
         email,
@@ -97,9 +97,7 @@ class RegisterController with ChangeNotifier {
         rib,
         profilPictureRef,
       );
-      DialogBuilder.closeCurrentDialog();
-      User.setCurrentUserInstance(user!);
-      notifyListeners();
+      Restart.restartApp();
     }  on NetworkException catch (e) {
       DialogBuilder.networkError(e.networkError);
     } catch (_) {

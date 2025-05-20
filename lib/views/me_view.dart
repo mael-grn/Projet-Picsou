@@ -5,6 +5,7 @@ import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:provider/provider.dart';
 import '../controllers/me_controller.dart';
 import '../core/PageRoute.dart';
+import '../widgets/ui/button_widget.dart';
 import 'edit_personal_data_view.dart';
 
 class MeView extends StatefulWidget {
@@ -16,7 +17,6 @@ class MeView extends StatefulWidget {
 
 class _MeViewState extends State<MeView>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-
   @override
   void initState() {
     super.initState();
@@ -33,275 +33,231 @@ class _MeViewState extends State<MeView>
     final meController = context.watch<MeController>();
 
     return Container(
-        color: primaryColor,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(15, 75, 15, 20),
-                  child: Text(
-                    "${User.getCurrentUserInstance().firstName} ${User.getCurrentUserInstance().lastName}",
-                    overflow: TextOverflow.ellipsis, // Ajout de l'overflow
-                    maxLines: 1,
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 35,
-                    ),
-                  ),
+      color: primaryColor,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(15, 75, 15, 20),
+                child: Text(
+                  "${User.getCurrentUserInstance().firstName} ${User.getCurrentUserInstance().lastName}",
+                  overflow: TextOverflow.ellipsis, // Ajout de l'overflow
+                  maxLines: 1,
+                  textAlign: TextAlign.start,
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 35),
                 ),
-              ],
-            ),
-            Expanded(
-              child: SlideTransition(
-                position: meController.firstOffsetAnimation,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40),
-                    ),
-                    color: backgroundVariantColor,
+              ),
+            ],
+          ),
+          Expanded(
+            child: SlideTransition(
+              position: meController.firstOffsetAnimation,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
                   ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: OutlinedButton.icon(
-                                style: OutlinedButton.styleFrom(
-                                  foregroundColor: foregroundColor,
-                                  side: BorderSide(color: foregroundColor, width: 1.5),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
+                  color: backgroundVariantColor,
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ButtonWidget(
+                              message: "Modifier",
+                              icon: Icons.edit,
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  DefaultPageRoute(
+                                    builder: (_) => EditPersonalDataView(),
                                   ),
-                                  padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                                ),
-                                icon: Icon(Icons.edit, size: 20),
-                                label: Text("Modifier", style: TextStyle(fontWeight: FontWeight.w500)),
-                                onPressed: () {
-                                  Navigator.of(context).push(DefaultPageRoute(builder: (_) => EditPersonalDataView()));
-                                },
-                              ),
+                                );
+                              },
                             ),
-                            SizedBox(width: 15),
-                            Expanded(
-                              child: OutlinedButton.icon(
-                                style: OutlinedButton.styleFrom(
-                                  foregroundColor: Colors.redAccent,
-                                  side: BorderSide(color: Colors.redAccent, width: 1.5),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                                ),
-                                icon: Icon(Icons.logout, size: 20),
-                                label: Text("Déconnexion", style: TextStyle(fontWeight: FontWeight.w500)),
-                                onPressed: () {
-                                  DialogBuilder.yesOrNo(
-                                    "Déconnexion",
-                                    "Voulez-vous vraiment vous déconnecter ?",
-                                    meController.logout,
-                                  );
-                                },
-                              ),
+                          ),
+                          SizedBox(width: 18),
+                          Expanded(
+                            child: ButtonWidget(
+                              message: "Déconnexion",
+                              icon: Icons.logout,
+                              backgroundColor: Colors.redAccent,
+                              onPressed: () {
+                                DialogBuilder.yesOrNo(
+                                  "Déconnexion",
+                                  "Voulez-vous vraiment vous déconnecter ?",
+                                  meController.logout,
+                                );
+                              },
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        child: SlideTransition(
-                          position: meController.secondOffsetAnimation,
-                          child: Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(40),
-                                  topRight: Radius.circular(40),
+                    ),
+                    Expanded(
+                      child: SlideTransition(
+                        position: meController.secondOffsetAnimation,
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(40),
+                              topRight: Radius.circular(40),
+                            ),
+                            color: backgroundColor,
+                          ),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                SizedBox(height: 15),
+
+                                Image.asset(width: 100, "images/lock.png"),
+                                Text(
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30,
+                                  ),
+                                  "Vos données",
                                 ),
-                                color: backgroundColor,
-                              ),
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  children: [
 
-                                    SizedBox(height: 15),
+                                SizedBox(height: 20),
 
-                                    Row(
-                                        children: [Text(
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20),
-                                            "Vos données"
-                                        )
-                                        ]
+                                Container(
+                                  width: double.infinity,
+                                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(20),
                                     ),
-
-                                    SizedBox(height: 5),
-
-                                    Container(
-                                      width: double.infinity,
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(20)),
-                                        color: backgroundVariantColor,
+                                    color: backgroundVariantColor,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      TextInfoWidget(
+                                        "Prénom :",
+                                        User.getCurrentUserInstance().firstName,
                                       ),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                                  "Prénom : "),
-                                              Text(
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                User.getCurrentUserInstance().firstName,
-                                              ),
-                                            ],
-                                          ),
-
-                                          SizedBox(height: 5),
-
-                                          Row(
-                                            children: [
-                                              Text(style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                                  "Nom : "),
-                                              Text(
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                User.getCurrentUserInstance().lastName,
-                                              ),
-                                            ],
-                                          ),
-
-                                          SizedBox(height: 5),
-
-                                          Row(
-                                            children: [
-                                              Text(style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                                  "Email : "),
-                                              Text(
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                User.getCurrentUserInstance().email,
-                                              ),
-                                            ],
-                                          ),
-
-                                          SizedBox(height: 5),
-
-                                          Row(
-                                            children: [
-                                              Text(style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                                  "Téléphone : "),
-                                              Text(
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                  User.getCurrentUserInstance().tel
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                      TextInfoWidget(
+                                        "Nom :",
+                                        User.getCurrentUserInstance().lastName,
                                       ),
-                                    ),
-
-                                    SizedBox(height: 15),
-
-                                    Row(
-                                        children: [Text(
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20),
-                                            "Vos informations de paiement"
-                                        )
-                                        ]
-                                    ),
-
-                                    SizedBox(height: 5),
-
-                                    Container(
-                                        width: double.infinity,
-                                        padding: EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(20)),
-                                          color: backgroundVariantColor,
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(style: TextStyle(
-                                                    fontWeight: FontWeight.bold),
-                                                    "Paypal : "),
-                                                Text(
-                                                    overflow: TextOverflow.ellipsis,
-                                                    maxLines: 1,
-                                                    User.getCurrentUserInstance().emailPaypal
-                                                ),
-                                              ],
-                                            ),
-
-                                            SizedBox(height: 5),
-
-                                            Row(
-                                              children: [
-                                                Text(style: TextStyle(
-                                                    fontWeight: FontWeight.bold),
-                                                    "Wero : "),
-                                                Text(
-                                                    overflow: TextOverflow.ellipsis,
-                                                    maxLines: 1,
-                                                    User.getCurrentUserInstance().telWero
-                                                ),
-                                              ],
-                                            ),
-
-                                            SizedBox(height: 5),
-
-                                            Row(
-                                              children: [
-                                                Text(style: TextStyle(
-                                                    fontWeight: FontWeight.bold),
-                                                    "Rib : "),
-                                                Text(
-                                                    overflow: TextOverflow.ellipsis,
-                                                    maxLines: 1,
-                                                    User.getCurrentUserInstance().rib
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        )
-                                    ),
-
-                                    SizedBox(height: 130),
-                                  ],
+                                      TextInfoWidget(
+                                        "Email :",
+                                        User.getCurrentUserInstance().email,
+                                      ),
+                                      TextInfoWidget(
+                                        "Téléphone :",
+                                        User.getCurrentUserInstance().tel,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              )
+
+                                SizedBox(height: 15),
+
+                                Image.asset(
+                                  width: 100,
+                                  "images/credit_card.png",
+                                ),
+                                Text(
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30,
+                                  ),
+                                  "Vos informations de paiement",
+                                ),
+
+                                SizedBox(height: 20),
+
+                                Container(
+                                  width: double.infinity,
+                                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(20),
+                                    ),
+                                    color: backgroundVariantColor,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      TextInfoWidget(
+                                        "Paypal :",
+                                        User.getCurrentUserInstance()
+                                            .emailPaypal,
+                                      ),
+                                      TextInfoWidget(
+                                        "Wero :",
+                                        User.getCurrentUserInstance().telWero,
+                                      ),
+                                      TextInfoWidget(
+                                        "Rib :",
+                                        User.getCurrentUserInstance().rib,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                SizedBox(height: 130),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
-        )
+          ),
+        ],
+      ),
     );
   }
 
   @override
   bool get wantKeepAlive => true;
+}
+
+class TextInfoWidget extends StatelessWidget {
+  final String labelText;
+  final String valueText;
+
+  const TextInfoWidget(this.labelText, this.valueText, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+      child: Row(
+        children: [
+          Text(
+            style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            labelText,
+          ),
+          SizedBox(width: 5),
+          valueText == ""
+              ? Text(
+                style: TextStyle(fontStyle: FontStyle.italic, fontSize: 17),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                "Aucune information",
+              )
+              : Text(
+                style: TextStyle(fontSize: 17),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                valueText,
+              ),
+        ],
+      ),
+    );
+  }
 }

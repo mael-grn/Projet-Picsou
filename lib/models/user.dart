@@ -109,8 +109,11 @@ class User {
   }
   static User getCurrentUserInstance() {
     if (_currentUser == null) {
-      TokenUtils.removeToken();
-      Restart.restartApp();
+      removeCurrentUserInstance();
+      TokenUtils.removeToken().then((_) {
+        Restart.restartApp();
+      });
+
     }
     return _currentUser!;
   }

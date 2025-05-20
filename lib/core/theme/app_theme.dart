@@ -10,12 +10,12 @@ final Color backgroundColor = Color(0xFF000000);
 final Color foregroundColor = Color(0xFFFFFFFF);
  */
 
-final Color secondaryColor = Color(0xFF87DFBA);
-final Color primaryColor = Color(0xFF58AC88);
-final Color backgroundColor = Color(0xFFFFFFFF);
-final Color backgroundVariantColor = Color(0xFFC6D1D0);
-final Color foregroundColor = Color(0xFF000000);
-final Color foregroundVariantColor = Color(0xFF282E28);
+const  Color secondaryColor = Color(0xFF87DFBA);
+const Color primaryColor = Color(0xFF58AC88);
+const Color backgroundColor = Color(0xFFFFFFFF);
+const Color backgroundVariantColor = Color(0xFFC6D1D0);
+const Color foregroundColor = Color(0xFF000000);
+const Color foregroundVariantColor = Color(0xFF282E28);
 
 final MaterialColor customColor = MaterialColor(
   0xFFAABBFF,

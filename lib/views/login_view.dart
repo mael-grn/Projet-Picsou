@@ -5,6 +5,7 @@ import 'package:projet_picsou/widgets/global_layout.dart';
 import 'package:projet_picsou/widgets/ui/Text_field_widget.dart';
 import 'package:projet_picsou/widgets/ui/button_widget.dart';
 import 'package:provider/provider.dart';
+import '../core/PageRoute.dart';
 import '../core/theme/app_theme.dart';
 
 
@@ -23,16 +24,6 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     final loginController = context.watch<LoginController>();
 
-    // Redirection automatique si la connexion a réussi
-    if (loginController.user != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => GlobalLayout()),
-        );
-      });
-    }
-
     return Scaffold(
       body: Padding(
           padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
@@ -40,7 +31,7 @@ class _LoginViewState extends State<LoginView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                SizedBox(height: 50),
+                SizedBox(height: 75),
                 Image.asset(
                     height: 200,
                     width: 200,
@@ -51,24 +42,6 @@ class _LoginViewState extends State<LoginView> {
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                   "Se connecter",
-                ),
-                SizedBox(height: 10),
-                Text(
-                    textAlign: TextAlign.center,
-                    "Pas encore membre de la communauté Picsou ?"
-                ),
-                SizedBox(height: 10),
-                ButtonWidget(
-                  size: ButtonWidgetSize.small,
-                  buttonBackgroundColor: secondaryColor,
-                  textColor: foregroundColor,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RegisterView()),
-                    );
-                  },
-                  message: "Créer un compte",
                 ),
 
                 SizedBox(height: 20),
@@ -101,19 +74,41 @@ class _LoginViewState extends State<LoginView> {
                     ],
                   ),
                 ),
-                SizedBox(height: 100),
+
+                SizedBox(height: 20),
+                ButtonWidget(
+                  backgroundColor: primaryColor,
+                  onPressed: () {
+                    loginController.submitForm(widget._formKey);
+                  },
+                  message: "Connexion",
+                  icon: Icons.arrow_circle_right_outlined,
+                ),
+                SizedBox(height: 30),
+                Text(
+                    textAlign: TextAlign.center,
+                    "Pas encore membre de la communauté Picsou ?"
+                ),
+                SizedBox(height: 10),
+                ButtonWidget(
+                  backgroundColor: backgroundVariantColor,
+                  foregroundColor: foregroundColor,
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(
+                      DefaultPageRoute(
+                        builder: (_) => RegisterView(),
+                      ),
+                    );
+                  },
+                  message: "Créer un compte",
+                  icon: Icons.open_in_new,
+                ),
+
+                SizedBox(height: 25),
               ],
             ),
           )
-      ),
-
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: foregroundColor,
-        onPressed:
-            () => loginController.submitForm(widget._formKey),
-        label:
-        Text(style: TextStyle(color: backgroundColor), 'Connexion'),
-      ),
+      )
     );
   }
 }

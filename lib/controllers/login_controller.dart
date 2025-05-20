@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:projet_picsou/exceptions/request_exception.dart';
+import 'package:restart_app/restart_app.dart';
 import '../models/user.dart';
 import '../services/auth_service.dart';
 
@@ -15,9 +16,6 @@ class LoginController with ChangeNotifier {
   LoginController(this.authService);
 
   void submitForm(GlobalKey<FormState> formKey) {
-
-    HapticFeedback.mediumImpact();
-
     String email = emailController.text;
     String password = passwordController.text;
 
@@ -55,9 +53,8 @@ class LoginController with ChangeNotifier {
     DialogBuilder.loading();
 
     try {
-      user = await authService.login(email, password);
-      DialogBuilder.closeCurrentDialog();
-      notifyListeners();
+      await authService.login(email, password);
+      Restart.restartApp();
     }  on NetworkException catch (e) {
       DialogBuilder.networkError(e.networkError);
     } catch (_) {
