@@ -8,12 +8,12 @@ import '../utils/token_utils.dart';
 class UserService {
 
   Future<User> getUserFromId(int userId) async {
-    final response = await Provider.getSecure('/users/$userId');
+    final response = await Provider.getSecure('/user/$userId');
     return User.fromJson(response['user']);
   }
 
   Future<User> getUserFromEmail(String email) async {
-    final response = await Provider.getSecure('/users/email/$email');
+    final response = await Provider.getSecure('/user/email/$email');
     return User.fromJson(response['user']);
   }
 
