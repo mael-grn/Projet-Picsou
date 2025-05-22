@@ -129,14 +129,11 @@ class _GlobalLayoutState extends State<GlobalLayout> with TickerProviderStateMix
                             onTap: () => _onItemTapped(3),
                             child: Padding(
                               padding: const EdgeInsets.all(20),
-                              child: Hero(
-                                tag: User.getCurrentUserInstance().profilPictureRef,
-                                child: Image.network(
-                                  User.getCurrentUserInstance().profilPictureRef,
-                                  width: 30,
-                                  height: 30,
-                                  fit: BoxFit.cover,
-                                ),
+                              child: Image.network(
+                                User.getCurrentUserInstance().profilPictureRef,
+                                width: 30,
+                                height: 30,
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),

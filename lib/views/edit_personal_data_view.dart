@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
-import 'package:projet_picsou/widgets/animations/scale_animation_widget.dart';
 import 'package:provider/provider.dart';
 import '../controllers/edit_personal_data_controller.dart';
+import '../dialogs/alert_dialog_builder.dart';
 import '../models/user.dart';
 import '../widgets/ui/Text_field_widget.dart';
 import '../widgets/ui/button_widget.dart';
@@ -15,6 +15,17 @@ class EditPersonalDataView extends StatefulWidget {
 }
 
 class _EditPersonalDataViewState extends State<EditPersonalDataView>{
+
+  @override @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final controller = context.read<EditPersonalDataController>();
+      controller.firstNameController.text = User.getCurrentUserInstance().firstName;
+      controller.lastNameController.text = User.getCurrentUserInstance().lastName;
+      controller.phoneController.text = User.getCurrentUserInstance().tel;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +45,7 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>{
           child: Column(
             children: [
               SizedBox(height: 20),
-              ScaleAnimationWidget(
-                duration: Duration(milliseconds: 1500),
-                  child: Image.asset(
-                      height: 200,
-                      width: 200,
-                      "images/edit.png"
-                  ),
-              ),
-              SizedBox(height: 30),
+
               Text(
                 textAlign: TextAlign.center,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 35),
@@ -54,6 +57,36 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>{
                   "Vous pouvez modifier vos informations personnelles ici."
               ),
               SizedBox(height: 40),
+              Stack(
+                children: [
+                  Hero(
+                    tag: User.getCurrentUserInstance().profilPictureRef,
+                    child: Image.network(
+                      User.getCurrentUserInstance().profilPictureRef,
+                      width: 200,
+                      height: 200,
+                    ),
+                  ),
+                  Positioned(
+                    right: 4,
+                    bottom: 4,
+                    child: IconButton(
+                        onPressed: () {
+                          DialogBuilder.warning("Oups", "Cette fonctionnalité n'est pas encore disponible");
+                        },
+                        icon: Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: secondaryColor,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(Icons.edit, size: 30, color: backgroundColor,),
+                        )
+                    )
+                  ),
+                ],
+              ),
+              SizedBox(height: 30),
               Form(
                 key: widget._formKey,
                 child: Column(
@@ -95,5 +128,4 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>{
       ),
     );
   }
-
 }

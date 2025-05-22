@@ -24,7 +24,7 @@ class _MeViewState extends State<MeView>{
 
     return MainPageLayoutWidget(
       secondFloor: Text(
-        "${User.getCurrentUserInstance().firstName} ${User.getCurrentUserInstance().lastName}",
+        "Mon profil",
         overflow: TextOverflow.ellipsis, // Ajout de l'overflow
         maxLines: 1,
         textAlign: TextAlign.start,
@@ -69,93 +69,91 @@ class _MeViewState extends State<MeView>{
         child: Column(
           children: [
             SizedBox(height: 15),
-
-            Image.asset(width: 100, "images/lock.png"),
+            Hero(
+              tag: User.getCurrentUserInstance().profilPictureRef,
+              child: Image.network(
+                User.getCurrentUserInstance().profilPictureRef,
+                width: 200,
+                height: 200,
+              ),
+            ),
+            SizedBox(height: 15),
             Text(
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 30,
+                fontSize: 40,
               ),
-              "Vos données",
+              "${User.getCurrentUserInstance().firstName} ${User.getCurrentUserInstance().lastName}",
             ),
 
-            SizedBox(height: 20),
-
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(20),
+            Divider(
+              thickness: 1,
+              color: Colors.grey,
+              height: 50,
+            ),
+            Row(
+              children: [
+                Image.asset(width: 50, "images/lock.png"),
+                Text(
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                  "Données personnelles",
                 ),
-                color: backgroundVariantColor,
-              ),
-              child: Column(
-                children: [
-                  TextInfoWidget(
-                    "Prénom :",
-                    User.getCurrentUserInstance().firstName,
-                  ),
-                  TextInfoWidget(
-                    "Nom :",
-                    User.getCurrentUserInstance().lastName,
-                  ),
-                  TextInfoWidget(
-                    "Email :",
-                    User.getCurrentUserInstance().email,
-                  ),
-                  TextInfoWidget(
-                    "Téléphone :",
-                    User.getCurrentUserInstance().tel,
-                  ),
-                ],
-              ),
+              ],
             ),
+
+
 
             SizedBox(height: 15),
 
-            Image.asset(
-              width: 100,
-              "images/credit_card.png",
+            TextInfoWidget(
+              "Email :",
+              User.getCurrentUserInstance().email,
             ),
-            Text(
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
-              ),
-              "Vos informations de paiement",
+            TextInfoWidget(
+              "Téléphone :",
+              User.getCurrentUserInstance().tel,
             ),
 
-            SizedBox(height: 20),
+            Divider(
+              thickness: 1, // épaisseur de la barre
+              color: Colors.grey, // couleur de la barre
+              height: 30, // espace vertical occupé
+            ),
 
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(20),
+            Row(
+              children: [
+                Image.asset(width: 75, "images/credit_card.png"),
+                Text(
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                  "Paiement",
                 ),
-                color: backgroundVariantColor,
-              ),
-              child: Column(
-                children: [
-                  TextInfoWidget(
-                    "Paypal :",
-                    User.getCurrentUserInstance()
-                        .emailPaypal,
-                  ),
-                  TextInfoWidget(
-                    "Wero :",
-                    User.getCurrentUserInstance().telWero,
-                  ),
-                  TextInfoWidget(
-                    "Rib :",
-                    User.getCurrentUserInstance().rib,
-                  ),
-                ],
-              ),
+              ],
+            ),
+
+
+            SizedBox(height: 10),
+
+            TextInfoWidget(
+              "Paypal :",
+              User.getCurrentUserInstance()
+                  .emailPaypal,
+            ),
+            TextInfoWidget(
+              "Wero :",
+              User.getCurrentUserInstance().telWero,
+            ),
+            TextInfoWidget(
+              "Rib :",
+              User.getCurrentUserInstance().rib,
             ),
 
             SizedBox(height: 130),
