@@ -1,6 +1,7 @@
 import 'package:restart_app/restart_app.dart';
 
 import '../core/provider.dart';
+import '../exceptions/request_exception.dart';
 import '../models/user.dart';
 import '../utils/token_utils.dart';
 
@@ -28,9 +29,15 @@ class UserService {
       final newUser = User.fromJson(response);
       User.setCurrentUserInstance(newUser);
       return newUser;
-    } catch (_) {
+    } on NetworkException catch (_) {
       rethrow;
     }
+  }
+
+  static Future<void> logout() async {
+    await TokenUtils.removeToken();
+    User.removeCurrentUserInstance();
+    await Restart.restartApp();
   }
 
   Future<void> deleteUser(int userId) async {

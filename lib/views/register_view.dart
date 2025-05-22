@@ -26,7 +26,7 @@ class _RegisterViewState extends State<RegisterView> {
           padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 SizedBox(height: 75),
                 ScaleAnimationWidget(

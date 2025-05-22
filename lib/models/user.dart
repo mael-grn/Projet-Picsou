@@ -120,11 +120,7 @@ class User {
 
   static User getCurrentUserInstance() {
     if (_currentUser == null) {
-      removeCurrentUserInstance();
-      TokenUtils.removeToken().then((_) {
-        Restart.restartApp();
-      });
-      return User(0, "", "", "", "", "", "", "", "", "");
+      return User(-1, "", "", "", "", "", "", "", "", "");
     } else {
       return _currentUser!;
     }

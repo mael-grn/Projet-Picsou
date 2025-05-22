@@ -10,6 +10,7 @@ import 'package:projet_picsou/controllers/login_controller.dart';
 import 'package:projet_picsou/controllers/me_controller.dart';
 import 'package:projet_picsou/controllers/register_controller.dart';
 import 'package:projet_picsou/controllers/search_user_with_email_controller.dart';
+import 'package:projet_picsou/controllers/select_profile_picture_controller.dart';
 import 'package:projet_picsou/services/auth_service.dart';
 import 'package:projet_picsou/services/friend_service.dart';
 import 'package:projet_picsou/services/group_service.dart';
@@ -48,6 +49,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => FriendsController(friendService)),
         ChangeNotifierProvider(create: (_) => EditPersonalDataController(userService)),
         ChangeNotifierProvider(create: (_) => SearchUserWithEmailController(userService)),
+        ChangeNotifierProvider(create: (_) => SelectProfilePictureController(userService)),
       ],
       child: MaterialApp(
         title: 'PICSOU',

@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:projet_picsou/exceptions/request_exception.dart';
 import 'package:restart_app/restart_app.dart';
+import '../core/PageRoute.dart';
 import '../models/user.dart';
 import '../services/auth_service.dart';
+import '../views/select_profile_picture_view.dart';
 
 class LoginController with ChangeNotifier {
   final AuthService authService;
@@ -53,8 +55,16 @@ class LoginController with ChangeNotifier {
     DialogBuilder.loading();
 
     try {
-      await authService.login(email, password);
-      Restart.restartApp();
+      final user = await authService.login(email, password);
+      if (user.profilPictureRef.isEmpty) {
+        DialogBuilder.closeCurrentDialog();
+        PageRouter.push(SelectProfilePictureView());
+        return;
+      } else {
+        DialogBuilder.closeCurrentDialog();
+        await Restart.restartApp();
+        return;
+      }
     }  on NetworkException catch (e) {
       DialogBuilder.networkError(e.networkError);
     } catch (_) {
