@@ -81,6 +81,7 @@ class _LoginViewState extends State<LoginView> {
 
                 SizedBox(height: 20),
                 ButtonWidget(
+                  tag: "validate_button",
                   backgroundColor: primaryColor,
                   onPressed: () {
                     loginController.submitForm(widget._formKey);
@@ -95,6 +96,8 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 SizedBox(height: 10),
                 ButtonWidget(
+                  tag: "change_auth_method_button",
+
                   backgroundColor: backgroundVariantColor,
                   foregroundColor: foregroundColor,
                   onPressed: () {

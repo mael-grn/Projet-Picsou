@@ -14,21 +14,10 @@ class EditPersonalDataView extends StatefulWidget {
   _EditPersonalDataViewState createState() => _EditPersonalDataViewState();
 }
 
-class _EditPersonalDataViewState extends State<EditPersonalDataView>
-    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-
-  @override
-  void initState() {
-    super.initState();
-    final controller = Provider.of<EditPersonalDataController>(context, listen: false);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.initUser();
-    });
-  }
+class _EditPersonalDataViewState extends State<EditPersonalDataView>{
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     final controller = context.watch<EditPersonalDataController>();
 
     return Scaffold(
@@ -36,8 +25,7 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>
         elevation: 0,
         scrolledUnderElevation: 10.0,
         surfaceTintColor: backgroundVariantColor,
-        backgroundColor: backgroundColor,
-        title: Text("Modifier mes informations"),
+        backgroundColor: backgroundColor
       ),
 
       body: Container(
@@ -47,6 +35,7 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>
             children: [
               SizedBox(height: 20),
               ScaleAnimationWidget(
+                duration: Duration(milliseconds: 1500),
                   child: Image.asset(
                       height: 200,
                       width: 200,
@@ -95,6 +84,7 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>
                 onPressed: () {
                   controller.updateUser(widget._formKey);
                 },
+                tag: "edit_user",
                 message: "Valider",
                 icon: Icons.save,
               ),
@@ -106,6 +96,4 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
 }

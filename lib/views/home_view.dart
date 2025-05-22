@@ -13,10 +13,8 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView>
-    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+class _HomeViewState extends State<HomeView> {
   @override
-  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -29,7 +27,6 @@ class _HomeViewState extends State<HomeView>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context); // Nécessaire pour AutomaticKeepAliveClientMixin
     final homeController = context.watch<HomeController>();
 
 

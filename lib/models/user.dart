@@ -3,7 +3,6 @@ import 'package:restart_app/restart_app.dart';
 import '../utils/token_utils.dart';
 
 class User {
-
   final int id;
   final String firstName;
   final String lastName;
@@ -18,17 +17,17 @@ class User {
   static User? _currentUser;
 
   const User(
-      this.id,
-      this.firstName,
-      this.lastName,
-      this.email,
-      this.tel,
-      this.emailPaypal,
-      this.telWero,
-      this.rib,
-      this.profilPictureRef,
-      this.password,
-      );
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.tel,
+    this.emailPaypal,
+    this.telWero,
+    this.rib,
+    this.profilPictureRef,
+    this.password,
+  );
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -61,14 +60,20 @@ class User {
   }
 
   static bool checkNameFormat(String? name) {
-    if (name == null || name.isEmpty || name.length < 2 || name.length > 50 || name.contains(" ")) {
+    if (name == null ||
+        name.isEmpty ||
+        name.length < 2 ||
+        name.length > 50 ||
+        name.contains(" ")) {
       return false;
     }
     return true;
   }
 
   static String? checkNameFormatValidator(String? name) =>
-      checkNameFormat(name) ? null : "Le nom doit contenir entre 2 et 50 caractères et ne doit pas contenir d'espaces.";
+      checkNameFormat(name)
+          ? null
+          : "Le nom doit contenir entre 2 et 50 caractères et ne doit pas contenir d'espaces.";
 
   static bool checkEmailFormat(String? email) {
     if (email == null || email.isEmpty) {
@@ -90,33 +95,41 @@ class User {
   }
 
   static String? checkTelFormatValidator(String? tel) =>
-      checkTelFormat(tel) ? null : "Le numéro de téléphone doit contenir entre 10 et 15 chiffres.";
+      checkTelFormat(tel)
+          ? null
+          : "Le numéro de téléphone doit contenir entre 10 et 15 chiffres.";
 
   static bool checkPasswordFormat(String? password) {
     if (password == null || password.isEmpty) {
       return false;
     }
     final passwordRegex = RegExp(
-        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
+    );
     return passwordRegex.hasMatch(password);
   }
 
   static String? checkPasswordFormatValidator(String? password) =>
-      checkPasswordFormat(password) ? null : "Le mot de passe doit contenir au moins 1 lettre majuscule, 1 lettre minuscule, 1 chiffre, 1 caractère spécial (@, \$, !, %, *, ?, &) et doit contenir au moins 8 caractères.";
+      checkPasswordFormat(password)
+          ? null
+          : "Le mot de passe doit contenir au moins 1 lettre majuscule, 1 lettre minuscule, 1 chiffre, 1 caractère spécial (@, \$, !, %, *, ?, &) et doit contenir au moins 8 caractères.";
 
   static setCurrentUserInstance(User user) {
     _currentUser = user;
   }
+
   static User getCurrentUserInstance() {
     if (_currentUser == null) {
       removeCurrentUserInstance();
       TokenUtils.removeToken().then((_) {
         Restart.restartApp();
       });
-
+      return User(0, "", "", "", "", "", "", "", "", "");
+    } else {
+      return _currentUser!;
     }
-    return _currentUser!;
   }
+
   static void removeCurrentUserInstance() {
     _currentUser = null;
   }

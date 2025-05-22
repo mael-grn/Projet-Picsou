@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/views/login_view.dart';
-import 'package:projet_picsou/widgets/global_layout.dart';
 import 'package:projet_picsou/widgets/ui/Text_field_widget.dart';
 import 'package:provider/provider.dart';
 import '../controllers/register_controller.dart';
 import '../core/PageRoute.dart';
 import '../core/theme/app_theme.dart';
 import '../widgets/animations/scale_animation_widget.dart';
-import '../widgets/animations/scale_pop_animation_widget.dart';
 import '../widgets/ui/button_widget.dart';
 
 class RegisterView extends StatefulWidget {
@@ -92,6 +90,7 @@ class _RegisterViewState extends State<RegisterView> {
                 SizedBox(height: 20),
 
                 ButtonWidget(
+                  tag: "validate_button",
                   backgroundColor: primaryColor,
                   onPressed: () {
                     registerController.submitForm(widget._formKey);
@@ -107,6 +106,7 @@ class _RegisterViewState extends State<RegisterView> {
                 SizedBox(height: 10),
 
                 ButtonWidget(
+                  tag: "change_auth_method_button",
                   backgroundColor: backgroundVariantColor,
                   foregroundColor: foregroundColor,
                   onPressed: () {

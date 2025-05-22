@@ -43,6 +43,7 @@ class SplashScreenView extends StatelessWidget {
                 ),
                 SizedBox(height: 30),
                 ButtonWidget(
+                  tag: "validate_button",
                   onPressed: () {
                     Navigator.of(
                       context,

@@ -16,21 +16,10 @@ class MeView extends StatefulWidget {
   _MeViewState createState() => _MeViewState();
 }
 
-class _MeViewState extends State<MeView>
-    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  @override
-  void initState() {
-    super.initState();
-    final controller = Provider.of<MeController>(context, listen: false);
-    controller.initAnimations(this);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.animationsController.forward();
-    });
-  }
+class _MeViewState extends State<MeView>{
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     final meController = context.watch<MeController>();
 
     return MainPageLayoutWidget(
@@ -47,6 +36,7 @@ class _MeViewState extends State<MeView>
           Expanded(
             child: ButtonWidget(
               message: "Modifier",
+              tag: "edit_user",
               icon: Icons.edit,
               onPressed: () {
                 Navigator.of(context).push(
@@ -174,9 +164,6 @@ class _MeViewState extends State<MeView>
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class TextInfoWidget extends StatelessWidget {

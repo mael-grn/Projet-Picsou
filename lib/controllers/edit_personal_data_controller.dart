@@ -8,29 +8,12 @@ import '../models/user.dart';
 
 class EditPersonalDataController with ChangeNotifier {
   final UserService userService;
-  User? user;
-  bool userUpdated = false;
   final lastNameController = TextEditingController();
   final firstNameController = TextEditingController();
   final phoneController = TextEditingController();
   static final context = navigatorKey.currentContext;
 
   EditPersonalDataController(this.userService);
-
-  void initUser() {
-    try {
-      DialogBuilder.loading();
-
-      user = User.getCurrentUserInstance();
-      lastNameController.text = user!.lastName;
-      firstNameController.text = user!.firstName;
-      phoneController.text = user!.tel;
-    } catch (e) {
-      user = null;
-    } finally {
-      DialogBuilder.closeCurrentDialog();
-    }
-  }
 
   Future<void> updateUser(GlobalKey<FormState> formKey) async {
 
@@ -45,36 +28,33 @@ class EditPersonalDataController with ChangeNotifier {
     String firstName = firstNameController.text;
     String phone = phoneController.text;
 
-    if (user != null) {
-      final newUser = User(
-        user!.id,
-        firstName,
-        lastName,
-        user!.email,
-        phone,
-        user!.emailPaypal,
-        user!.telWero,
-        user!.rib,
-        user!.profilPictureRef,
-        user!.password,
-      );
+    final newUser = User(
+      User.getCurrentUserInstance().id,
+      firstName,
+      lastName,
+      User.getCurrentUserInstance().email,
+      phone,
+      User.getCurrentUserInstance().emailPaypal,
+      User.getCurrentUserInstance().telWero,
+      User.getCurrentUserInstance().rib,
+      User.getCurrentUserInstance().profilPictureRef,
+      User.getCurrentUserInstance().password,
+    );
 
-      try {
-        user = await userService.updateUser(newUser);
-        DialogBuilder.success(
+    try {
+      await userService.updateUser(newUser);
+      DialogBuilder.success(
           "Succès",
           "Vos données personnelles ont été mises à jour.",
-            () {
-              Navigator.pop(context!);
-            }
-        );
-        userUpdated = true;
-        notifyListeners();
-      } on NetworkException catch (e) {
-        DialogBuilder.networkError(e.networkError);
-      } catch (_) {
-        DialogBuilder.appError();
-      }
+            onCLose:  () {
+            Navigator.pop(context!);
+          }
+      );
+      notifyListeners();
+    } on NetworkException catch (e) {
+      DialogBuilder.networkError(e.networkError);
+    } catch (_) {
+      DialogBuilder.appError();
     }
   }
 }

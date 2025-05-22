@@ -84,9 +84,9 @@ class DialogBuilder {
 
   static Future<void> success(
     String title,
-    String content, [
-    Function? onCLose,
-  ]) {
+    String content, {
+        Function? onCLose,
+      }) {
     return _simpleImageDialog(
       context,
       title,
@@ -98,9 +98,9 @@ class DialogBuilder {
 
   static Future<void> warning(
     String title,
-    String content, [
-    Function? onCLose,
-  ]) {
+    String content, {
+        Function? onCLose,
+      }) {
     return _simpleImageDialog(
       context,
       title,
@@ -111,10 +111,14 @@ class DialogBuilder {
   }
 
   static Future<void> networkError(
-    NetworkErrorEnum error, [
-    Function? onCLose,
-  ]) {
+    NetworkErrorEnum error, {
+        List<
+            ({int code, String title, String message})> personalizedErrors = const [
+        ],
+        Function? onCLose,
+      }) {
     String image = "";
+    String title = "Une erreur s'est produite lors de la connexion au serveur";
     String detailedMessage = "";
     switch (error) {
       case NetworkErrorEnum.unauthorized:
@@ -146,16 +150,24 @@ class DialogBuilder {
             "Une erreur s'est produite. Veuillez réessayer plus tard.";
         image = "images/broken_phone.png";
     }
+
+    for (var e in personalizedErrors) {
+      if (e.code == error.code) {
+        title = e.title;
+        detailedMessage = e.message;
+      }
+    }
+
     return _simpleImageDialog(
       context,
-      "Une erreur s'est produite",
+      title,
       "$detailedMessage (${error.code} : ${error.message})",
       image,
       onCLose,
     );
   }
 
-  static Future<void> serverError([Function? onCLose]) {
+  static Future<void> serverError({Function? onCLose}) {
     return _simpleImageDialog(
       context,
       "Erreur",
@@ -165,7 +177,7 @@ class DialogBuilder {
     );
   }
 
-  static Future<void> appError([Function? onCLose]) {
+  static Future<void> appError({Function? onCLose}) {
     return _simpleImageDialog(
       context,
       "Erreur",
@@ -175,7 +187,7 @@ class DialogBuilder {
     );
   }
 
-  static Future<void> error(String title, String content, [Function? onCLose]) {
+  static Future<void> error(String title, String content, {Function? onCLose}) {
     return _simpleImageDialog(
       context,
       title,
@@ -221,9 +233,9 @@ class DialogBuilder {
   static Future<void> yesOrNo(
     String title,
     String content,
-    Function onYes, [
-    Function? onNo,
-  ]) {
+    Function onYes, {
+        Function? onNo,
+      }) {
     return _showDialog((BuildContext context) {
       return ScaleAnimationWidget(
           child: AlertDialog(

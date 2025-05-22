@@ -22,6 +22,7 @@ class ButtonWidget extends StatelessWidget {
   final VoidCallback onPressed;
   final EdgeInsetsGeometry padding;
   final bool iconOnRight;
+  final String? tag;
 
   const ButtonWidget({
     super.key,
@@ -32,6 +33,7 @@ class ButtonWidget extends StatelessWidget {
     required this.onPressed,
     this.padding = const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
     this.iconOnRight = true,
+    this.tag,
   });
 
   @override
@@ -44,30 +46,37 @@ class ButtonWidget extends StatelessWidget {
       if (iconOnRight) Icon(icon, size: 22),
     ];
 
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: backgroundColor,
-        foregroundColor: foregroundColor,
-        elevation: 4,
-        shadowColor: primaryColor.withAlpha((0.3 * 255).round()),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
-        padding: padding,
-        textStyle: const TextStyle(
-          fontWeight: FontWeight.w600,
-          fontSize: 16,
-          fontFamily: 'Poppins',
-        ),
-      ),
-      onPressed: () {
-        HapticFeedback.mediumImpact();
-        onPressed();
-      },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: children,
-      ),
+    return Hero(
+        tag: tag ?? "hero-$message",
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: backgroundColor,
+            foregroundColor: foregroundColor,
+            elevation: 4,
+            shadowColor: primaryColor.withAlpha((0.3 * 255).round()),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
+            ),
+            padding: padding,
+            textStyle: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+              fontFamily: 'Poppins',
+            ),
+          ),
+          onPressed: () {
+            HapticFeedback.mediumImpact();
+            onPressed();
+          },
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Flex(
+              direction: Axis.horizontal,
+              mainAxisSize: MainAxisSize.min,
+              children: children,
+            ),
+          )
+        )
     );
   }
 }
