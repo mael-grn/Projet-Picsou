@@ -1,32 +1,41 @@
 import 'package:flutter/material.dart';
 
 /// The colors used in the app.
+/*
 final Color primaryColor = Color(0xFF63B995);
 final Color primaryLightColor = Color(0xFF86DEB7);
 final Color primaryDarkColor = Color(0xFF12402C);
 final Color darkColor = Color(0xFF0B251A);
 final Color backgroundColor = Color(0xFF000000);
 final Color foregroundColor = Color(0xFFFFFFFF);
+ */
+
+const  Color secondaryColor = Color(0xFF87DFBA);
+const Color primaryColor = Color(0xFF58AC88);
+const Color backgroundColor = Color(0xFFFFFFFF);
+const Color backgroundVariantColor = Color(0xFFC6D1D0);
+const Color foregroundColor = Color(0xFF000000);
+const Color foregroundVariantColor = Color(0xFF282E28);
 
 final MaterialColor customColor = MaterialColor(
   0xFFAABBFF,
   <int, Color>{
     50: foregroundColor,
-    100: primaryLightColor,
-    200: primaryLightColor,
+    100: primaryColor,
+    200: primaryColor,
     300: primaryColor,
     400: primaryColor,
-    500: primaryDarkColor,
-    600: primaryDarkColor,
-    700: darkColor,
-    800: darkColor,
+    500: primaryColor,
+    600: primaryColor,
+    700: primaryColor,
+    800: primaryColor,
     900: backgroundColor,
   },
 );
 
 final ThemeData appTheme = ThemeData(
   useMaterial3: true,
-  brightness: Brightness.dark,
+  brightness: Brightness.light,
   primarySwatch: customColor,
   visualDensity: VisualDensity.adaptivePlatformDensity,
   fontFamily: 'Poppins',
@@ -61,5 +70,5 @@ final ThemeData appTheme = ThemeData(
       backgroundColor: Colors.transparent,
     ),
   ),
-  scaffoldBackgroundColor: darkColor,
+  scaffoldBackgroundColor: backgroundColor,
 );

@@ -5,5 +5,4 @@ abstract class Payment {
   final double amount;
 
   Payment(this.id, this.date, this.amount);
-
 }

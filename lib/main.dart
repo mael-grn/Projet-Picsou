@@ -1,98 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:projet_picsou/views/friends_view.dart';
-import 'package:projet_picsou/views/home_view.dart';
-import 'package:projet_picsou/views/me_view.dart';
-import 'package:projet_picsou/views/money_view.dart';
+import 'package:flutter/services.dart';
+import 'package:projet_picsou/controllers/conversation_list_controller.dart';
+import 'package:projet_picsou/controllers/edit_personal_data_controller.dart';
+import 'package:projet_picsou/controllers/entry_point_controller.dart';
+import 'package:projet_picsou/controllers/friend_conversation_controller.dart';
+import 'package:projet_picsou/controllers/friends_controller.dart';
+import 'package:projet_picsou/controllers/home_controller.dart';
+import 'package:projet_picsou/controllers/login_controller.dart';
+import 'package:projet_picsou/controllers/me_controller.dart';
+import 'package:projet_picsou/controllers/register_controller.dart';
+import 'package:projet_picsou/controllers/search_user_with_email_controller.dart';
+import 'package:projet_picsou/controllers/select_profile_picture_controller.dart';
+import 'package:projet_picsou/services/auth_service.dart';
+import 'package:projet_picsou/services/friend_service.dart';
+import 'package:projet_picsou/services/group_service.dart';
+import 'package:projet_picsou/services/user_service.dart';
+import 'package:projet_picsou/views/entry_point_view.dart';
+import 'package:provider/provider.dart';
+
 import 'core/theme/app_theme.dart';
-void main() {
-  runApp(MyApp());
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent, // Couleur de fond de la barre d'état
+    statusBarIconBrightness: Brightness.dark, // Pour des icônes noires sur fond clair
+  ));
+
+  final userService = UserService();
+  final authService = AuthService();
+  final groupService = GroupService();
+  final friendService = FriendService();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => EntryPointController(authService)),
+        ChangeNotifierProvider(create: (_) => ConversationListController(groupService)),
+        ChangeNotifierProvider(create: (_) => FriendConversationController(friendService)),
+        ChangeNotifierProvider(create: (_) => HomeController(userService)),
+        ChangeNotifierProvider(create: (_) => LoginController(authService)),
+        ChangeNotifierProvider(create: (_) => RegisterController(authService)),
+        ChangeNotifierProvider(create: (_) => MeController()),
+        ChangeNotifierProvider(create: (_) => FriendsController(friendService)),
+        ChangeNotifierProvider(create: (_) => EditPersonalDataController(userService)),
+        ChangeNotifierProvider(create: (_) => SearchUserWithEmailController(userService)),
+        ChangeNotifierProvider(create: (_) => SelectProfilePictureController(userService)),
+      ],
+      child: MaterialApp(
+        title: 'PICSOU',
+        debugShowCheckedModeBanner: false,
+        theme: appTheme,
+        navigatorKey: navigatorKey,
+        home: EntryPointView(),
+      )
+    ),
+  );
 }
 
-///Creating the app
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'PICSOU',
-      debugShowCheckedModeBanner: false,
-      home: GlobalLayout(),
-      theme: appTheme,
-    );
-  }
-}
-
-/// The GlobalLayout is the main widget containing the main pages and the navigation bar.
-/// It handles the state of the navigation bar and the current page.
-class GlobalLayout extends StatefulWidget {
-  const GlobalLayout({super.key});
-
-  @override
-  _GlobalLayoutState createState() => _GlobalLayoutState();
-}
-
-class _GlobalLayoutState extends State<GlobalLayout> {
-
-  // The current page's index
-  int currentPageIndex = 0;
-
-  // All the pages accessible with the navigation bar
-  final List<Widget> _pages = [
-    HomeView(),
-    MoneyView(),
-    FriendsView(),
-    MeView(),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-
-    ///Main widget of the application.
-    return Scaffold(
-
-      appBar: AppBar(
-        title: const Text('Picsou'),
-        backgroundColor: primaryColor,
-        foregroundColor: backgroundColor,
-      ),
-
-      ///IndexedStack shows the current page. It also avoids creating a new instance of each widget,
-      ///therefore the state of each widget is preserved.
-      body: IndexedStack(
-        index: currentPageIndex,
-        children: _pages,
-      ),
-
-      bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        indicatorColor: darkColor,
-        backgroundColor: backgroundColor,
-        selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
-            selectedIcon: Icon(Icons.home),
-            icon: Icon(Icons.home_outlined),
-            label: 'Accueil',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.monetization_on),
-            label: 'Argent',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.people),
-            label: 'Amis',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.person),
-            label: 'Moi',
-          ),
-        ],
-      ),
-    );
-  }
-}
