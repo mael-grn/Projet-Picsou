@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:projet_picsou/exceptions/request_exception.dart';
 import 'package:projet_picsou/services/user_service.dart';
+import 'package:projet_picsou/widgets/user/user_glance_widget.dart';
 import '../main.dart';
 import '../models/user.dart';
+import '../widgets/ui/button_widget.dart';
 
 class SearchUserWithEmailController with ChangeNotifier {
   final UserService userService;
@@ -18,18 +20,38 @@ class SearchUserWithEmailController with ChangeNotifier {
       return;
     }
 
+    if (emailController.text == User.getCurrentUserInstance().email) {
+      DialogBuilder.warning("Attention !", "Il semble que vous essayer de vous ajouter vous-même en ami. Malheureseusement, cela n'est pas possible.");
+      return;
+    }
+
     DialogBuilder.loading();
 
     String email = emailController.text;
 
     try {
       User foundUser = await userService.getUserFromEmail(email);
-      DialogBuilder.yesOrNo(
-          "${foundUser.firstName} ${foundUser.lastName}",
-          "L'adresse email que vous avez saisie correspond à ${foundUser.firstName} ${foundUser.lastName}. Voulez-vous lui envoyer une demande d'amis ?",
-              () {
-            Navigator.pop(context!);
-          }
+      DialogBuilder.customDialog(
+          UserGlanceWidget(
+            user: foundUser,
+          ),
+          [
+            ButtonWidget(
+              backgroundColor: Colors.redAccent,
+                message: "Annuler",
+                icon: Icons.cancel,
+                onPressed: () {
+                  DialogBuilder.closeCurrentDialog();
+                }
+            ),
+            ButtonWidget(
+                message: "Ajouter",
+                icon: Icons.add_circle_outlined,
+                onPressed: () {
+                  DialogBuilder.closeCurrentDialog();
+                }
+            )
+          ]
       );
       notifyListeners();
     } on NetworkException catch (e) {
@@ -37,8 +59,10 @@ class SearchUserWithEmailController with ChangeNotifier {
           personalizedErrors: [
         (code: 404, title: "Utilisateur introuvable", message: "aucun utilisateur n'a été trouvé avec cet e-mail")
       ]);
-    } catch (_) {
+    } catch (e) {
+      print(e);
       DialogBuilder.appError();
     }
   }
 }
+

@@ -14,7 +14,7 @@ class UserService {
 
   Future<User> getUserFromEmail(String email) async {
     final response = await Provider.getSecure('/user/email/$email');
-    return User.fromJson(response['user']);
+    return User.fromJson(response);
   }
 
   Future<double> getUserBalance(userId) async {
@@ -25,6 +25,11 @@ class UserService {
 
   Future<User> updateUser(User user) async {
     try {
+      print(user.firstName);
+      print(user.email);
+      print(User.getCurrentUserInstance().firstName);
+      print(User.getCurrentUserInstance().email);
+      print(TokenUtils.loadToken());
       final response = await Provider.putSecure('/user/', user.toJson());
       final newUser = User.fromJson(response);
       User.setCurrentUserInstance(newUser);

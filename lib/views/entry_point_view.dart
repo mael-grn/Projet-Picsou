@@ -32,7 +32,9 @@ class _EntryPointViewState extends State<EntryPointView> {
         entryPointController.isLoading ?
         LoadingSceenView() :
         entryPointController.page ??
-            ErrorScreenView( image: entryPointController.errorImage ?? "images/wondering.png", errorMessage: entryPointController.error ?? "Une erreur est survenue. Essayez de relancer l'application.")
+            ErrorScreenView(
+                errorMessage: "Nous n'avons pas réussi à nous connecter aux serveurs Picsou. Nos équipes sont en train de travailler sur le problème. Vous pouvez également verifier les mises à jours. Si le problème persiste, merci de nous contacter.",
+            )
     );
   }
 }

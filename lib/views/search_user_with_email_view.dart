@@ -37,8 +37,8 @@ class _SearchUserWithEmailViewState extends State<SearchUserWithEmailView>{
                 ScaleAnimationWidget(
                   duration: Duration(milliseconds: 1500),
                   child: Image.asset(
-                      height: 200,
-                      width: 200,
+                      height: 300,
+                      width: 300,
                       "images/search.png"
                   ),
                 ),

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
+import 'package:projet_picsou/views/troubleshooting_view.dart';
+import 'package:projet_picsou/widgets/animations/slide_up_animation_widget.dart';
 import 'package:projet_picsou/widgets/ui/button_widget.dart';
 import 'package:restart_app/restart_app.dart';
+
+import '../core/PageRoute.dart';
+import '../widgets/animations/scale_animation_widget.dart';
 
 class ErrorScreenView extends StatelessWidget {
   final String errorMessage;
   final String image;
-  const ErrorScreenView({required this.errorMessage,this.image = "images/wondering.png", super.key});
+  const ErrorScreenView({required this.errorMessage,this.image = "images/broken_server.png", super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,27 +28,53 @@ class ErrorScreenView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
 
-                      Image.asset(
-                        "images/wondering.png",
-                        width: double.infinity,
-                        fit: BoxFit.contain,
-                        height: 400,
+                      ScaleAnimationWidget(
+                        child: Image.asset(
+                          image,
+                          width: double.infinity,
+                          fit: BoxFit.contain,
+                          height: 300,
+                        ),
                       ),
-                      SizedBox(height: 20),
-                      Text(
-                          textAlign: TextAlign.center,
-                          errorMessage
+                      SizedBox(height: 30),
+                      SlideUpAnimationWidget(
+                          child: Text(
+                              style: TextStyle(
+                                  fontSize: 35,
+                                  fontWeight: FontWeight.bold
+                              ),
+                              textAlign: TextAlign.center,
+                              "Zut, quelque chose semble avoir mal tourné"
+                          ),
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 15),
+                      SlideUpAnimationWidget(
+                        duration: Duration(milliseconds: 1500),
+                          child: Text(
+                              textAlign: TextAlign.center,
+                              errorMessage
+                          ),
+                      ),
+                      SizedBox(height: 50),
                       ButtonWidget(
-                        message: "Redemarrer l'application",
+                        message: "Redémarrer l'application",
                         icon: Icons.refresh,
-                        backgroundColor: foregroundVariantColor,
-                        foregroundColor: backgroundColor,
                         onPressed: () {
                           Restart.restartApp();
                         },
+                      ),
+                      SizedBox(height: 15),
+                      ButtonWidget(
+                        tag: "troubleshooting",
+                        backgroundColor: backgroundVariantColor,
+                        foregroundColor: foregroundColor,
+                        message: "Résolution de problèmes",
+                        icon: Icons.info_outline,
+                        onPressed: () {
+                          PageRouter.push(TroubleshootingView());
+                        },
                       )
+
                     ],
                   )
               )

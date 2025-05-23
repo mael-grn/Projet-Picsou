@@ -23,9 +23,7 @@ class DialogBuilder {
       barrierDismissible: false,
       context: context!,
       builder: builder,
-    ).then((_) {
-      _isDialogOpen = false;
-    });
+    );
   }
 
   static closeCurrentDialog() {
