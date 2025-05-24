@@ -31,13 +31,16 @@ class DialogBuilder {
       return;
     }
     if (_isDialogOpen) {
-      Navigator.of(context!).pop();
-      _isDialogOpen = false;
+      final navigator = Navigator.of(context!);
+      final route = ModalRoute.of(context!);
+      if (route is PopupRoute) {
+        navigator.pop();
+        _isDialogOpen = false;
+      }
     }
   }
 
   static Future<void> _simpleImageDialog(
-    BuildContext? context,
     String title,
     String content,
     String image, [
@@ -71,7 +74,7 @@ class DialogBuilder {
                   if (onCLose != null) {
                     onCLose();
                   }
-                  Navigator.of(context).pop();
+                  closeCurrentDialog();
                 }
             )
           ],
@@ -86,7 +89,6 @@ class DialogBuilder {
         Function? onCLose,
       }) {
     return _simpleImageDialog(
-      context,
       title,
       content,
       "images/thumbs_up.png",
@@ -100,7 +102,6 @@ class DialogBuilder {
         Function? onCLose,
       }) {
     return _simpleImageDialog(
-      context,
       title,
       content,
       "images/warning.png",
@@ -157,7 +158,6 @@ class DialogBuilder {
     }
 
     return _simpleImageDialog(
-      context,
       title,
       "$detailedMessage (${error.code} : ${error.message})",
       image,
@@ -167,7 +167,6 @@ class DialogBuilder {
 
   static Future<void> serverError({Function? onCLose}) {
     return _simpleImageDialog(
-      context,
       "Erreur",
       "Une erreur s'est produite lors de la connexion aux serveurs. Veuillez réessayer plus tard",
       "images/broken_server.png",
@@ -177,7 +176,6 @@ class DialogBuilder {
 
   static Future<void> appError({Function? onCLose}) {
     return _simpleImageDialog(
-      context,
       "Erreur",
       "Une erreur s'est produite dans l'application. Essayez de verifier les mises à jours. Si le problème persiste, vous pouvez contacter le support.",
       "images/broken_phone.png",
@@ -187,7 +185,6 @@ class DialogBuilder {
 
   static Future<void> error(String title, String content, {Function? onCLose}) {
     return _simpleImageDialog(
-      context,
       title,
       content,
       "images/error.png",
@@ -263,7 +260,7 @@ class DialogBuilder {
                     if (onNo != null) {
                       onNo();
                     }
-                    Navigator.of(context).pop();
+                    closeCurrentDialog();
                   }
               ),
               ButtonWidget(
@@ -271,7 +268,7 @@ class DialogBuilder {
                   icon: Icons.check,
                   onPressed: () {
                     onYes();
-                    Navigator.of(context).pop();
+                    closeCurrentDialog();
                   }
               )
             ],
