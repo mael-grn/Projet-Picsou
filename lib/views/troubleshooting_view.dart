@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
-import 'package:projet_picsou/widgets/animations/slide_up_animation_widget.dart';
 import 'package:projet_picsou/widgets/ui/button_widget.dart';
-import 'package:restart_app/restart_app.dart';
-
 import '../core/PageRoute.dart';
-import '../widgets/animations/scale_animation_widget.dart';
 
 class TroubleshootingView extends StatelessWidget {
   const TroubleshootingView({super.key});

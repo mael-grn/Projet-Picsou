@@ -1,4 +1,3 @@
-// lib/views/select_profile_picture_view.dart
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/controllers/select_profile_picture_controller.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';

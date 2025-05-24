@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:projet_picsou/views/register_view.dart';
 import 'package:projet_picsou/widgets/animations/scale_animation_widget.dart';
-import 'package:projet_picsou/widgets/animations/slide_fade_animation_widget.dart';
-import '../../core/theme/app_theme.dart';
 import '../core/PageRoute.dart';
-import '../widgets/animations/scale_pop_animation_widget.dart';
 import '../widgets/ui/button_widget.dart';
 
 class SplashScreenView extends StatelessWidget {

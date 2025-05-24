@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:projet_picsou/core/theme/app_theme.dart';
 import 'package:projet_picsou/models/user.dart';
 import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:provider/provider.dart';

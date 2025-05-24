@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:projet_picsou/controllers/login_controller.dart';
 import 'package:projet_picsou/views/register_view.dart';
 import 'package:projet_picsou/widgets/animations/scale_animation_widget.dart';
-import 'package:projet_picsou/widgets/global_layout.dart';
 import 'package:projet_picsou/widgets/ui/Text_field_widget.dart';
 import 'package:projet_picsou/widgets/ui/button_widget.dart';
 import 'package:provider/provider.dart';
 import '../core/PageRoute.dart';
 import '../core/theme/app_theme.dart';
-import '../widgets/animations/scale_pop_animation_widget.dart';
-
 
 class LoginView extends StatefulWidget {
   LoginView({super.key});
