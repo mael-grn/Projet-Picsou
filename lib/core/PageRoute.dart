@@ -50,21 +50,4 @@ class PageRouter {
       ),
     );
   }
-
-  static void pushHero(Widget newPage) {
-    if (context == null) {
-      return;
-    }
-
-    Widget heroNewPage = Hero(
-      tag: heroTag,
-      child: newPage,
-    );
-
-    Navigator.of(context!).push(
-      DefaultPageRoute(
-        builder: (_) => heroNewPage,
-      ),
-    );
-  }
 }

@@ -101,11 +101,7 @@ class _LoginViewState extends State<LoginView> {
                   backgroundColor: backgroundVariantColor,
                   foregroundColor: foregroundColor,
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                      DefaultPageRoute(
-                        builder: (_) => RegisterView(),
-                      ),
-                    );
+                    PageRouter.pushReplacement(RegisterView());
                   },
                   message: "Créer un compte",
                   icon: Icons.open_in_new,

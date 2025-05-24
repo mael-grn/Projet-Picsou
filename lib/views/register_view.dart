@@ -110,11 +110,7 @@ class _RegisterViewState extends State<RegisterView> {
                   backgroundColor: backgroundVariantColor,
                   foregroundColor: foregroundColor,
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                      DefaultPageRoute(
-                        builder: (_) => LoginView(),
-                      ),
-                    );
+                    PageRouter.pushReplacement(LoginView());
                   },
                   message: "Se connecter",
                   icon: Icons.open_in_new,

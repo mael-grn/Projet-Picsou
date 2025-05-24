@@ -39,11 +39,7 @@ class _MeViewState extends State<MeView>{
               tag: "edit_user",
               icon: Icons.edit,
               onPressed: () {
-                Navigator.of(context).push(
-                  DefaultPageRoute(
-                    builder: (_) => EditPersonalDataView(),
-                  ),
-                );
+                PageRouter.push(EditPersonalDataView());
               },
             ),
           ),
