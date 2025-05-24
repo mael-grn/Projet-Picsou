@@ -31,12 +31,8 @@ class DialogBuilder {
       return;
     }
     if (_isDialogOpen) {
-      final navigator = Navigator.of(context!);
-      final route = ModalRoute.of(context!);
-      if (route is PopupRoute) {
-        navigator.pop();
-        _isDialogOpen = false;
-      }
+      Navigator.of(context!).pop();
+      _isDialogOpen = false;
     }
   }
 
