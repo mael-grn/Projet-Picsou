@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:projet_picsou/enums/network_error_enum.dart';
 import 'package:projet_picsou/exceptions/request_exception.dart';
+import 'package:projet_picsou/services/user_service.dart';
 import 'package:projet_picsou/views/select_profile_picture_view.dart';
-import 'package:restart_app/restart_app.dart';
 import '../core/PageRoute.dart';
 import '../dialogs/alert_dialog_builder.dart';
 import '../models/user.dart';
-import '../services/auth_service.dart';
 
 class RegisterController with ChangeNotifier {
-  final AuthService authService;
+  final UserService userService;
   User? user;
   bool hidePassword = true;
   final emailController = TextEditingController();
@@ -18,7 +15,7 @@ class RegisterController with ChangeNotifier {
   final lastNameController = TextEditingController();
   final firstNameController = TextEditingController();
 
-  RegisterController(this.authService);
+  RegisterController(this.userService);
 
   void submitForm(GlobalKey<FormState> formKey) {
     String lastName = lastNameController.text;
@@ -87,8 +84,7 @@ class RegisterController with ChangeNotifier {
     DialogBuilder.loading();
 
     try {
-
-      await authService.register(
+      await userService.createUser(
         firstName,
         lastName,
         email,
@@ -100,9 +96,14 @@ class RegisterController with ChangeNotifier {
         profilPictureRef,
       );
       DialogBuilder.closeCurrentDialog();
-      PageRouter.push(SelectProfilePictureView());
+      CustomNavigator.push(SelectProfilePictureView());
     }  on NetworkException catch (e) {
-      DialogBuilder.networkError(e.networkError);
+      DialogBuilder.networkError(
+        e.networkError,
+        personalizedErrors: [
+          (code: 409, message: "Un compte avec cette adresse email existe déjà. Veuillez en choisir une autre, ou bien vous connecter.", title: "Cet email est déjà utilisé"),
+        ]
+      );
     } catch (_) {
       DialogBuilder.appError();
     }

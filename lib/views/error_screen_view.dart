@@ -9,9 +9,7 @@ import '../core/PageRoute.dart';
 import '../widgets/animations/scale_animation_widget.dart';
 
 class ErrorScreenView extends StatelessWidget {
-  final String errorMessage;
-  final String image;
-  const ErrorScreenView({required this.errorMessage,this.image = "images/broken_server.png", super.key});
+  const ErrorScreenView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,7 @@ class ErrorScreenView extends StatelessWidget {
 
                       ScaleAnimationWidget(
                         child: Image.asset(
-                          image,
+                          "images/broken_server.png",
                           width: double.infinity,
                           fit: BoxFit.contain,
                           height: 300,
@@ -52,7 +50,7 @@ class ErrorScreenView extends StatelessWidget {
                         duration: Duration(milliseconds: 1500),
                           child: Text(
                               textAlign: TextAlign.center,
-                              errorMessage
+                              "Zut, une erreur est survenue au chargement de l'application. Consultez la page de résultation de problèmes pour plus d'informations.",
                           ),
                       ),
                       SizedBox(height: 50),
@@ -71,7 +69,7 @@ class ErrorScreenView extends StatelessWidget {
                         message: "Résolution de problèmes",
                         icon: Icons.info_outline,
                         onPressed: () {
-                          PageRouter.push(TroubleshootingView());
+                          CustomNavigator.push(TroubleshootingView());
                         },
                       )
 

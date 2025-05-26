@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 
 import '../main.dart';
 
-class DefaultPageRoute<T> extends PageRouteBuilder<T> {
-  DefaultPageRoute({required WidgetBuilder builder})
+class CustomPageRoute<T> extends PageRouteBuilder<T> {
+  CustomPageRoute({required WidgetBuilder builder})
       : super(
     transitionDuration: const Duration(milliseconds: 1000),
     pageBuilder: (context, animation, secondaryAnimation) => builder(context),
@@ -19,7 +19,7 @@ class DefaultPageRoute<T> extends PageRouteBuilder<T> {
   );
 }
 
-class PageRouter {
+class CustomNavigator {
   static final context = navigatorKey.currentContext;
   static const heroTag = "hero";
   static void push(Widget newPage) {
@@ -27,7 +27,7 @@ class PageRouter {
       return;
     }
     Navigator.of(context!).push(
-      DefaultPageRoute(
+      CustomPageRoute(
         builder: (_) => newPage,
       ),
     );
@@ -45,7 +45,7 @@ class PageRouter {
       return;
     }
     Navigator.of(context!).pushReplacement(
-      DefaultPageRoute(
+      CustomPageRoute(
         builder: (_) => newPage,
       ),
     );

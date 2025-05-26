@@ -50,7 +50,7 @@ class SelectProfilePictureController with ChangeNotifier {
     try {
       await userService.updateUser(newUser);
       DialogBuilder.closeCurrentDialog();
-      PageRouter.push(WelcomScreenView());
+      CustomNavigator.push(WelcomScreenView());
     } on NetworkException catch (e) {
       DialogBuilder.networkError(e.networkError);
     } catch (_) {

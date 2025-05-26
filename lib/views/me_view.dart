@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/models/user.dart';
 import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
+import 'package:projet_picsou/services/session_service.dart';
 import 'package:provider/provider.dart';
 import '../controllers/me_controller.dart';
 import '../core/PageRoute.dart';
@@ -38,7 +39,7 @@ class _MeViewState extends State<MeView>{
               tag: "edit_user",
               icon: Icons.edit,
               onPressed: () {
-                PageRouter.push(EditPersonalDataView());
+                CustomNavigator.push(EditPersonalDataView());
               },
             ),
           ),
@@ -52,7 +53,7 @@ class _MeViewState extends State<MeView>{
                 DialogBuilder.yesOrNo(
                   "Déconnexion",
                   "Voulez-vous vraiment vous déconnecter ?",
-                  meController.logout,
+                  SessionService.closeSession,
                 );
               },
             ),

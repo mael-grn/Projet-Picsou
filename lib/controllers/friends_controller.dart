@@ -36,7 +36,7 @@ class FriendsController with ChangeNotifier {
   }
 
   Future<void> initFriends() async {
-    friends = await friendService.getFriends();
+    return;
   }
 
 }

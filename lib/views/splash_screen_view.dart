@@ -41,7 +41,7 @@ class SplashScreenView extends StatelessWidget {
                 ButtonWidget(
                   tag: "validate_button",
                   onPressed: () {
-                    PageRouter.push(RegisterView());
+                    CustomNavigator.push(RegisterView());
                   },
                   message: "Commencer l'aventure",
                   icon: Icons.arrow_forward,

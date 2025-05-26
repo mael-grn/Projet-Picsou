@@ -112,7 +112,7 @@ class TroubleshootingView extends StatelessWidget {
                     message: "Fermer",
                     icon: Icons.close,
                     onPressed: () {
-                      PageRouter.back();
+                      CustomNavigator.back();
                     },
                   ),
               )

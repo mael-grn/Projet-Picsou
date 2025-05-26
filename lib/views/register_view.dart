@@ -90,7 +90,6 @@ class _RegisterViewState extends State<RegisterView> {
                 SizedBox(height: 20),
 
                 ButtonWidget(
-                  tag: "validate_button",
                   backgroundColor: primaryColor,
                   onPressed: () {
                     registerController.submitForm(widget._formKey);
@@ -106,11 +105,10 @@ class _RegisterViewState extends State<RegisterView> {
                 SizedBox(height: 10),
 
                 ButtonWidget(
-                  tag: "change_auth_method_button",
                   backgroundColor: backgroundVariantColor,
                   foregroundColor: foregroundColor,
                   onPressed: () {
-                    PageRouter.pushReplacement(LoginView());
+                    CustomNavigator.pushReplacement(LoginView());
                   },
                   message: "Se connecter",
                   icon: Icons.open_in_new,

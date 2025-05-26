@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/controllers/home_controller.dart';
-import 'package:projet_picsou/core/theme/app_theme.dart';
-import 'package:projet_picsou/widgets/conversation/conversation_button_list_widget.dart';
 import 'package:provider/provider.dart';
 import '../models/user.dart';
 import '../widgets/ui/main_page_layout_widget.dart';
@@ -40,16 +38,8 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
 
-      firstFloor: Text(
-          style: TextStyle(
-              fontWeight: FontWeight.w800,
-              fontSize: 40,
-              color: foregroundColor
-          ),
-          homeController.userBalance > 0 ? '+ ${homeController.userBalance} €' : '- ${homeController.userBalance} €'
-      ),
-
-      groundFloor: ConversationButtonListWidget()
+      firstFloor: Text("Rien"),
+      groundFloor: Text("Toujours rien"),
     );
   }
 }

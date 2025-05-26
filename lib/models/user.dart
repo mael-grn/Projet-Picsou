@@ -1,7 +1,3 @@
-import 'package:restart_app/restart_app.dart';
-
-import '../utils/token_utils.dart';
-
 class User {
   final int id;
   final String firstName;

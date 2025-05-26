@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:projet_picsou/exceptions/request_exception.dart';
 import 'package:restart_app/restart_app.dart';
 import '../core/PageRoute.dart';
 import '../models/user.dart';
-import '../services/auth_service.dart';
+import '../services/session_service.dart';
 import '../views/select_profile_picture_view.dart';
 
 class LoginController with ChangeNotifier {
-  final AuthService authService;
+  final SessionService authService;
   User? user;
   bool hidePassword = true;
   final emailController = TextEditingController();
@@ -55,10 +54,10 @@ class LoginController with ChangeNotifier {
     DialogBuilder.loading();
 
     try {
-      final user = await authService.login(email, password);
+      final user = await authService.openSession(email, password);
       if (user.profilPictureRef.isEmpty) {
         DialogBuilder.closeCurrentDialog();
-        PageRouter.push(SelectProfilePictureView());
+        CustomNavigator.push(SelectProfilePictureView());
         return;
       } else {
         DialogBuilder.closeCurrentDialog();
@@ -66,8 +65,15 @@ class LoginController with ChangeNotifier {
         return;
       }
     }  on NetworkException catch (e) {
-      DialogBuilder.networkError(e.networkError);
-    } catch (_) {
+      DialogBuilder.networkError(
+          e.networkError,
+        personalizedErrors: [
+          (code: 404, message: "Email ou mot de passe incorrect", title: "Erreur de connexion"),
+          (code: 403, message: "Email ou mot de passe incorrect", title: "Erreur de connexion"),
+        ]
+      );
+    } catch (e) {
+      print(e);
       DialogBuilder.appError();
     } finally {
     }

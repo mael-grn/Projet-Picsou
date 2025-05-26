@@ -40,7 +40,7 @@ class _FriendsViewState extends State<FriendsView>{
         message: "Ajouter un ami",
         icon: Icons.add,
         onPressed: () {
-          PageRouter.push(SearchUserWithEmailView());
+          CustomNavigator.push(SearchUserWithEmailView());
 
         },
       ),

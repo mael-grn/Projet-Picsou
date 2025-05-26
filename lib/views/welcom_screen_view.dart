@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:projet_picsou/core/PageRoute.dart';
 import 'package:projet_picsou/widgets/animations/slide_fade_animation_widget.dart';
-import 'package:restart_app/restart_app.dart';
+import 'package:projet_picsou/widgets/global_layout.dart';
 import '../models/user.dart';
 import '../widgets/ui/button_widget.dart';
 
@@ -54,7 +55,7 @@ class _WelcomScreenViewState extends State<WelcomScreenView>{
                 SizedBox(height: 40),
                 ButtonWidget(
                   onPressed: () {
-                    Restart.restartApp();
+                    CustomNavigator.pushReplacement(GlobalLayout());
                   },
                   tag: "validate_button",
                   message: "Commencer",

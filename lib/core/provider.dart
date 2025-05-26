@@ -1,133 +1,109 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:projet_picsou/exceptions/request_exception.dart';
+import 'package:cookie_jar/cookie_jar.dart';
+import 'package:projet_picsou/utils/storage_utils.dart';
+
 import '../enums/network_error_enum.dart';
-import '../utils/token_utils.dart';
+import '../exceptions/request_exception.dart';
 
 class ProviderResponse {
   final int statusCode;
   final Map<String, dynamic> data;
-
   ProviderResponse(this.statusCode, this.data);
 }
 
+enum HttpMethod { GET, POST, PUT, DELETE, PATCH }
+
 class Provider {
 
-  static const String baseUrl = 'http://picsou.zapto.org:8000';
-  static const int timeout = 10;
+  static final _cookieJar = CookieJar();
+  static final _client = http.Client();
 
-  /// Sends a POST request to the server, without token.
-  static Future<Map<String, dynamic>> postUnsecure(String route, Object data) async {
-    try {
-      final response = await  http.post(
-        Uri.parse('$baseUrl$route'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(data),
-      ).timeout(const Duration(seconds: timeout));
-      if (response.statusCode.toString().startsWith('2')) {
-        return jsonDecode(response.body);
-      } else {
-        throw NetworkException(NetworkErrorEnum.fromCode(response.statusCode));
+  static const String _baseUrl = 'http://picsou.zapto.org:8000';
+
+  static Future<Map<String, dynamic>> sendRequestWithCookies({required HttpMethod method, required String route, Map<String, String>? headers, Object? body}) async {
+    // Récupère les cookies pour l'URL
+    final url = Uri.parse('$_baseUrl$route');
+    final token = await StorageUtils.load("token");
+
+    final cookieHeader = 'token=$token';
+    // Ajoute les cookies dans les headers
+    final requestHeaders = {
+      ...?headers,
+      'Cookie': cookieHeader,
+      'Content-Type': 'application/json',
+    };
+
+    // Envoie la requête
+    late http.Response response;
+    switch (method) {
+      case HttpMethod.GET:
+        response = await _client.get(url, headers: requestHeaders);
+        break;
+      case HttpMethod.PUT:
+        response = await _client.put(url, headers: requestHeaders, body: jsonEncode(body));
+        break;
+      case HttpMethod.PATCH:
+        response = await _client.put(url, headers: requestHeaders, body: jsonEncode(body));
+        break;
+      case HttpMethod.DELETE:
+        response = await _client.delete(url, headers: requestHeaders);
+        break;
+      case HttpMethod.POST:
+        response = await _client.post(url, headers: requestHeaders, body: jsonEncode(body));
+        break;
+    }
+
+    if (response.statusCode.toString().startsWith('2')) {
+
+      // Stocke les nouveaux cookies reçus
+      final setCookie = response.headers['set-cookie'];
+      if (setCookie != null) {
+        StorageUtils.save('token', Cookie.fromSetCookieValue(setCookie).value);
       }
-    } on TimeoutException catch (_) {
-      throw NetworkException(NetworkErrorEnum.requestTimeout);
+      return jsonDecode(response.body);
+    } else {
+      throw NetworkException(NetworkErrorEnum.fromCode(response.statusCode));
     }
   }
 
-  /// Sends a GET request to the server, without token.
-  static Future<Map<String, dynamic>> getUnsecure(String route) async {
-    try {
-      final response = await  http.get(
-        Uri.parse('$baseUrl$route'),
-        headers: {'Content-Type': 'application/json'},
-      ).timeout(const Duration(seconds: timeout));
-      if (response.statusCode.toString().startsWith('2')) {
-        return jsonDecode(response.body);
-      } else {
-        throw NetworkException(NetworkErrorEnum.fromCode(response.statusCode));
-      }
-    } on TimeoutException catch (_) {
-      throw NetworkException(NetworkErrorEnum.requestTimeout);
+  static Future<Map<String, dynamic>> sendRequest({required HttpMethod method, required String route, Map<String, String>? headers, Object? body}) async {
+    final url = Uri.parse('$_baseUrl$route');
+    final requestHeaders = {
+      ...?headers,
+      'Content-Type': 'application/json',
+    };
+    // Envoie la requête
+    late http.Response response;
+    switch (method) {
+      case HttpMethod.GET:
+        response = await _client.get(url, headers: requestHeaders);
+        break;
+      case HttpMethod.PUT:
+        response = await _client.put(url, headers: requestHeaders, body: jsonEncode(body));
+        break;
+      case HttpMethod.PATCH:
+        response = await _client.put(url, headers: requestHeaders, body: jsonEncode(body));
+        break;
+      case HttpMethod.DELETE:
+        response = await _client.delete(url, headers: requestHeaders);
+        break;
+      case HttpMethod.POST:
+        response = await _client.post(url, headers: requestHeaders, body: jsonEncode(body));
+        break;
     }
-  }
 
-  /// Sends a GET request to the server, with the token in the header.
-  /// If the token is not found, throws a TokenException.
-  static Future<Map<String, dynamic>> getSecure(String route) async {
-    final token = await TokenUtils.loadToken();
-    try {
-      final response = await  http.get(
-        Uri.parse('$baseUrl$route'),
-        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
-      ).timeout(const Duration(seconds: timeout));
-      if (response.statusCode.toString().startsWith('2')) {
-        return jsonDecode(response.body);
-      } else {
-        throw NetworkException(NetworkErrorEnum.fromCode(response.statusCode));
-      }
-    } on TimeoutException catch (_) {
-      throw NetworkException(NetworkErrorEnum.requestTimeout);
-    }
-  }
+    if (response.statusCode.toString().startsWith('2')) {
 
-  /// Sends a POST request to the server, with the token in the header.
-  /// If the token is not found, throws a TokenException.
-  static Future<Map<String, dynamic>> postSecure(String route, Object data) async {
-    final token = await TokenUtils.loadToken();
-    try {
-      final response = await  http.post(
-        Uri.parse('$baseUrl$route'),
-        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
-        body: jsonEncode(data),
-      ).timeout(const Duration(seconds: timeout));
-      if (response.statusCode.toString().startsWith('2')) {
-        return jsonDecode(response.body);
-      } else {
-        throw NetworkException(NetworkErrorEnum.fromCode(response.statusCode));
+      // Stocke les nouveaux cookies reçus
+      final setCookie = response.headers['set-cookie'];
+      if (setCookie != null) {
+        StorageUtils.save('token', Cookie.fromSetCookieValue(setCookie).value);
       }
-    } on TimeoutException catch (_) {
-      throw NetworkException(NetworkErrorEnum.requestTimeout);
-    }
-  }
-
-  /// Sends a PUT request to the server, with the token in the header.
-  /// If the token is not found, throws a TokenException.
-  static Future<Map<String, dynamic>> putSecure(String route, Object data) async {
-    final token = await TokenUtils.loadToken();
-    try {
-      final response = await  http.put(
-        Uri.parse('$baseUrl$route'),
-        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
-        body: jsonEncode(data),
-      ).timeout(const Duration(seconds: timeout));
-      if (response.statusCode.toString().startsWith('2')) {
-        return jsonDecode(response.body);
-      } else {
-        throw NetworkException(NetworkErrorEnum.fromCode(response.statusCode));
-      }
-    } on TimeoutException catch (_) {
-      throw NetworkException(NetworkErrorEnum.requestTimeout);
-    }
-  }
-
-  /// Sends a DELETE request to the server, with the token in the header.
-  /// If the token is not found, throws a TokenException.
-  static Future<Map<String, dynamic>> deleteSecure(String route, Object data) async {
-    final token = await TokenUtils.loadToken();
-    try {
-      final response = await  http.delete(
-        Uri.parse('$baseUrl$route'),
-        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
-        body: jsonEncode(data),
-      ).timeout(const Duration(seconds: timeout));
-      if (response.statusCode.toString().startsWith('2')) {
-        return jsonDecode(response.body);
-      } else {
-        throw NetworkException(NetworkErrorEnum.fromCode(response.statusCode));
-      }
-    } on TimeoutException catch (_) {
-      throw NetworkException(NetworkErrorEnum.requestTimeout);
+      return jsonDecode(response.body);
+    } else {
+      throw NetworkException(NetworkErrorEnum.fromCode(response.statusCode));
     }
   }
 }
