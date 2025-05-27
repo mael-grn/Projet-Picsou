@@ -3,7 +3,7 @@ import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:projet_picsou/exceptions/request_exception.dart';
 import 'package:projet_picsou/services/user_service.dart';
 import 'package:projet_picsou/views/welcom_screen_view.dart';
-import '../core/PageRoute.dart';
+import '../core/theme/custom_navigator.dart';
 import '../models/user.dart';
 
 class SelectProfilePictureController with ChangeNotifier {

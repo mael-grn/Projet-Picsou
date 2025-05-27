@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:projet_picsou/core/PageRoute.dart';
 import 'package:projet_picsou/services/session_service.dart';
 import 'package:projet_picsou/services/user_service.dart';
-import 'package:projet_picsou/utils/storage_utils.dart';
 import 'package:projet_picsou/views/error_screen_view.dart';
+import '../core/theme/custom_navigator.dart';
 import '../enums/network_error_enum.dart';
 import '../exceptions/request_exception.dart';
 import '../models/user.dart';

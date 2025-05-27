@@ -29,7 +29,7 @@ class _HomeViewState extends State<HomeView> {
 
 
     return MainPageLayoutWidget(
-      secondFloor: Text(
+      title: Text(
         'Bonjour, ${User.getCurrentUserInstance().firstName}',
         textAlign: TextAlign.start,
         style: TextStyle(
@@ -38,8 +38,8 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
 
-      firstFloor: Text("Rien"),
-      groundFloor: Text("Toujours rien"),
+      intermediate: Text("Rien"),
+      body: Text("Toujours rien"),
     );
   }
 }

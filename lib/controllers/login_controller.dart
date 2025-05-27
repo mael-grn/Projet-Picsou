@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:projet_picsou/exceptions/request_exception.dart';
 import 'package:restart_app/restart_app.dart';
-import '../core/PageRoute.dart';
+import '../core/theme/custom_navigator.dart';
 import '../models/user.dart';
 import '../services/session_service.dart';
 import '../views/select_profile_picture_view.dart';

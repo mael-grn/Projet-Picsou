@@ -4,15 +4,15 @@
     import '../animations/slide_up_animation_widget.dart';
 
     class MainPageLayoutWidget extends StatefulWidget {
-      final Widget groundFloor;
-      final Widget firstFloor;
-      final Widget secondFloor;
+      final Widget body;
+      final Widget? intermediate;
+      final Widget title;
 
       const MainPageLayoutWidget({
         super.key,
-        required this.groundFloor,
-        required this.firstFloor,
-        required this.secondFloor,
+        required this.body,
+        this.intermediate,
+        required this.title,
       });
 
       @override
@@ -75,7 +75,7 @@
                         duration: Duration(milliseconds: 250),
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
-                          child: widget.secondFloor,
+                          child: widget.title,
                         ),
                       )
                     : SizedBox.shrink(),
@@ -83,22 +83,23 @@
               Expanded(
                 child: Column(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: ScaleAnimationWidget(
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(25),
+                    if (widget.intermediate != null)
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: ScaleAnimationWidget(
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                              color: backgroundColor,
                             ),
-                            color: backgroundColor,
+                            child: widget.intermediate,
                           ),
-                          child: widget.firstFloor,
                         ),
                       ),
-                    ),
                     Expanded(
                       child: SlideUpAnimationWidget(
                         child: Container(
@@ -120,7 +121,7 @@
                             },
                             child: SingleChildScrollView(
                               controller: _scrollController,
-                              child: widget.groundFloor,
+                              child: widget.body,
                             ),
                           ),
                         ),

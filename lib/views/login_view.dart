@@ -7,6 +7,7 @@ import 'package:projet_picsou/widgets/ui/button_widget.dart';
 import 'package:provider/provider.dart';
 import '../core/PageRoute.dart';
 import '../core/theme/app_theme.dart';
+import '../core/theme/custom_navigator.dart';
 
 class LoginView extends StatefulWidget {
   LoginView({super.key});

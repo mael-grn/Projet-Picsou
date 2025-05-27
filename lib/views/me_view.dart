@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:projet_picsou/models/user.dart';
 import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:projet_picsou/services/session_service.dart';
+import 'package:projet_picsou/views/paiement_data_view.dart';
+import 'package:projet_picsou/views/personal_data_view.dart';
 import 'package:provider/provider.dart';
 import '../controllers/me_controller.dart';
-import '../core/PageRoute.dart';
-import '../widgets/ui/button_widget.dart';
+import '../core/theme/custom_navigator.dart';
 import '../widgets/ui/main_page_layout_widget.dart';
-import 'edit_personal_data_view.dart';
+import '../core/theme/app_theme.dart'; // Assure-toi d'importer les couleurs
 
 class MeView extends StatefulWidget {
   const MeView({super.key});
@@ -16,40 +16,95 @@ class MeView extends StatefulWidget {
   _MeViewState createState() => _MeViewState();
 }
 
-class _MeViewState extends State<MeView>{
-
+class _MeViewState extends State<MeView> {
   @override
   Widget build(BuildContext context) {
     final meController = context.watch<MeController>();
 
+    Widget modernTile({
+      required IconData icon,
+      required String title,
+      required VoidCallback onTap,
+      Color? iconColor,
+    }) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+        child: Hero(
+            tag: "button-$title",
+            child: Material(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(18),
+              elevation: 2,
+              shadowColor: Colors.black12,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(18),
+                onTap: onTap,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
+                  child: Row(
+                    children: [
+                      Icon(icon, color: iconColor ?? foregroundVariantColor, size: 28),
+                      const SizedBox(width: 18),
+                      Expanded(
+                        child: Text(
+                          title,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      const Icon(Icons.chevron_right, color: secondaryColor, size: 26),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+        )
+      );
+    }
+
     return MainPageLayoutWidget(
-      secondFloor: Text(
+      title: const Text(
         "Mon profil",
-        overflow: TextOverflow.ellipsis, // Ajout de l'overflow
+        overflow: TextOverflow.ellipsis,
         maxLines: 1,
         textAlign: TextAlign.start,
         style: TextStyle(fontWeight: FontWeight.w600, fontSize: 35),
       ),
-
-      firstFloor: Row(
-        children: [
-          Expanded(
-            child: ButtonWidget(
-              message: "Modifier",
-              tag: "edit_user",
-              icon: Icons.edit,
-              onPressed: () {
-                CustomNavigator.push(EditPersonalDataView());
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 15),
+            modernTile(
+              icon: Icons.person,
+              title: 'Mes données personnelles',
+              onTap: () {
+                CustomNavigator.push(const PersonalDataView());
               },
             ),
-          ),
-          SizedBox(width: 18),
-          Expanded(
-            child: ButtonWidget(
-              message: "Déconnexion",
+            modernTile(
+              icon: Icons.monetization_on_outlined,
+              title: 'Mes données de paiement',
+              onTap: () {
+                CustomNavigator.push(const PaiementDataView());
+              },
+            ),
+            modernTile(
+              icon: Icons.settings,
+              title: 'Paramètres',
+              onTap: () {
+                DialogBuilder.warning(
+                  "Désolé...",
+                  "Cette fonctionnalité n'est pas encore implémentée. Merci de revenir plus tard.",
+                );
+              },
+            ),
+            modernTile(
               icon: Icons.logout,
-              backgroundColor: Colors.redAccent,
-              onPressed: () {
+              title: 'Déconnexion',
+              iconColor: Colors.redAccent,
+              onTap: () {
                 DialogBuilder.yesOrNo(
                   "Déconnexion",
                   "Voulez-vous vraiment vous déconnecter ?",
@@ -57,140 +112,9 @@ class _MeViewState extends State<MeView>{
                 );
               },
             ),
-          ),
-        ],
-      ),
-
-      groundFloor: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 15),
-            Hero(
-              tag: User.getCurrentUserInstance().profilPictureRef,
-              child: Image.network(
-                User.getCurrentUserInstance().profilPictureRef,
-                width: 200,
-                height: 200,
-              ),
-            ),
-            SizedBox(height: 15),
-            Text(
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 40,
-              ),
-              "${User.getCurrentUserInstance().firstName} ${User.getCurrentUserInstance().lastName}",
-            ),
-
-            Divider(
-              thickness: 1,
-              color: Colors.grey,
-              height: 50,
-            ),
-            Row(
-              children: [
-                Image.asset(width: 50, "images/lock.png"),
-                Text(
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                  "Données personnelles",
-                ),
-              ],
-            ),
-
-
-
-            SizedBox(height: 15),
-
-            TextInfoWidget(
-              "Email :",
-              User.getCurrentUserInstance().email,
-            ),
-            TextInfoWidget(
-              "Téléphone :",
-              User.getCurrentUserInstance().tel,
-            ),
-
-            Divider(
-              thickness: 1, // épaisseur de la barre
-              color: Colors.grey, // couleur de la barre
-              height: 30, // espace vertical occupé
-            ),
-
-            Row(
-              children: [
-                Image.asset(width: 75, "images/credit_card.png"),
-                Text(
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                  "Paiement",
-                ),
-              ],
-            ),
-
-
-            SizedBox(height: 10),
-
-            TextInfoWidget(
-              "Paypal :",
-              User.getCurrentUserInstance()
-                  .emailPaypal,
-            ),
-            TextInfoWidget(
-              "Wero :",
-              User.getCurrentUserInstance().telWero,
-            ),
-            TextInfoWidget(
-              "Rib :",
-              User.getCurrentUserInstance().rib,
-            ),
-
-            SizedBox(height: 130),
+            const SizedBox(height: 130),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class TextInfoWidget extends StatelessWidget {
-  final String labelText;
-  final String valueText;
-
-  const TextInfoWidget(this.labelText, this.valueText, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-      child: Row(
-        children: [
-          Text(
-            style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-            labelText,
-          ),
-          SizedBox(width: 5),
-          valueText == ""
-              ? Text(
-                style: TextStyle(fontStyle: FontStyle.italic, fontSize: 17),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                "Aucune information",
-              )
-              : Text(
-                style: TextStyle(fontSize: 17),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                valueText,
-              ),
-        ],
       ),
     );
   }

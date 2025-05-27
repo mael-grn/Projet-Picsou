@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projet_picsou/controllers/friends_controller.dart';
 import 'package:projet_picsou/views/search_user_with_email_view.dart';
 import 'package:provider/provider.dart';
-
-import '../core/PageRoute.dart';
+import '../core/theme/custom_navigator.dart';
 import '../widgets/ui/button_widget.dart';
 import '../widgets/ui/main_page_layout_widget.dart';
 
@@ -29,13 +28,13 @@ class _FriendsViewState extends State<FriendsView>{
     final controller = context.watch<FriendsController>();
 
     return MainPageLayoutWidget(
-      secondFloor: Text(
+      title: Text(
         'Mes amis',
         textAlign: TextAlign.start,
         style: TextStyle(fontWeight: FontWeight.w600, fontSize: 35),
       ),
 
-      firstFloor: ButtonWidget(
+      intermediate: ButtonWidget(
         tag: "search_user",
         message: "Ajouter un ami",
         icon: Icons.add,
@@ -45,7 +44,7 @@ class _FriendsViewState extends State<FriendsView>{
         },
       ),
 
-      groundFloor: controller.friends.isEmpty
+      body: controller.friends.isEmpty
           ? Padding(
         padding: const EdgeInsets.fromLTRB(30, 40, 30, 0),
         child: SingleChildScrollView(
