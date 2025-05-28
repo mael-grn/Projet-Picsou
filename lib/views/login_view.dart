@@ -96,7 +96,7 @@ class _LoginViewState extends State<LoginView> {
                   backgroundColor: backgroundVariantColor,
                   foregroundColor: foregroundColor,
                   onPressed: () {
-                    CustomNavigator.pushReplacement(RegisterView());
+                    CustomNavigator.pushReplacementFromRight(RegisterView());
                   },
                   message: "Créer un compte",
                   icon: Icons.open_in_new,

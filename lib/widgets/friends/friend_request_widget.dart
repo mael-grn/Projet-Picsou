@@ -23,8 +23,11 @@ class FriendRequestWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-      padding: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+          color: backgroundVariantColor,
+          borderRadius: BorderRadius.circular(20)
+      ),
+      padding: EdgeInsets.all(10),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -33,7 +36,36 @@ class FriendRequestWidget extends StatelessWidget {
               onTap: () {
                 HapticFeedback.mediumImpact();
                 CustomNavigator.pushFromRight(
-                  UserProfileView(user: user),
+                  UserProfileView(
+                    user: user,
+                    showSensitive: false,
+                    actions: [
+                      ButtonWidget(
+                        message: "Supprimer la demande",
+                        icon: Icons.delete,
+                        backgroundColor: invalidColor,
+                        onPressed: () {
+                          HapticFeedback.mediumImpact();
+                          onDecline();
+                          CustomNavigator.back();
+                        },
+                      ),
+                      if (onAccept != null) SizedBox(width: 10),
+                      if (onAccept != null)
+                        ButtonWidget(
+                          message: "Accepter la demande",
+                          icon: Icons.check,
+                          onPressed: () {
+                            HapticFeedback.mediumImpact();
+                            if (onAccept != null) {
+                              onAccept!();
+                              CustomNavigator.back();
+                            }
+                          },
+                        )
+
+                    ],
+                  ),
                   otherContext: context,
                 );
               },
@@ -42,12 +74,12 @@ class FriendRequestWidget extends StatelessWidget {
                 children: [
                   Hero(
                       tag: "${user.id}_profile_picture",
-                      child: Image.network(user.profilPictureRef, width: 40, height: 40)
+                      child: Image.network(user.profilPictureRef, width: 50, height: 50)
                   ),
                   SizedBox(width: 15),
                   Text(
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(fontSize: 17),
                     "${user.firstName} ${user.lastName}",
                   ),
                 ],
@@ -55,25 +87,38 @@ class FriendRequestWidget extends StatelessWidget {
             ),
           ),
 
-          IconButton(
-            icon: Icon(Icons.close, color: invalidColor),
-            onPressed: () {
-              HapticFeedback.mediumImpact();
-              onDecline();
-            },
+          Container(
+            decoration: BoxDecoration(
+              color: invalidColor,
+              shape: BoxShape.circle,
+            ),
+            child: IconButton(
+              icon: Icon(Icons.close, color: backgroundColor),
+              onPressed: () {
+                HapticFeedback.mediumImpact();
+                onDecline();
+              },
+            ),
+
           ),
 
           if (onAccept != null) SizedBox(width: 10),
           if (onAccept != null)
-            IconButton(
-              icon: Icon(Icons.check, color: validColor),
-              onPressed: () {
-                HapticFeedback.mediumImpact();
-                if (onAccept != null) {
-                  onAccept!();
-                }
-              },
-            ),
+            Container(
+              decoration: BoxDecoration(
+                color: validColor,
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(
+                icon: Icon(Icons.check, color: backgroundColor),
+                onPressed: () {
+                  HapticFeedback.mediumImpact();
+                  if (onAccept != null) {
+                    onAccept!();
+                  }
+                },
+              ),
+            )
         ],
       ),
     );

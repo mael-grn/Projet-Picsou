@@ -6,15 +6,14 @@ import 'package:projet_picsou/services/user_service.dart';
 import '../main.dart';
 import '../models/user.dart';
 
-class EditPersonalDataController with ChangeNotifier {
+class EditPaiementDataController with ChangeNotifier {
   final UserService userService;
-  final lastNameController = TextEditingController();
-  final firstNameController = TextEditingController();
-  final emailController = TextEditingController();
-  final phoneController = TextEditingController();
+  final paypalController = TextEditingController();
+  final weroController = TextEditingController();
+  final ribController = TextEditingController();
   static final context = navigatorKey.currentContext;
 
-  EditPersonalDataController(this.userService);
+  EditPaiementDataController(this.userService);
 
   Future<void> updateUser(GlobalKey<FormState> formKey) async {
 
@@ -25,20 +24,19 @@ class EditPersonalDataController with ChangeNotifier {
     DialogBuilder.loading();
 
     HapticFeedback.mediumImpact();
-    String lastName = lastNameController.text;
-    String firstName = firstNameController.text;
-    String email = emailController.text;
-    String phone = phoneController.text;
+    String paypal = paypalController.text;
+    String wero = weroController.text;
+    String rib = ribController.text;
 
     final newUser = User(
       User.getCurrentUserInstance().id,
-      firstName,
-      lastName,
-      email,
-      phone,
-      User.getCurrentUserInstance().emailPaypal,
-      User.getCurrentUserInstance().telWero,
-      User.getCurrentUserInstance().rib,
+      User.getCurrentUserInstance().firstName,
+      User.getCurrentUserInstance().lastName,
+      User.getCurrentUserInstance().email,
+      User.getCurrentUserInstance().tel,
+      paypal,
+      wero,
+      rib,
       User.getCurrentUserInstance().profilPictureRef,
       User.getCurrentUserInstance().password,
     );
@@ -47,19 +45,14 @@ class EditPersonalDataController with ChangeNotifier {
       await userService.updateUser(newUser);
       DialogBuilder.success(
           "Succès",
-          "Vos données personnelles ont été mises à jour.",
+          "Vos données de paiement ont été mises à jour.",
             onCLose:  () {
             Navigator.pop(context!);
           }
       );
       notifyListeners();
     } on NetworkException catch (e) {
-      DialogBuilder.networkError(
-          e.networkError,
-        personalizedErrors: [
-          (code: 409, message: "Un compte avec cette adresse email existe déjà.", title: "Erreur"),
-        ]
-      );
+      DialogBuilder.networkError(e.networkError,);
     } catch (_) {
       DialogBuilder.appError();
     }

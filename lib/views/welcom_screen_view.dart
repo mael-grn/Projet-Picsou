@@ -55,7 +55,7 @@ class _WelcomScreenViewState extends State<WelcomScreenView>{
                 SizedBox(height: 40),
                 ButtonWidget(
                   onPressed: () {
-                    CustomNavigator.pushReplacement(GlobalLayout());
+                    CustomNavigator.pushReplacementFromBottom(GlobalLayout());
                   },
                   tag: "validate_button",
                   message: "Commencer",

@@ -64,10 +64,9 @@ class PersonalDataView extends StatelessWidget {
 
                 ButtonWidget(
                   message: "Modifier",
-                  tag: "edit_user",
                   icon: Icons.edit,
                   onPressed: () {
-                    CustomNavigator.pushFromBottom(EditPersonalDataView());
+                    CustomNavigator.pushFromRight(EditPersonalDataView());
                   },
                 ),
               ],

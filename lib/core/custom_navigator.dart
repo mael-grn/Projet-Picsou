@@ -35,12 +35,23 @@ class CustomNavigator {
     Navigator.of(context!).pop();
   }
 
-  static void pushReplacement(Widget newPage) {
+  static void pushReplacementFromBottom(Widget newPage) {
     if (context == null) {
       return;
     }
     Navigator.of(context!).pushReplacement(
       CustomPageRouteFromBottom(
+        builder: (_) => newPage,
+      ),
+    );
+  }
+
+  static void pushReplacementFromRight(Widget newPage) {
+    if (context == null) {
+      return;
+    }
+    Navigator.of(context!).pushReplacement(
+      CustomPageRouteFromRight(
         builder: (_) => newPage,
       ),
     );

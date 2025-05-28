@@ -3,6 +3,7 @@ import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:projet_picsou/services/session_service.dart';
 import 'package:projet_picsou/views/paiement_data_view.dart';
 import 'package:projet_picsou/views/personal_data_view.dart';
+import 'package:projet_picsou/widgets/ui/modern_tile_widget.dart';
 import 'package:provider/provider.dart';
 import '../controllers/me_controller.dart';
 import '../core/custom_navigator.dart';
@@ -21,48 +22,6 @@ class _MeViewState extends State<MeView> {
   Widget build(BuildContext context) {
     final meController = context.watch<MeController>();
 
-    Widget modernTile({
-      required IconData icon,
-      required String title,
-      required VoidCallback onTap,
-      Color? iconColor,
-    }) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-        child: Material(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(18),
-          elevation: 2,
-          shadowColor: Colors.black12,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(18),
-            onTap: onTap,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
-              child: Row(
-                children: [
-                  Icon(icon, color: iconColor ?? foregroundVariantColor, size: 28),
-                  const SizedBox(width: 18),
-                  Expanded(
-                    child: Text(
-                      title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  const Icon(Icons.chevron_right, color: secondaryColor, size: 26),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-
     return MainPageLayoutWidget(
       title: const Text(
         "Mon profil",
@@ -75,21 +34,21 @@ class _MeViewState extends State<MeView> {
         child: Column(
           children: [
             const SizedBox(height: 15),
-            modernTile(
+            ModernTileWidget(
               icon: Icons.person,
               title: 'Mes données personnelles',
               onTap: () {
                 CustomNavigator.pushFromRight(const PersonalDataView());
               },
             ),
-            modernTile(
+            ModernTileWidget(
               icon: Icons.monetization_on_outlined,
               title: 'Mes données de paiement',
               onTap: () {
                 CustomNavigator.pushFromRight(const PaiementDataView());
               },
             ),
-            modernTile(
+            ModernTileWidget(
               icon: Icons.settings,
               title: 'Paramètres',
               onTap: () {
@@ -99,7 +58,7 @@ class _MeViewState extends State<MeView> {
                 );
               },
             ),
-            modernTile(
+            ModernTileWidget(
               icon: Icons.logout,
               title: 'Déconnexion',
               iconColor: Colors.redAccent,

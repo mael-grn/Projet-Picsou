@@ -25,18 +25,18 @@ class EntryPointController with ChangeNotifier {
       User user = await userService.getConnectedUser();
       if (user.id < 0 || user.profilPictureRef.isEmpty) {
         await SessionService.closeSession();
-        CustomNavigator.pushReplacement(SelectProfilePictureView());
+        CustomNavigator.pushReplacementFromBottom(SelectProfilePictureView());
       } else {
-        CustomNavigator.pushReplacement(GlobalLayout());
+        CustomNavigator.pushReplacementFromBottom(GlobalLayout());
       }
     } on NetworkException catch (e) {
       if (e.networkError == NetworkErrorEnum.notFound || e.networkError == NetworkErrorEnum.unauthorized) {
-        CustomNavigator.pushReplacement(SplashScreenView());
+        CustomNavigator.pushReplacementFromBottom(SplashScreenView());
       } else {
         rethrow;
       }
     } catch (e) {
-      CustomNavigator.pushReplacement(ErrorScreenView());
+      CustomNavigator.pushReplacementFromBottom(ErrorScreenView());
     } finally {
       isLoading = false;
       notifyListeners();

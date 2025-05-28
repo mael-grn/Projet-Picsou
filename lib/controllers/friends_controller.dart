@@ -27,34 +27,6 @@ class FriendsController with ChangeNotifier {
     return;
   }
 
-  Future<void> acceptFriendRequest(FriendRequest friendRequest) async {
-    DialogBuilder.loading();
-    try {
-      await friendService.acceptFriendRequest(friendRequest.id);
-      friendRequests.remove(friendRequest);
-      friends = await friendService.getAllFriends();
-      DialogBuilder.closeCurrentDialog();
-      notifyListeners();
-    } on NetworkException catch (e) {
-      DialogBuilder.networkError(e.networkError);
-    } catch (_) {
-      DialogBuilder.appError();
-    }
-  }
 
-  Future<void> declineFriendRequest(FriendRequest friendRequest) async {
-    DialogBuilder.loading();
-    try {
-      await friendService.rejectFriendRequest(friendRequest.id);
-      friendRequests.remove(friendRequest);
-      DialogBuilder.closeCurrentDialog();
-      notifyListeners();
-    } on NetworkException catch (e) {
-      DialogBuilder.networkError(e.networkError);
-    } catch (e) {
-      print(e);
-      DialogBuilder.appError();
-    }
-  }
 
 }

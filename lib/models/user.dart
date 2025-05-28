@@ -82,6 +82,20 @@ class User {
   static String? checkEmailFormatValidator(String? email) =>
       checkEmailFormat(email) ? null : "Veuillez entrer un email valide.";
 
+  static bool checkOptionalEmailFormat(String? email) {
+    if (email == null) {
+      return false;
+    }
+    if (email.isEmpty) {
+      return true; // Allow empty email for optional field
+    }
+    final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
+    return emailRegex.hasMatch(email);
+  }
+
+  static String? checkOptionalEmailFormatValidator(String? email) =>
+      checkOptionalEmailFormat(email) ? null : "Veuillez entrer un email valide.";
+
   static bool checkTelFormat(String? tel) {
     if (tel == null || tel.isEmpty) {
       return false;
@@ -104,6 +118,52 @@ class User {
     );
     return passwordRegex.hasMatch(password);
   }
+
+  static bool checkOptionalTelFormat(String? tel) {
+    if (tel == null) {
+      return false;
+    }
+    if (tel.isEmpty) {
+      return true; // Allow empty tel for optional field
+    }
+    final telRegex = RegExp(r'^\+?[0-9]{10,15}$');
+    return telRegex.hasMatch(tel);
+  }
+
+  static String? checkOptionalTelFormatValidator(String? tel) =>
+      checkOptionalTelFormat(tel)
+          ? null
+          : "Le numéro de téléphone doit contenir entre 10 et 15 chiffres.";
+
+  static bool checkRibFormat(String? rib) {
+    if (rib == null || rib.isEmpty) {
+      return false;
+    }
+    final ribRegex = RegExp(r'^[0-9]{22}$');
+    return ribRegex.hasMatch(rib);
+  }
+
+  static String? checkRibFormatValidator(String? rib) =>
+      checkRibFormat(rib)
+          ? null
+          : "Le RIB doit contenir exactement 22 chiffres.";
+
+  static bool checkOptionalRibFormat(String? rib) {
+    if (rib == null) {
+      return false;
+    }
+    if (rib.isEmpty) {
+      return true; // Allow empty rib for optional field
+    }
+    final ribRegex = RegExp(r'^[0-9]{22}$');
+    return ribRegex.hasMatch(rib);
+  }
+
+  static String? checkOptionalRibFormatValidator(String? rib) =>
+      checkOptionalRibFormat(rib)
+          ? null
+          : "Le RIB doit contenir exactement 22 chiffres.";
+
 
   static String? checkPasswordFormatValidator(String? password) =>
       checkPasswordFormat(password)

@@ -23,6 +23,7 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>{
       final controller = context.read<EditPersonalDataController>();
       controller.firstNameController.text = User.getCurrentUserInstance().firstName;
       controller.lastNameController.text = User.getCurrentUserInstance().lastName;
+      controller.emailController.text = User.getCurrentUserInstance().email;
       controller.phoneController.text = User.getCurrentUserInstance().tel;
     });
   }
@@ -105,9 +106,15 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>{
                     ),
                     SizedBox(height: 10),
                     TextFieldWidget(
+                      controller: controller.emailController,
+                      labelText: "Email",
+                      validator: User.checkEmailFormatValidator,
+                    ),
+                    SizedBox(height: 10),
+                    TextFieldWidget(
                       controller: controller.phoneController,
                       labelText: "Téléphone",
-                      validator: User.checkTelFormatValidator,
+                      validator: User.checkOptionalTelFormatValidator,
                     ),
                   ],
                 ),

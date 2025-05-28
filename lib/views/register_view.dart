@@ -108,7 +108,7 @@ class _RegisterViewState extends State<RegisterView> {
                   backgroundColor: backgroundVariantColor,
                   foregroundColor: foregroundColor,
                   onPressed: () {
-                    CustomNavigator.pushReplacement(LoginView());
+                    CustomNavigator.pushReplacementFromRight(LoginView());
                   },
                   message: "Se connecter",
                   icon: Icons.open_in_new,
