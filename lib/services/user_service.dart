@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../core/provider.dart';
 import '../enums/network_error_enum.dart';
 import '../exceptions/request_exception.dart';
@@ -6,13 +8,13 @@ import '../models/user.dart';
 class UserService {
 
   Future<User> getUserFromId(int userId) async {
-    final response = await Provider.sendRequestWithCookies(route: '/users/$userId', method: HttpMethod.GET);
-    return User.fromJson(response);
+    final response = await Provider.sendRequestWithCookies(route: '/user/$userId', method: HttpMethod.GET);
+    return User.fromJson(jsonDecode(response));
   }
 
   Future<User> getUserFromEmail(String email) async {
-    final response = await Provider.sendRequestWithCookies(route : '/users/email/$email', method: HttpMethod.GET);
-    return User.fromJson(response);
+    final response = await Provider.sendRequestWithCookies(route : '/user/email/$email', method: HttpMethod.GET);
+    return User.fromJson(jsonDecode(response));
   }
 
   /// Create the user in the database for the given user.
@@ -38,7 +40,7 @@ class UserService {
       'rib': rib,
       'profil_pict_ref': profilPictureRef,
     });
-    User user = User.fromJson(response);
+    User user = User.fromJson(jsonDecode(response));
     User.setCurrentUserInstance(user);
     return user;
   }
@@ -46,7 +48,7 @@ class UserService {
   Future<User> updateUser(User user) async {
     try {
       final response = await Provider.sendRequestWithCookies(route: '/me', method: HttpMethod.PUT, body: user.toJson());
-      final newUser = User.fromJson(response);
+      final newUser = User.fromJson(jsonDecode(response));
       User.setCurrentUserInstance(newUser);
       return newUser;
     } on NetworkException catch (_) {
@@ -59,7 +61,7 @@ class UserService {
   Future<User> getConnectedUser() async {
     try {
       final response = await Provider.sendRequestWithCookies(route: '/me', method: HttpMethod.GET);
-      User user = User.fromJson(response);
+      User user = User.fromJson(jsonDecode(response));
       User.setCurrentUserInstance(user);
       return user;
     } on NetworkException catch (e) {

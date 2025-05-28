@@ -4,7 +4,7 @@ import 'package:projet_picsou/views/troubleshooting_view.dart';
 import 'package:projet_picsou/widgets/animations/slide_up_animation_widget.dart';
 import 'package:projet_picsou/widgets/ui/button_widget.dart';
 import 'package:restart_app/restart_app.dart';
-import '../core/theme/custom_navigator.dart';
+import '../core/custom_navigator.dart';
 import '../widgets/animations/scale_animation_widget.dart';
 
 class ErrorScreenView extends StatelessWidget {
@@ -68,7 +68,7 @@ class ErrorScreenView extends StatelessWidget {
                         message: "Résolution de problèmes",
                         icon: Icons.info_outline,
                         onPressed: () {
-                          CustomNavigator.push(TroubleshootingView());
+                          CustomNavigator.pushFromBottom(TroubleshootingView());
                         },
                       )
 

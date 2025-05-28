@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
 import 'package:projet_picsou/exceptions/request_exception.dart';
 import 'package:restart_app/restart_app.dart';
-import '../core/theme/custom_navigator.dart';
+import '../core/custom_navigator.dart';
 import '../models/user.dart';
 import '../services/session_service.dart';
 import '../views/select_profile_picture_view.dart';
@@ -17,8 +17,8 @@ class LoginController with ChangeNotifier {
   LoginController(this.authService);
 
   void submitForm(GlobalKey<FormState> formKey) {
-    String email = emailController.text;
-    String password = passwordController.text;
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
 
     login(formKey, email, password);
   }
@@ -57,7 +57,7 @@ class LoginController with ChangeNotifier {
       final user = await authService.openSession(email, password);
       if (user.profilPictureRef.isEmpty) {
         DialogBuilder.closeCurrentDialog();
-        CustomNavigator.push(SelectProfilePictureView());
+        CustomNavigator.pushFromBottom(SelectProfilePictureView());
         return;
       } else {
         DialogBuilder.closeCurrentDialog();

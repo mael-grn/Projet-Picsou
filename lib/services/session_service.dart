@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:projet_picsou/utils/storage_utils.dart';
 import 'package:restart_app/restart_app.dart';
 import '../core/provider.dart';
@@ -12,7 +13,7 @@ class SessionService {
       'email': email,
       'password': password,
     });
-    User user = User.fromJson(response);
+    User user = User.fromJson(jsonDecode(response));
     User.setCurrentUserInstance(user);
     return user;
   }

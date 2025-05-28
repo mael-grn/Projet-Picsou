@@ -1,16 +1,28 @@
 import 'package:flutter/cupertino.dart';
-import '../../main.dart';
-import '../PageRoute.dart';
+import '../main.dart';
+import 'PageRoute.dart';
 
 class CustomNavigator {
   static final context = navigatorKey.currentContext;
   static const heroTag = "hero";
-  static void push(Widget newPage) {
+  
+  static void pushFromBottom(Widget newPage, {BuildContext? otherContext}) {
     if (context == null) {
       return;
     }
-    Navigator.of(context!).push(
-      CustomPageRoute(
+    Navigator.of(otherContext ?? context!).push(
+      CustomPageRouteFromBottom(
+        builder: (_) => newPage,
+      ),
+    );
+  }
+
+  static void pushFromRight(Widget newPage, {BuildContext? otherContext}) {
+    if (context == null) {
+      return;
+    }
+    Navigator.of(otherContext ?? context!).push(
+      CustomPageRouteFromRight(
         builder: (_) => newPage,
       ),
     );
@@ -28,7 +40,7 @@ class CustomNavigator {
       return;
     }
     Navigator.of(context!).pushReplacement(
-      CustomPageRoute(
+      CustomPageRouteFromBottom(
         builder: (_) => newPage,
       ),
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/views/register_view.dart';
 import 'package:projet_picsou/widgets/animations/scale_animation_widget.dart';
-import '../core/theme/custom_navigator.dart';
+import '../core/custom_navigator.dart';
 import '../widgets/ui/button_widget.dart';
 
 class SplashScreenView extends StatelessWidget {
@@ -41,7 +41,7 @@ class SplashScreenView extends StatelessWidget {
                 ButtonWidget(
                   tag: "validate_button",
                   onPressed: () {
-                    CustomNavigator.push(RegisterView());
+                    CustomNavigator.pushFromBottom(RegisterView());
                   },
                   message: "Commencer l'aventure",
                   icon: Icons.arrow_forward,

@@ -91,58 +91,58 @@ class _GlobalLayoutState extends State<GlobalLayout> with TickerProviderStateMix
                 margin: const EdgeInsets.only(bottom: 25.0),
                 height: 70,
                 child: Center(
-                  child: Container(
-                      width: 280,
-                      height: 70,
-                      decoration: BoxDecoration(
-                        color: foregroundColor,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          AnimatedBuilder(
-                            animation: _animation,
-                            builder: (context, child) {
-                              return Positioned(
-                                left: (_animation.value * 70.0 + 10),
-                                child: Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: foregroundVariantColor,
+                    child: Container(
+                        width: 280,
+                        height: 70,
+                        decoration: BoxDecoration(
+                          color: foregroundColor,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            AnimatedBuilder(
+                              animation: _animation,
+                              builder: (context, child) {
+                                return Positioned(
+                                  left: (_animation.value * 70.0 + 10),
+                                  child: Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: foregroundVariantColor,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                _buildNavItem('icons/home.svg', 0),
+                                _buildNavItem('icons/money.svg', 1),
+                                _buildNavItem('icons/friends.svg', 2),
+                                GestureDetector(
+                                  onTap: () => _onItemTapped(3),
+                                  child: Padding(
+                                      padding: const EdgeInsets.all(20),
+                                      child: Hero(
+                                        tag: User.getCurrentUserInstance().profilPictureRef,
+                                        child: Image.network(
+                                          User.getCurrentUserInstance().profilPictureRef,
+                                          width: 30,
+                                          height: 30,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )
                                   ),
                                 ),
-                              );
-                            },
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              _buildNavItem('icons/home.svg', 0),
-                              _buildNavItem('icons/money.svg', 1),
-                              _buildNavItem('icons/friends.svg', 2),
-                              GestureDetector(
-                                onTap: () => _onItemTapped(3),
-                                child: Padding(
-                                    padding: const EdgeInsets.all(20),
-                                    child: Hero(
-                                      tag: User.getCurrentUserInstance().profilPictureRef,
-                                      child: Image.network(
-                                        User.getCurrentUserInstance().profilPictureRef,
-                                        width: 30,
-                                        height: 30,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    )
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      )
-                  ),
+                              ],
+                            ),
+                          ],
+                        )
+                    ),
                 ),
               ),
             ),

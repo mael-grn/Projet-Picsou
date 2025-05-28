@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projet_picsou/exceptions/request_exception.dart';
 import 'package:projet_picsou/services/user_service.dart';
 import 'package:projet_picsou/views/select_profile_picture_view.dart';
-import '../core/theme/custom_navigator.dart';
+import '../core/custom_navigator.dart';
 import '../dialogs/alert_dialog_builder.dart';
 import '../models/user.dart';
 
@@ -18,10 +18,10 @@ class RegisterController with ChangeNotifier {
   RegisterController(this.userService);
 
   void submitForm(GlobalKey<FormState> formKey) {
-    String lastName = lastNameController.text;
-    String firstName = firstNameController.text;
-    String email = emailController.text;
-    String password = passwordController.text;
+    String lastName = lastNameController.text.trim();
+    String firstName = firstNameController.text.trim();
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
 
     register(formKey, firstName, lastName, email, password);
   }
@@ -96,7 +96,7 @@ class RegisterController with ChangeNotifier {
         profilPictureRef,
       );
       DialogBuilder.closeCurrentDialog();
-      CustomNavigator.push(SelectProfilePictureView());
+      CustomNavigator.pushFromBottom(SelectProfilePictureView());
     }  on NetworkException catch (e) {
       DialogBuilder.networkError(
         e.networkError,

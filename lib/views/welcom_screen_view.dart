@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/widgets/animations/slide_fade_animation_widget.dart';
 import 'package:projet_picsou/widgets/global_layout.dart';
-import '../core/theme/custom_navigator.dart';
+import '../core/custom_navigator.dart';
 import '../models/user.dart';
 import '../widgets/ui/button_widget.dart';
 

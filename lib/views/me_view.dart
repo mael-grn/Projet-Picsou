@@ -5,7 +5,7 @@ import 'package:projet_picsou/views/paiement_data_view.dart';
 import 'package:projet_picsou/views/personal_data_view.dart';
 import 'package:provider/provider.dart';
 import '../controllers/me_controller.dart';
-import '../core/theme/custom_navigator.dart';
+import '../core/custom_navigator.dart';
 import '../widgets/ui/main_page_layout_widget.dart';
 import '../core/theme/app_theme.dart'; // Assure-toi d'importer les couleurs
 
@@ -29,38 +29,37 @@ class _MeViewState extends State<MeView> {
     }) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-        child: Hero(
-            tag: "button-$title",
-            child: Material(
-              color: backgroundColor,
-              borderRadius: BorderRadius.circular(18),
-              elevation: 2,
-              shadowColor: Colors.black12,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(18),
-                onTap: onTap,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
-                  child: Row(
-                    children: [
-                      Icon(icon, color: iconColor ?? foregroundVariantColor, size: 28),
-                      const SizedBox(width: 18),
-                      Expanded(
-                        child: Text(
-                          title,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+        child: Material(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(18),
+          elevation: 2,
+          shadowColor: Colors.black12,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(18),
+            onTap: onTap,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
+              child: Row(
+                children: [
+                  Icon(icon, color: iconColor ?? foregroundVariantColor, size: 28),
+                  const SizedBox(width: 18),
+                  Expanded(
+                    child: Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
                       ),
-                      const Icon(Icons.chevron_right, color: secondaryColor, size: 26),
-                    ],
+                    ),
                   ),
-                ),
+                  const Icon(Icons.chevron_right, color: secondaryColor, size: 26),
+                ],
               ),
             ),
-        )
+          ),
+        ),
       );
     }
 
@@ -80,14 +79,14 @@ class _MeViewState extends State<MeView> {
               icon: Icons.person,
               title: 'Mes données personnelles',
               onTap: () {
-                CustomNavigator.push(const PersonalDataView());
+                CustomNavigator.pushFromRight(const PersonalDataView());
               },
             ),
             modernTile(
               icon: Icons.monetization_on_outlined,
               title: 'Mes données de paiement',
               onTap: () {
-                CustomNavigator.push(const PaiementDataView());
+                CustomNavigator.pushFromRight(const PaiementDataView());
               },
             ),
             modernTile(

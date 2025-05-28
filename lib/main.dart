@@ -42,7 +42,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => MeController()),
         ChangeNotifierProvider(create: (_) => FriendsController(friendService)),
         ChangeNotifierProvider(create: (_) => EditPersonalDataController(userService)),
-        ChangeNotifierProvider(create: (_) => SearchUserWithEmailController(userService)),
+        ChangeNotifierProvider(create: (_) => SearchUserWithEmailController(userService, friendService)),
         ChangeNotifierProvider(create: (_) => SelectProfilePictureController(userService)),
       ],
       child: MaterialApp(

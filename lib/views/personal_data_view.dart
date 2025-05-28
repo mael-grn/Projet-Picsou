@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/widgets/ui/popup_page_widget.dart';
 
-import '../core/theme/custom_navigator.dart';
+import '../core/custom_navigator.dart';
 import '../models/user.dart';
 import '../widgets/ui/button_widget.dart';
 import '../widgets/ui/text_info_widget.dart';
@@ -67,7 +67,7 @@ class PersonalDataView extends StatelessWidget {
                   tag: "edit_user",
                   icon: Icons.edit,
                   onPressed: () {
-                    CustomNavigator.push(EditPersonalDataView());
+                    CustomNavigator.pushFromBottom(EditPersonalDataView());
                   },
                 ),
               ],

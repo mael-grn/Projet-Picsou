@@ -67,10 +67,10 @@ class DialogBuilder {
                 message: "Ok",
                 icon: Icons.check,
                 onPressed: () {
+                  closeCurrentDialog();
                   if (onCLose != null) {
                     onCLose();
                   }
-                  closeCurrentDialog();
                 }
             )
           ],
@@ -254,17 +254,17 @@ class DialogBuilder {
                   icon: Icons.close,
                   onPressed: () {
                     if (onNo != null) {
+                      closeCurrentDialog();
                       onNo();
                     }
-                    closeCurrentDialog();
                   }
               ),
               ButtonWidget(
                   message: "Oui",
                   icon: Icons.check,
                   onPressed: () {
-                    onYes();
                     closeCurrentDialog();
+                    onYes();
                   }
               )
             ],

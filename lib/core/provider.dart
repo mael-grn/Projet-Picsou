@@ -22,7 +22,7 @@ class Provider {
 
   static const String _baseUrl = 'http://picsou.zapto.org:8000';
 
-  static Future<Map<String, dynamic>> sendRequestWithCookies({required HttpMethod method, required String route, Map<String, String>? headers, Object? body}) async {
+  static Future<String> sendRequestWithCookies({required HttpMethod method, required String route, Map<String, String>? headers, Object? body}) async {
     // Récupère les cookies pour l'URL
     final url = Uri.parse('$_baseUrl$route');
     final token = await StorageUtils.load("token");
@@ -45,7 +45,7 @@ class Provider {
         response = await _client.put(url, headers: requestHeaders, body: jsonEncode(body));
         break;
       case HttpMethod.PATCH:
-        response = await _client.put(url, headers: requestHeaders, body: jsonEncode(body));
+        response = await _client.patch(url, headers: requestHeaders, body: jsonEncode(body));
         break;
       case HttpMethod.DELETE:
         response = await _client.delete(url, headers: requestHeaders);
@@ -62,13 +62,13 @@ class Provider {
       if (setCookie != null) {
         StorageUtils.save('token', Cookie.fromSetCookieValue(setCookie).value);
       }
-      return jsonDecode(response.body);
+      return response.body;
     } else {
       throw NetworkException(NetworkErrorEnum.fromCode(response.statusCode));
     }
   }
 
-  static Future<Map<String, dynamic>> sendRequest({required HttpMethod method, required String route, Map<String, String>? headers, Object? body}) async {
+  static Future<String> sendRequest({required HttpMethod method, required String route, Map<String, String>? headers, Object? body}) async {
     final url = Uri.parse('$_baseUrl$route');
     final requestHeaders = {
       ...?headers,
@@ -84,7 +84,7 @@ class Provider {
         response = await _client.put(url, headers: requestHeaders, body: jsonEncode(body));
         break;
       case HttpMethod.PATCH:
-        response = await _client.put(url, headers: requestHeaders, body: jsonEncode(body));
+        response = await _client.patch(url, headers: requestHeaders, body: jsonEncode(body));
         break;
       case HttpMethod.DELETE:
         response = await _client.delete(url, headers: requestHeaders);
@@ -101,7 +101,7 @@ class Provider {
       if (setCookie != null) {
         StorageUtils.save('token', Cookie.fromSetCookieValue(setCookie).value);
       }
-      return jsonDecode(response.body);
+      return response.body;
     } else {
       throw NetworkException(NetworkErrorEnum.fromCode(response.statusCode));
     }

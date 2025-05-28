@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/controllers/friends_controller.dart';
 import 'package:projet_picsou/views/search_user_with_email_view.dart';
+import 'package:projet_picsou/widgets/friends/friend_widget.dart';
 import 'package:provider/provider.dart';
-import '../core/theme/custom_navigator.dart';
+import '../core/custom_navigator.dart';
+import '../models/user.dart';
+import '../widgets/friends/friend_request_widget.dart';
 import '../widgets/ui/button_widget.dart';
 import '../widgets/ui/main_page_layout_widget.dart';
 
@@ -13,7 +16,7 @@ class FriendsView extends StatefulWidget {
   _FriendsViewState createState() => _FriendsViewState();
 }
 
-class _FriendsViewState extends State<FriendsView>{
+class _FriendsViewState extends State<FriendsView> {
   @override
   void initState() {
     super.initState();
@@ -39,13 +42,14 @@ class _FriendsViewState extends State<FriendsView>{
         message: "Ajouter un ami",
         icon: Icons.add,
         onPressed: () {
-          CustomNavigator.push(SearchUserWithEmailView());
-
+          CustomNavigator.pushFromRight(SearchUserWithEmailView());
         },
       ),
 
-      body: controller.friends.isEmpty
-          ? Padding(
+      body: controller.friends.isEmpty && controller.friendRequests.isEmpty ?
+
+
+      Padding(
         padding: const EdgeInsets.fromLTRB(30, 40, 30, 0),
         child: SingleChildScrollView(
           child: Column(
@@ -73,8 +77,123 @@ class _FriendsViewState extends State<FriendsView>{
           ),
         ),
       )
-          : SingleChildScrollView(
-        child: Column(children: []),
+
+
+          :
+
+
+      SingleChildScrollView(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+
+              if (controller.friendRequests
+                  .where((friend) =>
+              friend.fromUser.id == User
+                  .getCurrentUserInstance()
+                  .id)
+                  .isNotEmpty)
+                Column(
+                  children: [
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Text(
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          "Demandes envoyées",
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Column(
+                      children: controller.friendRequests.map((request) {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(vertical: 5),
+                          child:FriendRequestWidget(
+                              key: ValueKey(request.id),
+                              user: request.toUser,
+                              onDecline: () =>
+                                  controller.declineFriendRequest(request)
+                          )
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              if (controller.friendRequests
+                  .where((friend) =>
+              friend.toUser.id == User
+                  .getCurrentUserInstance()
+                  .id)
+                  .isNotEmpty)
+                Column(
+                  children: [
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Text(
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          "Demandes d'amis",
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Column(
+                      children: controller.friendRequests.map((request) {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(vertical: 5),
+                          child:FriendRequestWidget(
+                            key: ValueKey(request.id),
+                            user: request.fromUser,
+                            onAccept: () =>
+                                controller.acceptFriendRequest(request),
+                            onDecline: () =>
+                                controller.declineFriendRequest(request),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+
+                if (controller.friends.isNotEmpty)
+                  Column(
+                    children: [
+                      SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Text(
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            "Amis",
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8),
+                      Column(
+                        children: controller.friends.map((request) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                            child:FriendWidget(
+                              key: ValueKey(request.id),
+                              user: request.user1.id == User.getCurrentUserInstance().id ? request.user2 : request.user1,
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  )
+
+            ]
+        ),
       ),
     );
   }

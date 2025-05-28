@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
 import 'package:projet_picsou/widgets/animations/scale_animation_widget.dart';
+import 'package:projet_picsou/widgets/ui/popup_page_widget.dart';
 import 'package:provider/provider.dart';
 import '../controllers/search_user_with_email_controller.dart';
 import '../models/user.dart';
@@ -20,14 +21,8 @@ class _SearchUserWithEmailViewState extends State<SearchUserWithEmailView>{
   Widget build(BuildContext context) {
     final controller = context.watch<SearchUserWithEmailController>();
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        scrolledUnderElevation: 10.0,
-        surfaceTintColor: backgroundVariantColor,
-        backgroundColor: backgroundColor,
-      ),
-
+    return PopupPageWidget(
+      title: "Rechercher un utilisateur",
       body: Container(
         padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
         child: SingleChildScrollView(
@@ -37,8 +32,8 @@ class _SearchUserWithEmailViewState extends State<SearchUserWithEmailView>{
                 ScaleAnimationWidget(
                   duration: Duration(milliseconds: 1500),
                   child: Image.asset(
-                      height: 300,
-                      width: 300,
+                      height: 250,
+                      width: 250,
                       "images/search.png"
                   ),
                 ),
