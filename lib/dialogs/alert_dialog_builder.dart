@@ -253,8 +253,8 @@ class DialogBuilder {
                   backgroundColor: Colors.redAccent,
                   icon: Icons.close,
                   onPressed: () {
+                    closeCurrentDialog();
                     if (onNo != null) {
-                      closeCurrentDialog();
                       onNo();
                     }
                   }

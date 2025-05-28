@@ -31,8 +31,8 @@ class ButtonWidget extends StatelessWidget {
     this.foregroundColor = app_theme.backgroundColor,
     this.backgroundColor = primaryColor,
     required this.onPressed,
-    this.padding = const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-    this.iconOnRight = true,
+    this.padding = const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+    this.iconOnRight = false,
     this.tag,
   });
 
@@ -55,7 +55,7 @@ class ButtonWidget extends StatelessWidget {
             elevation: 4,
             shadowColor: primaryColor.withAlpha((0.3 * 255).round()),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(15),
             ),
             padding: padding,
             textStyle: const TextStyle(
