@@ -275,6 +275,7 @@ class _CreateGroupViewState extends State<CreateGroupView> {
             SizedBox(height: 40),
 
             ButtonWidget(
+              tag: "create_group",
                 message: "Créer le groupe",
                 icon: Icons.add,
                 onPressed: () => controller.createGroup(widget._formKey)

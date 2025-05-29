@@ -101,7 +101,7 @@ class UserIdWithStatus {
 
   Map<String, dynamic> toJson() {
     return {
-      'user_id': userId,
+      'id_user': userId,
       'status': status.statusId,
     };
   }

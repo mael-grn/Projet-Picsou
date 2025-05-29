@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/controllers/home/home_controller.dart';
+import 'package:projet_picsou/widgets/groups/groupe_list_item_widget.dart';
 import 'package:projet_picsou/widgets/ui/button_widget.dart';
 import 'package:provider/provider.dart';
 import '../../core/custom_navigator.dart';
@@ -41,15 +42,18 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
 
-      intermediate: Text("Rien"),
+      intermediate: ButtonWidget(
+        tag: "create_group",
+          message: "Créer un groupe",
+          icon: Icons.add,
+          onPressed: () => CustomNavigator.pushFromRight(CreateGroupView())
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ButtonWidget(
-                message: "Créer un groupe",
-                icon: Icons.add,
-                onPressed: () => CustomNavigator.pushFromRight(CreateGroupView())
-            )
+            SizedBox(height: 20),
+            ...homeController.groups
+                .map((group) => GroupeListItemWidget(group: group))
           ],
         ),
       ),

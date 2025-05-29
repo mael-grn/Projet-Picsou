@@ -56,8 +56,6 @@ class CreateGroupController with ChangeNotifier {
   }
 
   Future<void> initData() async {
-    DialogBuilder.loading();
-
     try {
       users = await friendService.getAllFriendsAsUser();
 
@@ -72,7 +70,6 @@ class CreateGroupController with ChangeNotifier {
         return;
       }
       notifyListeners();
-      DialogBuilder.closeCurrentDialog();
     } on NetworkException catch (e) {
       DialogBuilder.networkError(e.networkError);
     } catch (_) {
