@@ -5,7 +5,7 @@ import '../core/custom_navigator.dart';
 import '../models/user.dart';
 import '../widgets/ui/button_widget.dart';
 import '../widgets/ui/text_info_widget.dart';
-import 'edit_personal_data_view.dart';
+import 'me/edit_personal_data_view.dart';
 
 class UserProfileView extends StatelessWidget {
   final User user;

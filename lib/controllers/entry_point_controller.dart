@@ -6,7 +6,7 @@ import '../core/custom_navigator.dart';
 import '../enums/network_error_enum.dart';
 import '../exceptions/request_exception.dart';
 import '../models/user.dart';
-import '../views/select_profile_picture_view.dart';
+import '../views/auth/select_profile_picture_view.dart';
 import '../views/splash_screen_view.dart';
 import '../widgets/global_layout.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projet_picsou/views/register_view.dart';
+import 'package:projet_picsou/views/auth/register_view.dart';
 import 'package:projet_picsou/widgets/animations/scale_animation_widget.dart';
 import '../core/custom_navigator.dart';
 import '../widgets/ui/button_widget.dart';

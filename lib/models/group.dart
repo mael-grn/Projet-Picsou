@@ -94,7 +94,7 @@ class UserIdWithStatus {
 
   factory UserIdWithStatus.fromJson(Map<String, dynamic> json) {
     return UserIdWithStatus(
-      json['user_id'],
+      json['id_user'],
       json['status'],
     );
   }
