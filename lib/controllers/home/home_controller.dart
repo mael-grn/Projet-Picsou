@@ -16,8 +16,14 @@ class HomeController with ChangeNotifier {
 
   Future<void> initData() async {
     DialogBuilder.loading();
+    groups.clear();
     try {
-      groups = await groupService.getAllGroups();
+      List<Group> tmpGroups = await groupService.getAllGroups();
+      for (Group group in tmpGroups) {
+        print(group.name);
+        Group newGroup = await groupService.tryGetGroupDataFromDiscussion(group);
+        groups.add(newGroup);
+      }
       DialogBuilder.closeCurrentDialog();
       notifyListeners();
     } on NetworkException catch (e) {

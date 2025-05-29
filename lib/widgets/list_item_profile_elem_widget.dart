@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
 import 'package:projet_picsou/core/custom_navigator.dart';
+import 'package:projet_picsou/utils/string_utils.dart';
 import 'package:projet_picsou/views/user_profile_view.dart';
 import 'package:projet_picsou/widgets/ui/button_widget.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class ListItemProfileElemWidget extends StatelessWidget {
   final Color color;
   final Function? onTap;
   final bool addGapAfter;
+  final bool showTag;
 
   const ListItemProfileElemWidget({
     super.key,
@@ -25,7 +27,8 @@ class ListItemProfileElemWidget extends StatelessWidget {
     required this.name,
     this.onTap,
     this.color = backgroundColor,
-    this.addGapAfter = true
+    this.addGapAfter = true,
+    this.showTag = true
   });
 
   @override
@@ -53,7 +56,7 @@ class ListItemProfileElemWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Hero(
-                        tag: "${id}_pp",
+                        tag: showTag ? "${id}_pp" : CustomStringUtils.generateRandomString(20),
                         child: Image.network(imageUrl, width: 70, height: 70),
                       ),
                       SizedBox(width: 15),

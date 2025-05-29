@@ -7,14 +7,14 @@ import '../models/user.dart';
 
 class GroupService {
 
-  Future<bool> isGroupDiscussion(int groupId) async {
-    List<UserWithStatus> users = await getUserFromGroup(groupId);
-    return users.length == 2;
+  Future<bool> isGroupDiscussion(Group group) async {
+    List<UserWithStatus> users = await getUserFromGroup(group.id!);
+    return group.name.startsWith("discussion") && users.length == 2;
   }
 
   Future<Group> tryGetGroupDataFromDiscussion(Group group) async {
     List<UserWithStatus> users = await getUserFromGroup(group.id!);
-    if (users.length != 2) {
+    if (users.length != 2 || !group.name.startsWith("discussion")) {
       return group;
     }
     User user = users.firstWhere(
@@ -28,7 +28,7 @@ class GroupService {
   }
 
   Group groupDataFromDiscussion(group, List<UserWithStatus> users)  {
-    if (users.length != 2) {
+    if (users.length != 2 || !group.name.startsWith("discussion")) {
       return group;
     }
     User user = users.firstWhere(

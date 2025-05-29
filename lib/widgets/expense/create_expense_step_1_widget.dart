@@ -63,6 +63,7 @@ class CreateExpenseStep1Widget extends StatelessWidget {
                             : 1,
                     duration: Duration(milliseconds: 300),
                     child: ListItemProfileElemWidget(
+                      showTag: false,
                       id: group.id ?? -1,
                       onTap: () {
                         controller.selectGroup(group);
@@ -119,6 +120,7 @@ class CreateExpenseStep1Widget extends StatelessWidget {
                         : 1,
                     duration: Duration(milliseconds: 300),
                     child: ListItemProfileElemWidget(
+                      showTag: false,
                       id: group.id ?? -1,
                       onTap: () {
                         controller.selectGroup(group, discussion: true);
@@ -185,6 +187,7 @@ class CreateExpenseStep1Widget extends StatelessWidget {
                             : 1,
                     duration: Duration(milliseconds: 300),
                     child: ListItemProfileElemWidget(
+                      showTag: false,
                       id: friend.id,
                       onTap: () {
                         controller.selectFriend(friend);

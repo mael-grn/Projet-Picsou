@@ -95,6 +95,7 @@ class _CreateExpenseViewState extends State<CreateExpenseView> {
                     SizedBox(width: 20),
                     Expanded(
                         child: ButtonWidget(
+                          tag: "create_expense",
                             disabled: !controller.canGoToNextStep(),
                             backgroundColor: primaryColor,
                             message: controller.currentStepIndex == 4 ? "Créer la dépense" : "Suivant",

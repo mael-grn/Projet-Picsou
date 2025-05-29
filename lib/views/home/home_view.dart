@@ -67,6 +67,7 @@ class _HomeViewState extends State<HomeView> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ButtonWidget(
+            tag: "create_expense",
               backgroundColor: foregroundVariantColor,
               message: "Nouvelle dépense",
               icon: Icons.add,
