@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projet_picsou/controllers/home/create_expense_controller.dart';
 import 'package:projet_picsou/controllers/home/create_group_controller.dart';
+import 'package:projet_picsou/controllers/home/group_expense_controller.dart';
 import 'package:projet_picsou/controllers/me/edit_personal_data_controller.dart';
 import 'package:projet_picsou/controllers/entry_point_controller.dart';
 import 'package:projet_picsou/controllers/friends/friends_controller.dart';
@@ -57,6 +58,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ReceivedFriendRequestController(friendService)),
         ChangeNotifierProvider(create: (_) => CreateGroupController(userService, friendService, groupService)),
         ChangeNotifierProvider(create: (_) => CreateExpenseController(userService, friendService, groupService, expenseService)),
+        ChangeNotifierProvider(create: (_) => GroupExpenseController(userService, groupService, expenseService)),
       ],
       child: MaterialApp(
         title: 'PICSOU',

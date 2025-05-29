@@ -1,3 +1,5 @@
+import 'package:projet_picsou/models/user.dart';
+
 class Contributor {
   final int? id;
   final double amountContributed;
@@ -15,8 +17,8 @@ class Contributor {
     return Contributor(
       json['id'],
       json['amount_contributed']?.toDouble() ?? 0.0,
-      json['group_user_id'],
-      json['expense_id']
+      json['groups_users_id'],
+      json['expenses_id']
     );
   }
 
@@ -26,5 +28,25 @@ class Contributor {
       'groups_users_id': groupUserId,
       'expenses_id': expenseId
     };
+  }
+}
+
+class DetailedContributor {
+  final User user;
+  final int status;
+  final Contributor contributor;
+
+  const DetailedContributor(
+      this.user,
+      this.status,
+      this.contributor
+      );
+
+  factory DetailedContributor.fromJson(Map<String, dynamic> json) {
+    return DetailedContributor(
+        User.fromJson(json['user']),
+        json['status'],
+        Contributor.fromJson(json['contributor'])
+    );
   }
 }

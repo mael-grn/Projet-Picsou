@@ -1,6 +1,7 @@
 import 'package:projet_picsou/models/participant.dart';
 
 import 'contributor.dart';
+import 'group.dart';
 
 class Expense {
   final int? id;
@@ -24,8 +25,8 @@ class Expense {
       json['id'],
       json['name'],
       json['description'],
-      DateTime.parse(json['date']),
-      (json['amount'] as num).toDouble(),
+      DateTime.parse(json['created_at']),
+      (json['montant'] as num).toDouble(),
       json['stock_parts'],
     );
   }
@@ -99,11 +100,13 @@ class DetailedExpense {
   final Expense expense;
   final List<Contributor> contributors;
   final List<Participant> participants;
+  final Group? group;
 
   const DetailedExpense(
       this.expense,
       this.contributors,
       this.participants,
+      this.group
       );
 
   factory DetailedExpense.fromJson(Map<String, dynamic> json) {
@@ -115,6 +118,7 @@ class DetailedExpense {
       (json['participants'] as List)
           .map((participant) => Participant.fromJson(participant))
           .toList(),
+      Group.fromJson(json['group']),
     );
   }
 
@@ -124,5 +128,32 @@ class DetailedExpense {
       'participants': participants.map((p) => p.toJson()).toList(),
       'expense': expense.toJson()
     };
+  }
+}
+
+class VeryDetailedExpense {
+  final Expense expense;
+  final List<DetailedContributor> contributors;
+  final List<DetailedParticipant> participants;
+  final Group? group;
+
+  const VeryDetailedExpense(
+      this.expense,
+      this.contributors,
+      this.participants,
+      this.group
+      );
+
+  factory VeryDetailedExpense.fromJson(Map<String, dynamic> json) {
+    return VeryDetailedExpense(
+      Expense.fromJson(json['expense']),
+      (json['contributors'] as List)
+          .map((contributor) => DetailedContributor.fromJson(contributor))
+          .toList(),
+      (json['participants'] as List)
+          .map((participant) => DetailedParticipant.fromJson(participant))
+          .toList(),
+      Group.fromJson(json['group']),
+    );
   }
 }

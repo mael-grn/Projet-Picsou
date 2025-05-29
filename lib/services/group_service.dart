@@ -69,13 +69,13 @@ class GroupService {
     );
   }
 
-  Future<List<User>> getGroupWithUser(int groupId) async {
+  Future<List<User>> getUsersFromGroup(int groupId) async {
     final response = await Provider.sendRequestWithCookies(
         route : '/groups/$groupId/users',
         method: HttpMethod.GET
     );
     return (jsonDecode(response) as List)
-        .map((json) => User.fromJson(json))
+        .map((json) => User.fromJson(json['user']))
         .toList();
   }
 

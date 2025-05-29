@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projet_picsou/controllers/home/home_controller.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
 import 'package:projet_picsou/views/home/create_expense_view.dart';
+import 'package:projet_picsou/views/home/group_expense_view.dart';
 import 'package:projet_picsou/widgets/groups/groupe_list_item_widget.dart';
 import 'package:projet_picsou/widgets/list_item_profile_elem_widget.dart';
 import 'package:projet_picsou/widgets/ui/button_widget.dart';
@@ -59,6 +60,7 @@ class _HomeViewState extends State<HomeView> {
             name: group.name,
             id: group.id ?? -1,
             imageUrl: group.pictRef,
+            onTap: () => CustomNavigator.pushFromRight(GroupExpenseView(group: group)),
           ))
         ],
       ),

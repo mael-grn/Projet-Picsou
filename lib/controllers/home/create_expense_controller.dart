@@ -393,6 +393,7 @@ class CreateExpenseController with ChangeNotifier {
       ),
       contributors,
       participants,
+      null
     );
 
     DialogBuilder.loading();
