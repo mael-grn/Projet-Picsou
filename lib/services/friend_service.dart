@@ -62,4 +62,17 @@ class FriendService {
         .map((json) => Friend.fromJson(json))
         .toList();
   }
+
+  Future<List<User>> getAllFriendsAsUser() async {
+    List<Friend> friends = await getAllFriends();
+    List<User> users = [];
+    for (Friend friend in friends) {
+      if (friend.user1.id == User.getCurrentUserInstance().id) {
+        users.add(friend.user2);
+      } else {
+        users.add(friend.user1);
+      }
+    }
+    return users;
+  }
 }

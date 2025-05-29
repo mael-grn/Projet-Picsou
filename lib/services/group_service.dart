@@ -9,7 +9,7 @@ class GroupService {
 
   Future<List<Group>> getAllGroups() async {
     final response = await Provider.sendRequestWithCookies(
-        route : '/groups',
+        route : '/me/groups',
         method: HttpMethod.GET
     );
     return (jsonDecode(response) as List)
@@ -17,7 +17,7 @@ class GroupService {
         .toList();
   }
 
-  Future<void> createGroup(Group group) async {
+  Future<void> createGroup(GroupWithUser group) async {
     await Provider.sendRequestWithCookies(
         route : '/groups',
         method: HttpMethod.POST,

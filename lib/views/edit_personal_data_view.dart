@@ -63,7 +63,7 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>{
                   Hero(
                     tag: User.getCurrentUserInstance().profilPictureRef,
                     child: Image.network(
-                      User.getCurrentUserInstance().profilPictureRef,
+                      controller.profilePict.isEmpty ? User.getCurrentUserInstance().profilPictureRef : controller.profilePict,
                       width: 200,
                       height: 200,
                     ),
@@ -73,7 +73,7 @@ class _EditPersonalDataViewState extends State<EditPersonalDataView>{
                     bottom: 4,
                     child: IconButton(
                         onPressed: () {
-                          DialogBuilder.warning("Oups", "Cette fonctionnalité n'est pas encore disponible");
+                          DialogBuilder.selectProfilePicture(controller.editProfilePicture);
                         },
                         icon: Container(
                           padding: EdgeInsets.all(8),

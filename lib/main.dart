@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:projet_picsou/controllers/create_group_controller.dart';
 import 'package:projet_picsou/controllers/edit_personal_data_controller.dart';
 import 'package:projet_picsou/controllers/entry_point_controller.dart';
 import 'package:projet_picsou/controllers/friends_controller.dart';
@@ -11,6 +12,7 @@ import 'package:projet_picsou/controllers/register_controller.dart';
 import 'package:projet_picsou/controllers/search_user_with_email_controller.dart';
 import 'package:projet_picsou/controllers/select_profile_picture_controller.dart';
 import 'package:projet_picsou/controllers/sent_friend_request_controller.dart';
+import 'package:projet_picsou/services/group_service.dart';
 import 'package:projet_picsou/services/session_service.dart';
 import 'package:projet_picsou/services/friend_service.dart';
 import 'package:projet_picsou/services/user_service.dart';
@@ -35,12 +37,13 @@ void main() async {
   final userService = UserService();
   final sessionService = SessionService();
   final friendService = FriendService();
+  final groupService = GroupService();
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => EntryPointController(userService)),
-        ChangeNotifierProvider(create: (_) => HomeController(userService)),
+        ChangeNotifierProvider(create: (_) => HomeController(userService, groupService)),
         ChangeNotifierProvider(create: (_) => LoginController(sessionService)),
         ChangeNotifierProvider(create: (_) => RegisterController(userService)),
         ChangeNotifierProvider(create: (_) => MeController()),
@@ -52,6 +55,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => SentFriendRequestController(friendService)),
         ChangeNotifierProvider(create: (_) => ReceivedFriendRequestController(friendService)),
         ChangeNotifierProvider(create: (_) => FriendWidgetController(friendService)),
+        ChangeNotifierProvider(create: (_) => CreateGroupController(userService, friendService, groupService)),
       ],
       child: MaterialApp(
         title: 'PICSOU',

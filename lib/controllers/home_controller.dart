@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/dialogs/alert_dialog_builder.dart';
+import 'package:projet_picsou/exceptions/request_exception.dart';
+import 'package:projet_picsou/services/group_service.dart';
 import 'package:projet_picsou/services/user_service.dart';
-import '../exceptions/request_exception.dart';
+
+import '../models/group.dart';
 
 class HomeController with ChangeNotifier {
-  double userBalance = 0.0;
   UserService userService;
+  GroupService groupService;
 
-  HomeController(this.userService);
+  List<Group> groups = [];
 
-  Future<void> getUserBalance() async {
+  HomeController(this.userService, this.groupService);
+
+  Future<void> initData() async {
     DialogBuilder.loading();
+
     try {
+      groups = await groupService.getAllGroups();
       DialogBuilder.closeCurrentDialog();
-      notifyListeners();
     } on NetworkException catch (e) {
       DialogBuilder.networkError(e.networkError);
-    } catch (e) {
+    } catch (_) {
       DialogBuilder.appError();
     }
+
   }
 
 }

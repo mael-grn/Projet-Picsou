@@ -47,7 +47,7 @@ class Group {
 }
 class GroupWithUser {
   final Group group;
-  final List<User> users;
+  final List<UserIdWithStatus> users;
 
   const GroupWithUser(
       this.group,
@@ -57,7 +57,52 @@ class GroupWithUser {
   factory GroupWithUser.fromJson(Map<String, dynamic> json) {
     return GroupWithUser(
       Group.fromJson(json['group']),
-      (json['users'] as List).map((user) => User.fromJson(user)).toList(),
+      (json['users'] as List).map((user) => UserIdWithStatus.fromJson(user)).toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'group': group.toJson(),
+      'users': users.map((u) => u.toJson()).toList(),
+    };
+  }
+}
+
+enum UserStatus {
+  owner(0, "Propriétaire"),
+  admin(1, "Administrateur"),
+  trustedDelegate(2, "Participant de confiance"),
+  delegate(3, "Participant"),
+  member(4, "Membre"),
+  spectator(5, "Spectateur");
+
+  final int statusId;
+  final String title;
+
+  const UserStatus(this.statusId, this.title);
+}
+
+class UserIdWithStatus {
+  final int userId;
+  final UserStatus status;
+
+  const UserIdWithStatus(
+      this.userId,
+      this.status,
+      );
+
+  factory UserIdWithStatus.fromJson(Map<String, dynamic> json) {
+    return UserIdWithStatus(
+      json['user_id'],
+      json['status'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'user_id': userId,
+      'status': status.statusId,
+    };
   }
 }

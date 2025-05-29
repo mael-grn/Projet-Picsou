@@ -51,6 +51,7 @@ class Provider {
         response = await _client.delete(url, headers: requestHeaders);
         break;
       case HttpMethod.POST:
+        print(jsonEncode(body));
         response = await _client.post(url, headers: requestHeaders, body: jsonEncode(body));
         break;
     }
@@ -64,6 +65,7 @@ class Provider {
       }
       return response.body;
     } else {
+      print(response.statusCode);
       throw NetworkException(NetworkErrorEnum.fromCode(response.statusCode));
     }
   }

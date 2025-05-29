@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/controllers/home_controller.dart';
+import 'package:projet_picsou/widgets/ui/button_widget.dart';
 import 'package:provider/provider.dart';
+import '../core/custom_navigator.dart';
 import '../models/user.dart';
 import '../widgets/ui/main_page_layout_widget.dart';
+import 'create_group_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -19,7 +22,7 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
     final controller = Provider.of<HomeController>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.getUserBalance();
+      controller.initData();
     });
   }
 
@@ -39,7 +42,17 @@ class _HomeViewState extends State<HomeView> {
       ),
 
       intermediate: Text("Rien"),
-      body: Text("Toujours rien"),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ButtonWidget(
+                message: "Créer un groupe",
+                icon: Icons.add,
+                onPressed: () => CustomNavigator.pushFromRight(CreateGroupView())
+            )
+          ],
+        ),
+      ),
     );
   }
 }

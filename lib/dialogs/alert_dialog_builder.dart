@@ -221,6 +221,198 @@ class DialogBuilder {
     });
   }
 
+  static Future<void> selectGroupPicture(Function(String) setPicture) {
+    final profilePictureList = [
+      "https://6q7xemamt4xekhet.public.blob.vercel-storage.com/beach-NW0LPttdoWxLlZzPgZVrhQAWCi84Vd.png",
+      "https://6q7xemamt4xekhet.public.blob.vercel-storage.com/city-JTEWzXA2EUaOeOoYwJjQOqMgOqQJbx.png",
+      "https://6q7xemamt4xekhet.public.blob.vercel-storage.com/club-9xv8vjhj3PThYL5SjjmKQp4YmUYhrI.png",
+      "https://6q7xemamt4xekhet.public.blob.vercel-storage.com/earth-vW4z1540GtccjQ7c3uInL6shx5mHGB.png",
+      "https://6q7xemamt4xekhet.public.blob.vercel-storage.com/hills-Ik4CBVlh2caJdP1BQlWu7EDwzXgXnH.png",
+      "https://6q7xemamt4xekhet.public.blob.vercel-storage.com/mountains-L0MVW77mf9IvsyTV2RhYqZrdjl3PoZ.png"
+    ];
+
+    return _showDialog((BuildContext context) {
+      String? selectedProfilePicture;
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return AlertDialog(
+            title: Text(
+              "Sélectionner une image de groupe",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22),
+            ),
+            content: SizedBox(
+              width: 350,
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: profilePictureList.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 1,
+                ),
+                itemBuilder: (context, index) {
+                  final url = profilePictureList[index];
+                  final isSelected = selectedProfilePicture == url;
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedProfilePicture = url;
+                      });
+                    },
+                    child: AnimatedScale(
+                      scale: isSelected ? 0.85 : 1.0,
+                      duration: Duration(milliseconds: 200),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          ClipOval(
+                            child: Image.network(
+                              url,
+                              width: 80,
+                              height: 80,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          if (isSelected)
+                            Positioned(
+                              right: 4,
+                              top: 4,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: secondaryColor,
+                                  shape: BoxShape.circle,
+                                ),
+                                padding: EdgeInsets.all(4),
+                                child: Icon(Icons.check, color: Colors.white, size: 18),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            actions: [
+              ButtonWidget(
+                message: "Sélectionner",
+                icon: Icons.check,
+                onPressed: selectedProfilePicture == null
+                    ? () {}
+                    : () {
+                  closeCurrentDialog();
+                  setPicture(selectedProfilePicture!);
+                },
+                backgroundColor: selectedProfilePicture == null
+                    ? Colors.grey
+                    : secondaryColor,
+              ),
+            ],
+          );
+        },
+      );
+    });
+  }
+
+  static Future<void> selectProfilePicture(Function(String) setPicture) {
+    final profilePictureList = [
+      "https://6q7xemamt4xekhet.public.blob.vercel-storage.com/1-IvHGkdEmlE4R9xy8xxxHVBUD3R7Y4U.png",
+      "https://6q7xemamt4xekhet.public.blob.vercel-storage.com/2-zJBSjydpEFU3fZyRx9OTaXjE2x4pwS.png",
+      "https://6q7xemamt4xekhet.public.blob.vercel-storage.com/3-hhmhism9G9RGUOSxW8hpv1LAjkrMuV.png",
+      "https://6q7xemamt4xekhet.public.blob.vercel-storage.com/4-RMemqi6ybWeMWG8tyceq3QbNUQL7hJ.png",
+      "https://6q7xemamt4xekhet.public.blob.vercel-storage.com/5-RKMWbv7QktBuJwI4XlRMmNz4H6RmK6.png",
+      "https://6q7xemamt4xekhet.public.blob.vercel-storage.com/6-vqXuNlcTnPomsvNBFCwBgaGH3jKCq6.png"
+    ];
+
+    return _showDialog((BuildContext context) {
+      String? selectedProfilePicture;
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return AlertDialog(
+            title: Text(
+              "Sélectionner une image de groupe",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22),
+            ),
+            content: SizedBox(
+              width: 350,
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: profilePictureList.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 1,
+                ),
+                itemBuilder: (context, index) {
+                  final url = profilePictureList[index];
+                  final isSelected = selectedProfilePicture == url;
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedProfilePicture = url;
+                      });
+                    },
+                    child: AnimatedScale(
+                      scale: isSelected ? 0.85 : 1.0,
+                      duration: Duration(milliseconds: 200),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          ClipOval(
+                            child: Image.network(
+                              url,
+                              width: 80,
+                              height: 80,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          if (isSelected)
+                            Positioned(
+                              right: 4,
+                              top: 4,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: secondaryColor,
+                                  shape: BoxShape.circle,
+                                ),
+                                padding: EdgeInsets.all(4),
+                                child: Icon(Icons.check, color: Colors.white, size: 18),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            actions: [
+              ButtonWidget(
+                message: "Sélectionner",
+                icon: Icons.check,
+                onPressed: selectedProfilePicture == null
+                    ? () {}
+                    : () {
+                  closeCurrentDialog();
+                  setPicture(selectedProfilePicture!);
+                },
+                backgroundColor: selectedProfilePicture == null
+                    ? Colors.grey
+                    : secondaryColor,
+              ),
+            ],
+          );
+        },
+      );
+    });
+  }
+
   static Future<void> yesOrNo(
     String title,
     String content,

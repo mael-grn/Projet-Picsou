@@ -12,9 +12,15 @@ class EditPersonalDataController with ChangeNotifier {
   final firstNameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
+  String profilePict = "";
   static final context = navigatorKey.currentContext;
 
   EditPersonalDataController(this.userService);
+
+  void editProfilePicture(String profilePict) {
+    this.profilePict = profilePict;
+    notifyListeners();
+  }
 
   Future<void> updateUser(GlobalKey<FormState> formKey) async {
 
@@ -39,7 +45,7 @@ class EditPersonalDataController with ChangeNotifier {
       User.getCurrentUserInstance().emailPaypal,
       User.getCurrentUserInstance().telWero,
       User.getCurrentUserInstance().rib,
-      User.getCurrentUserInstance().profilPictureRef,
+      profilePict.isEmpty ? User.getCurrentUserInstance().profilPictureRef : profilePict,
       User.getCurrentUserInstance().password,
     );
 
