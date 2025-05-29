@@ -1,7 +1,7 @@
 import 'package:projet_picsou/models/user.dart';
 
 class Group {
-  final int id;
+  final int? id;
   final String name;
   final String pictRef;
 
@@ -81,6 +81,13 @@ enum UserStatus {
   final String title;
 
   const UserStatus(this.statusId, this.title);
+
+  factory UserStatus.fromJson(int statusId) {
+    return UserStatus.values.firstWhere(
+      (status) => status.statusId == statusId,
+      orElse: () => UserStatus.member,
+    );
+  }
 }
 
 class UserIdWithStatus {
@@ -102,6 +109,33 @@ class UserIdWithStatus {
   Map<String, dynamic> toJson() {
     return {
       'id_user': userId,
+      'status': status.statusId,
+    };
+  }
+}
+
+class UserWithStatus {
+  final User user;
+  final UserStatus status;
+  final int groupUserId;
+
+  const UserWithStatus(
+      this.user,
+      this.status,
+      this.groupUserId,
+      );
+
+  factory UserWithStatus.fromJson(Map<String, dynamic> json) {
+    return UserWithStatus(
+      User.fromJson(json['user']),
+      UserStatus.fromJson(json['status']),
+      json['group_user_id'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'user': user.toJson(),
       'status': status.statusId,
     };
   }

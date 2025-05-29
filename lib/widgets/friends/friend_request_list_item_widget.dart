@@ -12,11 +12,13 @@ class FriendRequestWidget extends StatelessWidget {
   final User user;
   final Function? onAccept;
   final Function onDecline;
+  final Function? onTap;
 
   const FriendRequestWidget({
     super.key,
     required this.user,
     this.onAccept,
+    this.onTap,
     required this.onDecline,
   });
 
@@ -33,42 +35,7 @@ class FriendRequestWidget extends StatelessWidget {
         children: [
           Expanded(
             child: GestureDetector(
-              onTap: () {
-                HapticFeedback.mediumImpact();
-                CustomNavigator.pushFromRight(
-                  UserProfileView(
-                    user: user,
-                    showSensitive: false,
-                    actions: [
-                      ButtonWidget(
-                        message: "Supprimer la demande",
-                        icon: Icons.delete,
-                        backgroundColor: invalidColor,
-                        onPressed: () {
-                          HapticFeedback.mediumImpact();
-                          onDecline();
-                          CustomNavigator.back();
-                        },
-                      ),
-                      if (onAccept != null) SizedBox(width: 10),
-                      if (onAccept != null)
-                        ButtonWidget(
-                          message: "Accepter la demande",
-                          icon: Icons.check,
-                          onPressed: () {
-                            HapticFeedback.mediumImpact();
-                            if (onAccept != null) {
-                              onAccept!();
-                              CustomNavigator.back();
-                            }
-                          },
-                        )
-
-                    ],
-                  ),
-                  otherContext: context,
-                );
-              },
+              onTap: () => onTap,
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [

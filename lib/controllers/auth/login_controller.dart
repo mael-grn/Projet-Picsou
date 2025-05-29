@@ -72,8 +72,7 @@ class LoginController with ChangeNotifier {
           (code: 403, message: "Email ou mot de passe incorrect", title: "Erreur de connexion"),
         ]
       );
-    } catch (e) {
-      print(e);
+    } catch (_) {
       DialogBuilder.appError();
     } finally {
     }

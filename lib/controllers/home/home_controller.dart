@@ -15,9 +15,11 @@ class HomeController with ChangeNotifier {
   HomeController(this.userService, this.groupService);
 
   Future<void> initData() async {
-
+    DialogBuilder.loading();
     try {
       groups = await groupService.getAllGroups();
+      DialogBuilder.closeCurrentDialog();
+      notifyListeners();
     } on NetworkException catch (e) {
       DialogBuilder.networkError(e.networkError);
     } catch (_) {

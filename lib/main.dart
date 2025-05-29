@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:projet_picsou/controllers/home/create_expense_controller.dart';
 import 'package:projet_picsou/controllers/home/create_group_controller.dart';
 import 'package:projet_picsou/controllers/me/edit_personal_data_controller.dart';
 import 'package:projet_picsou/controllers/entry_point_controller.dart';
@@ -12,6 +13,7 @@ import 'package:projet_picsou/controllers/auth/register_controller.dart';
 import 'package:projet_picsou/controllers/friends/search_user_with_email_controller.dart';
 import 'package:projet_picsou/controllers/auth/select_profile_picture_controller.dart';
 import 'package:projet_picsou/controllers/friends/sent_friend_request_controller.dart';
+import 'package:projet_picsou/services/expense_service.dart';
 import 'package:projet_picsou/services/group_service.dart';
 import 'package:projet_picsou/services/session_service.dart';
 import 'package:projet_picsou/services/friend_service.dart';
@@ -20,7 +22,6 @@ import 'package:projet_picsou/views/entry_point_view.dart';
 import 'package:provider/provider.dart';
 
 import 'controllers/me/edit_paiement_data_controller.dart';
-import 'controllers/friends/friend_widget_controller.dart';
 import 'core/theme/app_theme.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -38,7 +39,7 @@ void main() async {
   final sessionService = SessionService();
   final friendService = FriendService();
   final groupService = GroupService();
-
+  final expenseService = ExpenseService();
   runApp(
     MultiProvider(
       providers: [
@@ -54,8 +55,8 @@ void main() async {
         ChangeNotifierProvider(create: (_) => EditPaiementDataController(userService)),
         ChangeNotifierProvider(create: (_) => SentFriendRequestController(friendService)),
         ChangeNotifierProvider(create: (_) => ReceivedFriendRequestController(friendService)),
-        ChangeNotifierProvider(create: (_) => FriendWidgetController(friendService)),
         ChangeNotifierProvider(create: (_) => CreateGroupController(userService, friendService, groupService)),
+        ChangeNotifierProvider(create: (_) => CreateExpenseController(userService, friendService, groupService, expenseService)),
       ],
       child: MaterialApp(
         title: 'PICSOU',

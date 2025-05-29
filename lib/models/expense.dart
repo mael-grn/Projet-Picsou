@@ -1,5 +1,9 @@
+import 'package:projet_picsou/models/participant.dart';
+
+import 'contributor.dart';
+
 class Expense {
-  final int id;
+  final int? id;
   final String name;
   final String description;
   final DateTime date;
@@ -28,11 +32,10 @@ class Expense {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'name': name,
       'description': description,
-      'date': date.toIso8601String(),
-      'amount': amount,
+      'created_at': date.toIso8601String().split('.').first,
+      'montant': amount, //ostie de tabarnak
       'stock_parts': stockParts,
     };
   }
@@ -90,4 +93,36 @@ class Expense {
           : "Le nombre de parts doit être supérieur à 1.";
 
 
+}
+
+class DetailedExpense {
+  final Expense expense;
+  final List<Contributor> contributors;
+  final List<Participant> participants;
+
+  const DetailedExpense(
+      this.expense,
+      this.contributors,
+      this.participants,
+      );
+
+  factory DetailedExpense.fromJson(Map<String, dynamic> json) {
+    return DetailedExpense(
+      Expense.fromJson(json['expense']),
+      (json['contributors'] as List)
+          .map((contributor) => Contributor.fromJson(contributor))
+          .toList(),
+      (json['participants'] as List)
+          .map((participant) => Participant.fromJson(participant))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'contributors': contributors.map((c) => c.toJson()).toList(),
+      'participants': participants.map((p) => p.toJson()).toList(),
+      'expense': expense.toJson()
+    };
+  }
 }

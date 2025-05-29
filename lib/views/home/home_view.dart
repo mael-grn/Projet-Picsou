@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/controllers/home/home_controller.dart';
+import 'package:projet_picsou/core/theme/app_theme.dart';
+import 'package:projet_picsou/views/home/create_expense_view.dart';
 import 'package:projet_picsou/widgets/groups/groupe_list_item_widget.dart';
+import 'package:projet_picsou/widgets/list_item_profile_elem_widget.dart';
 import 'package:projet_picsou/widgets/ui/button_widget.dart';
 import 'package:provider/provider.dart';
 import '../../core/custom_navigator.dart';
@@ -48,15 +51,29 @@ class _HomeViewState extends State<HomeView> {
           icon: Icons.add,
           onPressed: () => CustomNavigator.pushFromRight(CreateGroupView())
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 20),
-            ...homeController.groups
-                .map((group) => GroupeListItemWidget(group: group))
-          ],
-        ),
+      body: Column(
+        children: [
+          SizedBox(height: 20),
+          ...homeController.groups
+              .map((group) => ListItemProfileElemWidget(
+            name: group.name,
+            id: group.id ?? -1,
+            imageUrl: group.pictRef,
+          ))
+        ],
       ),
+
+      floating: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ButtonWidget(
+              backgroundColor: foregroundVariantColor,
+              message: "Nouvelle dépense",
+              icon: Icons.add,
+              onPressed: () => CustomNavigator.pushFromRight(CreateExpenseView())
+          )
+        ],
+      )
     );
   }
 }

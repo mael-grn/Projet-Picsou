@@ -317,6 +317,22 @@ class DialogBuilder {
     });
   }
 
+  static void datePicker(
+    Function(DateTime) onDateSelected, {
+    DateTime? initialDate,
+  }) {
+    showDatePicker(
+      context: context!,
+      initialDate: initialDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    ).then((selectedDate) {
+      if (selectedDate != null) {
+        onDateSelected(selectedDate);
+      }
+    });
+  }
+
   static Future<void> selectProfilePicture(Function(String) setPicture) {
     final profilePictureList = [
       "https://6q7xemamt4xekhet.public.blob.vercel-storage.com/1-IvHGkdEmlE4R9xy8xxxHVBUD3R7Y4U.png",

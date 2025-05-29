@@ -14,9 +14,11 @@ class SentFriendRequestController with ChangeNotifier {
   SentFriendRequestController(this.friendService);
 
   Future<void> initFriends() async {
+    DialogBuilder.loading();
     try {
       friendRequests = await friendService.getAllFriendRequests();
       friendRequests = friendRequests.where((request) => request.fromUser.id == User.getCurrentUserInstance().id).toList();
+      DialogBuilder.closeCurrentDialog();
       notifyListeners();
     } on NetworkException catch (e) {
       DialogBuilder.networkError(e.networkError);
@@ -27,9 +29,11 @@ class SentFriendRequestController with ChangeNotifier {
   }
 
   Future<void> declineFriendRequest(FriendRequest friendRequest) async {
+    DialogBuilder.loading();
     try {
       await friendService.rejectFriendRequest(friendRequest.id);
       friendRequests.remove(friendRequest);
+      DialogBuilder.closeCurrentDialog();
       notifyListeners();
     } on NetworkException catch (e) {
       DialogBuilder.networkError(e.networkError);

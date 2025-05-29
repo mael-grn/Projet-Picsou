@@ -30,13 +30,13 @@ class User {
       json['id'],
       json['first_name'],
       json['last_name'],
-      json['email'],
-      json['tel'],
+      json['email'] ?? "",
+      json['tel'] ?? "",
       json['email_paypal'],
       json['tel_wero'],
       json['rib'],
       json['profil_pict_ref'],
-      json['password'],
+      json['password'] ?? "",
     );
   }
 

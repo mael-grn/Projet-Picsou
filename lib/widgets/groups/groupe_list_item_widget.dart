@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:projet_picsou/controllers/friends/friend_widget_controller.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
 import 'package:projet_picsou/core/custom_navigator.dart';
 import 'package:projet_picsou/views/user_profile_view.dart';
@@ -21,7 +20,6 @@ class GroupeListItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<FriendWidgetController>();
     return GestureDetector(
       onTap: () {
         HapticFeedback.mediumImpact();

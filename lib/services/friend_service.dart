@@ -22,7 +22,6 @@ class FriendService {
   }
 
   Future<void> acceptFriendRequest(int requestId) async {
-    print(requestId);
     await Provider.sendRequestWithCookies(
         route : '/me/friends/requests/$requestId',
         method: HttpMethod.PATCH

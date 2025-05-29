@@ -20,7 +20,7 @@ class UserProfileView extends StatelessWidget {
             body: Column(
               children: [
                 Hero(
-                    tag: "${user.id}_profile_picture",
+                    tag: "${user.id}_pp",
                     child: Image.network(
                       user.profilPictureRef,
                       width: 200,

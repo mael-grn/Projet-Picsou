@@ -56,9 +56,10 @@ class CreateGroupController with ChangeNotifier {
   }
 
   Future<void> initData() async {
+    DialogBuilder.loading();
     try {
       users = await friendService.getAllFriendsAsUser();
-
+      DialogBuilder.closeCurrentDialog();
       if (users.isEmpty) {
         DialogBuilder.error(
           "Aucun ami trouvé",
@@ -99,7 +100,7 @@ class CreateGroupController with ChangeNotifier {
     try {
       final group = GroupWithUser(
         Group(
-          0,
+          null,
           nameController.text,
           groupPictureUrl,
         ),
