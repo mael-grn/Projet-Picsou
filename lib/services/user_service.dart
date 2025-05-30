@@ -1,32 +1,54 @@
-import 'package:restart_app/restart_app.dart';
+import 'dart:convert';
 
 import '../core/provider.dart';
+import '../enums/network_error_enum.dart';
 import '../exceptions/request_exception.dart';
 import '../models/user.dart';
-import '../utils/token_utils.dart';
 
 class UserService {
 
   Future<User> getUserFromId(int userId) async {
-    final response = await Provider.getSecure('/users/$userId');
-    return User.fromJson(response['user']);
+    final response = await Provider.sendRequestWithCookies(route: '/user/$userId', method: HttpMethod.GET);
+    return User.fromJson(jsonDecode(response));
   }
 
   Future<User> getUserFromEmail(String email) async {
-    final response = await Provider.getSecure('/users/email/$email');
-    return User.fromJson(response['user']);
+    final response = await Provider.sendRequestWithCookies(route : '/user/email/$email', method: HttpMethod.GET);
+    return User.fromJson(jsonDecode(response));
   }
 
-  Future<double> getUserBalance(userId) async {
-    return 24.46;
-    final response = await Provider.getSecure('/users/$userId/balance');
-    return response['balance'];
+  /// Create the user in the database for the given user.
+  Future<User> createUser(
+      String firstName,
+      String lastName,
+      String email,
+      String password,
+      String tel,
+      String emailPaypal,
+      String telWero,
+      String rib,
+      String profilPictureRef,
+      ) async {
+    final response = await Provider.sendRequest(route: '/user', method: HttpMethod.POST, body: {
+      'first_name': firstName,
+      'last_name': lastName,
+      'email': email,
+      'password': password,
+      'tel': tel,
+      'email_paypal': emailPaypal,
+      'tel_wero': telWero,
+      'rib': rib,
+      'profil_pict_ref': profilPictureRef,
+    });
+    User user = User.fromJson(jsonDecode(response));
+    User.setCurrentUserInstance(user);
+    return user;
   }
 
   Future<User> updateUser(User user) async {
     try {
-      final response = await Provider.putSecure('/user/', user.toJson());
-      final newUser = User.fromJson(response);
+      final response = await Provider.sendRequestWithCookies(route: '/me', method: HttpMethod.PUT, body: user.toJson());
+      final newUser = User.fromJson(jsonDecode(response));
       User.setCurrentUserInstance(newUser);
       return newUser;
     } on NetworkException catch (_) {
@@ -34,13 +56,23 @@ class UserService {
     }
   }
 
-  static Future<void> logout() async {
-    await TokenUtils.removeToken();
-    User.removeCurrentUserInstance();
-    await Restart.restartApp();
+  /// Returns true if the token is valid, false otherwise.
+  /// May throw a RequestException.
+  Future<User> getConnectedUser() async {
+    try {
+      final response = await Provider.sendRequestWithCookies(route: '/me', method: HttpMethod.GET);
+      User user = User.fromJson(jsonDecode(response));
+      User.setCurrentUserInstance(user);
+      return user;
+    } on NetworkException catch (e) {
+      if (e.networkError == NetworkErrorEnum.unauthorized) {
+        User.removeCurrentUserInstance();
+      }
+      rethrow;
+    }
   }
 
   Future<void> deleteUser(int userId) async {
-    await Provider.deleteSecure('/users/$userId', {});
+    await Provider.sendRequestWithCookies(route: '/me', method: HttpMethod.DELETE);
   }
 }

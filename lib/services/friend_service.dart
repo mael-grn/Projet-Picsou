@@ -1,49 +1,77 @@
+
+
+import 'dart:convert';
+
+import 'package:projet_picsou/models/friend_request.dart';
+
 import '../core/provider.dart';
-import '../models/expense.dart';
-import '../models/expense_evo.dart';
-import '../models/payment.dart';
-import '../models/refund.dart';
+import '../models/friend.dart';
 import '../models/user.dart';
 
 class FriendService {
 
-  Future<void> addFriend(userId) async {
-    await Provider.postSecure('/users/friends/$userId', {});
+  Future<void> sendFriendRequest(int userId) async {
+    await Provider.sendRequestWithCookies(
+        route : '/me/friends/requests',
+        method: HttpMethod.POST,
+      body: {
+        'from_user_id': User.getCurrentUserInstance().id,
+        'to_user_id': userId,
+      }
+    );
   }
 
-  Future<void> removeFriend(userId) async {
-    await Provider.deleteSecure('/users/friends/$userId', {});
+  Future<void> acceptFriendRequest(int requestId) async {
+    await Provider.sendRequestWithCookies(
+        route : '/me/friends/requests/$requestId',
+        method: HttpMethod.PATCH
+    );
   }
 
-  Future<double> getFriendBalance(friendId) async {
-    final result = await Provider.getSecure('/users/friends/balance/$friendId');
-    return result['balance'];
+  Future<void> rejectFriendRequest(int requestId) async {
+    await Provider.sendRequestWithCookies(
+        route : '/me/friends/requests/$requestId',
+        method: HttpMethod.DELETE
+    );
   }
 
-  Future<List<User>> getFriends() async {
-    return [];
-    final response = await Provider.getSecure('/users/friends');
-    return response['friends'].map<User>((json) => User.fromJson(json)).toList();
+  Future<void> deleteFriend(int friendId) async {
+    await Provider.sendRequestWithCookies(
+        route : '/me/friends/$friendId',
+        method: HttpMethod.DELETE
+    );
   }
 
-  Future<List<Payment>> getLastPaymentFromFriend(friendId) async {
-    final response = await Provider.getSecure('/users/friends');
-    List<Payment> payments = [];
-    for (var paymentData in response['payments']) {
-      if (paymentData['friendId'] == friendId) {
-        switch (paymentData['type'] as String?) {
-          case 'Expense':
-            payments.add(Expense.fromJson(paymentData));
-            break;
-          case 'ExpenseEvo':
-            payments.add(ExpenseEvo.fromJson(paymentData));
-            break;
-          case 'Refund':
-            payments.add(Refund.fromJson(paymentData));
-            break;
-        }
+  Future<List<FriendRequest>> getAllFriendRequests() async {
+    final response = await Provider.sendRequestWithCookies(
+        route : '/me/friends/requests',
+        method: HttpMethod.GET
+    );
+    return (jsonDecode(response) as List)
+        .map((json) => FriendRequest.fromJson(json))
+        .toList();
+  }
+
+  Future<List<Friend>> getAllFriends() async {
+    final response = await Provider.sendRequestWithCookies(
+        route : '/me/friends',
+        method: HttpMethod.GET
+    );
+    return (jsonDecode(response) as List)
+        .map((json) => Friend.fromJson(json))
+        .toList();
+  }
+
+  Future<List<User>> getAllFriendsAsUser() async {
+    List<Friend> friends = await getAllFriends();
+    List<User> users = [];
+    for (Friend friend in friends) {
+      if (friend.user1.id == User.getCurrentUserInstance().id) {
+        users.add(friend.user2);
+      } else {
+        users.add(friend.user1);
       }
     }
-    return payments;
+    return users;
   }
 }

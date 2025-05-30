@@ -7,9 +7,9 @@ class MoneyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MainPageLayoutWidget(
-      secondFloor: Text("Argent"),
-      firstFloor: Text("Rien"),
-      groundFloor: Text("Toujours rien"),
+      title: Text("Remboursements"),
+      intermediate: Text("Rien"),
+      body: Text("Toujours rien"),
     );
   }
 }

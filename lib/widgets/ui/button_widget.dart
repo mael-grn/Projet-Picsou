@@ -23,6 +23,7 @@ class ButtonWidget extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final bool iconOnRight;
   final String? tag;
+  final bool disabled;
 
   const ButtonWidget({
     super.key,
@@ -31,9 +32,10 @@ class ButtonWidget extends StatelessWidget {
     this.foregroundColor = app_theme.backgroundColor,
     this.backgroundColor = primaryColor,
     required this.onPressed,
-    this.padding = const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-    this.iconOnRight = true,
+    this.padding = const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+    this.iconOnRight = false,
     this.tag,
+    this.disabled = false,
   });
 
   @override
@@ -49,13 +51,14 @@ class ButtonWidget extends StatelessWidget {
     return Hero(
         tag: tag ?? "hero-$message",
         child: ElevatedButton(
+
           style: ElevatedButton.styleFrom(
-            backgroundColor: backgroundColor,
+            backgroundColor: disabled ? backgroundVariantColor : backgroundColor,
             foregroundColor: foregroundColor,
             elevation: 4,
             shadowColor: primaryColor.withAlpha((0.3 * 255).round()),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(15),
             ),
             padding: padding,
             textStyle: const TextStyle(
@@ -65,8 +68,10 @@ class ButtonWidget extends StatelessWidget {
             ),
           ),
           onPressed: () {
-            HapticFeedback.mediumImpact();
-            onPressed();
+            if (!disabled) {
+              HapticFeedback.mediumImpact();
+              onPressed();
+            }
           },
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,

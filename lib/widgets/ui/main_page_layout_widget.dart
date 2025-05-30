@@ -1,74 +1,133 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/core/theme/app_theme.dart';
+import '../animations/scale_animation_widget.dart';
 import '../animations/slide_up_animation_widget.dart';
 
-class MainPageLayoutWidget extends StatelessWidget {
-  final Widget groundFloor;
-  final Widget firstFloor;
-  final Widget secondFloor;
+class MainPageLayoutWidget extends StatefulWidget {
+  final Widget body;
+  final Widget? intermediate;
+  final Widget title;
+  final Widget? floating;
 
   const MainPageLayoutWidget({
     super.key,
-    required this.groundFloor,
-    required this.firstFloor,
-    required this.secondFloor,
+    required this.body,
+    this.intermediate,
+    required this.title,
+    this.floating,
   });
 
   @override
-  Widget build(BuildContext context) {
+  State<MainPageLayoutWidget> createState() => _MainPageLayoutWidgetState();
+}
 
-    return Container(
-      width: double.infinity,
-      color: primaryColor,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(15, 75, 15, 20),
-            child: secondFloor,
-          ),
-          
-          Expanded(
-            child: SlideUpAnimationWidget(
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(40),
-                    topRight: Radius.circular(40),
-                  ),
-                  color: backgroundVariantColor,
-                ),
+class _MainPageLayoutWidgetState extends State<MainPageLayoutWidget>
+    with TickerProviderStateMixin {
+  final ScrollController _scrollController = ScrollController();
+  bool _showTitle = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    bool shouldShow = _scrollController.offset <= 0;
+    if (shouldShow != _showTitle) {
+      setState(() {
+        _showTitle = shouldShow;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          width: double.infinity,
+          color: primaryColor,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(height: 50),
+              AnimatedSize(
+                duration: Duration(milliseconds: 250),
+                curve: Curves.ease,
+                alignment: Alignment.topCenter,
+                child:
+                    _showTitle
+                        ? Padding(
+                          padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
+                          child: widget.title,
+                        )
+                        : SizedBox.shrink(),
+              ),
+              Expanded(
                 child: Column(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
-                      child: firstFloor,
-                    ),
+                    if (widget.intermediate != null)
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: ScaleAnimationWidget(
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                              color: backgroundColor,
+                            ),
+                            child: widget.intermediate,
+                          ),
+                        ),
+                      ),
                     Expanded(
                       child: SlideUpAnimationWidget(
-                        duration: Duration(milliseconds: 1000),
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(40),
-                              topRight: Radius.circular(40),
-                            ),
-                            color: backgroundColor,
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(40),
+                            topRight: Radius.circular(40),
                           ),
-                          child: groundFloor,
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                            decoration: BoxDecoration(color: backgroundColor),
+                            child: NotificationListener<ScrollNotification>(
+                              onNotification: (scrollNotification) {
+                                if (scrollNotification
+                                    is ScrollUpdateNotification) {
+                                  _onScroll();
+                                }
+                                return false;
+                              },
+                              child: SingleChildScrollView(
+                                controller: _scrollController,
+                                child: widget.body,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+        if (widget.floating != null)
+          Positioned(bottom: 120, right: 20, left: 20, child: widget.floating!),
+
+      ],
     );
   }
 }

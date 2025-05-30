@@ -1,23 +1,26 @@
+import 'dart:convert';
+
 import '../core/provider.dart';
 import '../models/expense.dart';
 
 class ExpenseService {
 
-  Future<Expense> createExpense(Expense expense) async {
-    final response = await Provider.postSecure('/expenses', expense.toJson());
-    return Expense.fromJson(response['expense']);
+  Future<void> createExpense(DetailedExpense expense, int groupId) async {
+    await Provider.sendRequestWithCookies(
+        route : '/groups/$groupId/expenses',
+        method: HttpMethod.POST,
+        body: expense.toJson()
+    );
   }
 
-  Future<Expense> getExpenseFromId(int expenseId) async {
-    final response = await Provider.getSecure('/expenses/$expenseId');
-    return Expense.fromJson(response['expense']);
-  }
+  Future<List<VeryDetailedExpense>> getExpensesFromGroup(int groupId) async {
+    final response = await Provider.sendRequestWithCookies(
+        route : '/groups/$groupId/expenses',
+        method: HttpMethod.GET,
+    );
 
-  Future<void> updateExpense(Expense expense) async {
-    await Provider.putSecure('/expenses/${expense.id}', expense.toJson());
-  }
-
-  Future<void> deleteExpense(int expenseId) async {
-    await Provider.deleteSecure('/expenses/$expenseId', {});
+    return (jsonDecode(response) as List)
+        .map((json) => VeryDetailedExpense.fromJson(json))
+        .toList();
   }
 }

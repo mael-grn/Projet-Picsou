@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
 
-/// The colors used in the app.
-/*
-final Color primaryColor = Color(0xFF63B995);
-final Color primaryLightColor = Color(0xFF86DEB7);
-final Color primaryDarkColor = Color(0xFF12402C);
-final Color darkColor = Color(0xFF0B251A);
-final Color backgroundColor = Color(0xFF000000);
-final Color foregroundColor = Color(0xFFFFFFFF);
- */
-
 const  Color secondaryColor = Color(0xFF87DFBA);
 const Color primaryColor = Color(0xFF58AC88);
 const Color backgroundColor = Color(0xFFFFFFFF);
 const Color backgroundVariantColor = Color(0xFFC6D1D0);
 const Color foregroundColor = Color(0xFF000000);
 const Color foregroundVariantColor = Color(0xFF282E28);
+
+const Color invalidColor = Colors.redAccent;
+const Color validColor = Color(0xFF58AC88);
 
 final MaterialColor customColor = MaterialColor(
   0xFFAABBFF,
