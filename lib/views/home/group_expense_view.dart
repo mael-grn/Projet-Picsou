@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:projet_picsou/controllers/home/group_expense_controller.dart';
+import 'package:projet_picsou/views/home/group_view.dart';
+import 'package:projet_picsou/views/user_profile_view.dart';
 import 'package:projet_picsou/widgets/expense/expense_list_elem_widget.dart';
 import 'package:projet_picsou/widgets/list_item_profile_elem_widget.dart';
 import 'package:provider/provider.dart';
 import '../../core/custom_navigator.dart';
 import '../../core/theme/app_theme.dart';
 import '../../models/group.dart';
+import '../../models/user.dart';
 import '../../widgets/ui/button_widget.dart';
 import 'create_expense_view.dart';
 
@@ -45,25 +48,38 @@ class _GroupExpenseViewState extends State<GroupExpenseView> {
         backgroundColor: backgroundVariantColor,
         elevation: 0,
         scrolledUnderElevation: 0,
-        title: Row(
-          children: [
-            CircleAvatar(
-              backgroundImage: NetworkImage(controller.group!.pictRef),
-              radius: 20,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                controller.group!.name,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-                overflow: TextOverflow.ellipsis,
+        title: GestureDetector(
+          onTap: () {
+            if (controller.users.length != 2) {
+              CustomNavigator.pushFromBottom(
+                  GroupView(group: controller.group!, members: controller.users)
+              );
+            } else {
+              CustomNavigator.pushFromBottom(
+                UserProfileView(user: controller.users.firstWhere((u) => u.id != User.getCurrentUserInstance().id), showSensitive: true)
+              );
+            }
+          },
+          child: Row(
+            children: [
+              CircleAvatar(
+                backgroundImage: NetworkImage(controller.group!.pictRef),
+                radius: 20,
               ),
-            ),
-          ],
-        ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  controller.group!.name,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        )
       ),
       body: Column(
         children: [
