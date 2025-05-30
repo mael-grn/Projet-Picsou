@@ -351,7 +351,7 @@ class CreateExpenseController with ChangeNotifier {
         ],
       );
       await groupService.createGroup(newGroup);
-      await initData();
+      await initData(null);
       notifyListeners();
     } on NetworkException catch (e) {
       DialogBuilder.networkError(e.networkError);
@@ -429,9 +429,14 @@ class CreateExpenseController with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> initData() async {
+  Future<void> initData(Group? group) async {
     DialogBuilder.loading();
     try {
+      if (group != null) {
+        selectedGroup = await groupService.tryGetGroupDataFromDiscussion(group);
+        groupMembers = await groupService.getUserFromGroup(selectedGroup!.id!);
+        currentStepIndex = 2;
+      }
       friends = [];
       discussions = [];
       contributors = [];

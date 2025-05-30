@@ -17,7 +17,8 @@ import '../../widgets/ui/Text_field_widget.dart';
 import '../../widgets/ui/button_widget.dart';
 
 class CreateExpenseView extends StatefulWidget {
-  CreateExpenseView({super.key});
+  final Group? specifiedGroup;
+  CreateExpenseView({this.specifiedGroup, super.key});
 
   final _formKey = GlobalKey<FormState>();
 
@@ -34,7 +35,7 @@ class _CreateExpenseViewState extends State<CreateExpenseView> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final controller = context.read<CreateExpenseController>();
       controller.reset();
-      controller.initData();
+      controller.initData(widget.specifiedGroup);
     });
   }
 

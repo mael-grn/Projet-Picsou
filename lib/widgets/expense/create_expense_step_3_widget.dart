@@ -33,7 +33,7 @@ class CreateExpenseStep3Widget extends StatelessWidget {
           ),
           SizedBox(height: 20),
           Text(
-            "Montant à partager : ${controller.totalAmount} €",
+            "Montant à partager : ${controller.totalAmount} \$",
             style: TextStyle(fontSize: 20),
           ),
           SizedBox(height: 20),
@@ -172,7 +172,7 @@ class CreateExpenseStep3Widget extends StatelessWidget {
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                         ),
-                                        "${controller.getAmountForParticipant(member)} €",
+                                        "${controller.getAmountForParticipant(member)} \$",
                                       ),
                                     ],
                                   ),
